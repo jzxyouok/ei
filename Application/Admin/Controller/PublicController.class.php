@@ -114,7 +114,7 @@ class PublicController extends Controller {
     	}
     	$nickname=I('nickname','');
     	$username=I('username','');
-    	$status=I('status','0');
+    	$status=I('status','1');
     	if($username==''){
     		$this->ajaxReturn("用户名不能为空");
     	}

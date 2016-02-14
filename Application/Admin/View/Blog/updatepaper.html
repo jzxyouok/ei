@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ueditor demo</title>
+</head>
+<body>
+<form action='__CONTROLLER__/updatepapers' method='post'>
+创建于：{$createtime}<br/>
+更新于：{$updatetime}<br />
+<input type='hidden' name='id' value='{$id}' />
+标题：<input type="text"  name="title" value={$title} /><br />
+作者：<input type="text"  name="author" value='{$author}' /><br />
+所属目录:<select name="cid">
+<volist  name='cate' id='vo'>
+<if condition="$vo.id eq $cid "><option value="{$vo.id}" selected="selected">{$vo.title}</option>
+<else /><option value="{$vo.id}" >{$vo.title}</option>
+</if>
+</volist>
+</select><br />
+正文:<br />
+<!-- 加载编辑器的容器 -->
+<textarea id="editor" name="content" >{$content}</textarea><br />
+排序：<input type="text"  name="order" value='{$order}'/><br />
+浏览量：<input type="text"  name="view" value='{$view}'/><br />
+<if condition="($status eq 1)">
+使用：<input type="radio" checked="checked" name="status" value="1" /><br />
+<else />使用：<input type="radio" name="status" value="1" /><br />
+</if>
+<if condition="($status eq 0)">
+禁用：<input type="radio" checked="checked" name="status" value="0" /><br />
+<else />禁用：<input type="radio" name="status" value="0" /><br />
+</if>
+<input type="submit" value="更新" />
+</form>
+      <!-- 配置文件 -->
+    <script type="text/javascript" src="__ROOT__/Public/ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="__ROOT__/Public/ueditor/ueditor.all.js"></script>
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+   /*  var ue = UE.getEditor('editor', {
+        toolbars: [
+            ['fullscreen', 'source', 'undo', 'redo', 'bold']
+        ],
+        autoHeightEnabled: true,
+        autoFloatEnabled: true
+    }); */
+    var ue = UE.getEditor('editor',{
+    	initialFrameHeight:300,
+    });
+    </script>
+    
+ <p>返回<a href="__CONTROLLER__/listpaper">文章列表</a></p>  
+</body>
+</html>

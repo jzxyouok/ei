@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ueditor demo</title>
+	    <!-- 配置文件 -->
+	<js href="__ROOT__/Public/Js/jquery-1.11.2.min.js" />
+    <js href="__ROOT__/Public/ueditor/ueditor.config.js" />    
+    <js href="__ROOT__/Public/ueditor/ueditor.all.min.js" />
+    <script>
+    $(function(){
+        var ue = UE.getEditor('editor');
+    })
+    </script>
+</head>
+<body>
+<form action='__CONTROLLER__/addpapers' method='post'>
+标题：<input type="text"  name="title" /><br />
+作者：<input type="text"  name="author" /><br />
+所属目录:<select name="cid">
+<volist  name='cate' id='vo'>
+<option value="{$vo.id}">{$vo.title}</option>
+</volist>
+</select><br />
+正文:<br />
+<!-- 加载编辑器的容器 -->
+<textarea id="editor" name="content" ></textarea><br />
+排序：<input type="text"  name="order" value='1'/><br />
+浏览量：<input type="text"  name="view" value='1'/><br />
+使用：<input type="radio" checked="checked" name="status" value="1" /><br />
+禁用：<input type="radio" name="status" value="0" /><br />
+<input type="submit" value="添加" />
+</form>
+    
+ <p>返回<a href="__CONTROLLER__/listpaper">文章列表</a></p>  
+</body>
+</html>

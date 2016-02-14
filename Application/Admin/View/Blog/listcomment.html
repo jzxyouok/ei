@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>评论管理</title>
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+</head>
+<script type="text/javascript">
+function destroyUser(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows){
+		$.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+			if (r){
+				var uri="__CONTROLLER__/deletecomment";
+				for(var i=0;i<rows.length;i++){
+				var row=rows[i];
+				$.post(uri,{'id':row.id},function(result){
+						$.messager.show({	
+							title: '消息',
+							msg: result
+						});
+						$('#dg').datagrid('reload');	
+				});
+				}
+			}
+		});
+	}else{
+	alert("请勾选按钮")}
+}
+
+function add(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+			window.location.href="__CONTROLLER__/seecomment?id="+row.id; 
+		}else{
+		alert("请勾选按钮")}
+		}
+		
+</script>
+</head>
+<body>
+<!-- 	<table id="userTable"></table>   -->
+  	<table id="dg" title="评论管理" class="easyui-datagrid" style="width:550px;height:250px"
+		url="__CONTROLLER__/listcomments" 
+		toolbar="#toolbar" rownumbers="true" fitColumns="true" singleSelect="false"  pagination="true"
+		    pageList="[5,10,30]" fit="true">
+	<thead>
+		<tr>
+			<th field='ck' checkbox="true"></th>
+			<th field='id'  >评论ID</th>
+			<th field='pid'>文章</th>
+			<th field='nickname' >昵称</th>
+			<th field="email">Email</th>
+			<th field='createtime'  >创建时间</th>
+			<th field='status' >状态</th>
+			<th field='content' >评论内容</th>
+		</tr>
+	</thead>
+</table>
+<div id="toolbar">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="add()">查看评论</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除评论</a>
+	<!-- <a href="__CONTROLLER__/addcomment"  iconCls="icon-remove" plain="true" > 增加评论</a> -->
+</div>
+<div id="dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
+</div>
+</body>
+</html>

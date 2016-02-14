@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ueditor demo</title>
+	    <!-- 配置文件 -->
+	<js href="__ROOT__/Public/Js/jquery-1.11.2.min.js" />
+    <js href="__ROOT__/Public/ueditor/ueditor.config.js" />    
+    <js href="__ROOT__/Public/ueditor/ueditor.all.min.js" />
+    <script>
+    $(function(){
+        var ue = UE.getEditor('editor');
+    })
+    </script>
+</head>
+<body>
+<form action='__CONTROLLER__/addcates' method='post'>
+目录名：<input type="text"  name="title" /><br />
+目录描述:<br />
+<!-- 加载编辑器的容器 -->
+<textarea id="editor" name="content" ></textarea><br />
+排序：<input type="text"  name="order" value='1'/><br />
+使用：<input type="radio" checked="checked" name="status" value="1" /><br />
+禁用：<input type="radio" name="status" value="0" /><br />
+<input type="submit" value="添加" />
+</form>
+    
+ <p>返回<a href="__CONTROLLER__/listcate">目录列表</a></p>  
+</body>
+</html>

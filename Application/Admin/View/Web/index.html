@@ -1,0 +1,200 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<title>网站配置</title>
+<script src="__ROOT__/Public/Js/angular.js"></script>
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+</head>
+<body ng-app="myApp" ng-controller="customersCtrl">
+	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+	<div class="row">
+		<div class='col-md-6 col-md-offset-1' >
+			<form id="user_form" action="{:U('Admin/Web/updateweb')}" role="form">
+			<div class="form-group">
+				<div class="alert alert-warning" id='warning-block'>
+		   			<p>修改网站配置</p>
+				</div>
+				<div>
+					<label for='title'>网站标题</label>
+					<input type="text" class="form-control" name="title" id="title"
+						placeholder="请输入网站标题" required="required" ng-model="datas.title">
+				</div>
+				<div id="titleTip"></div>
+			</div>
+			<div class="form-group">
+				<div>
+			    	<label for="name">网站描述</label>
+			    	<textarea class="form-control" rows="5" name="desc" id="desc" required="required" ng-model="datas.desc"></textarea>
+				</div>
+				<div id="descTip"></div>
+			</div>
+			
+			<div class="form-group">
+				<div>
+			    	<label for="address">联系地址</label>
+			    	<textarea class="form-control" rows="5" name="address" id="address" required="required" ng-model="datas.address"></textarea>
+				</div>
+				<div id="addressTip"></div>
+			</div>
+			
+			<div class="form-group">
+				<div>
+					<label for='phone'>联系电话</label>
+					<input type="text" class="form-control" name="phone" id="phone"
+						placeholder="请输入手机或电话" required="required" ng-model="datas.phone">
+				</div>
+				<div id="phoneTip"></div>
+			</div>
+			<div class="form-group">
+				<div>
+					<label for='webinfo'>备案信息</label>
+					<textarea class="form-control" rows="5" name="webinfo" id="webinfo" required="required" ng-model="datas.webinfo"></textarea>
+				</div>
+				<div id='webinfoTip'></div>
+			</div>
+			
+		   	<div class="form-group">
+				<div class="radio">
+				   <label>
+				      <input type="radio" name="status" value="0" id='banweb'>禁用网站
+				   </label>
+				</div>
+				<div class="radio">
+				   <label>
+				      <input type="radio" name="status" value="1" id='openweb'>启用网站
+				   </label>
+				</div>
+			</div>
+	   		<div id='uploadlogo'></div>
+			
+		<div class="form-group">
+		    <div>
+	         	<button type="submit" class="btn btn-default">修改</button>
+	      	</div>
+	   	</div>
+	   	</form>
+		</div>	   	
+		<div class='col-md-4 col-md-offset-1'>
+			<div class="form-group">
+      				<img  src="__ROOT__/Uploads/{{datas.logo}}" id='logoimg' class="img-responsive img-thumbnail" alt="logo" style="height: 260px; width: 260px;" />
+      			<p>请上传格式为.png .jpg .jpeg的图片。</p>
+		   		<p>上传完毕后需要点击左边修改按钮才能生效。</p>
+		   		<div id='uploadphotoconfirm' style='color:red'></div>
+   			</div>
+   			<div class="form-group">
+		    	<div>
+	         		<button type="submit" class="btn btn-default" id='upload_button'>上传Logo</button>
+	      		</div>
+	   		</div>
+		</div>
+	</div>
+	</div>
+	<script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+	<script src="__ROOT__/Public/tool/ajaxupload.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({formID:"user_form",submitOnce:true,
+			onSuccess:function(){
+				var registerForm=$("#user_form");
+				$.post(registerForm.attr("action"),registerForm.serialize(),function(data){
+					if(data=='修改成功'){
+						$("#uploadlogo").html('');
+						window.location.href="{:U('Admin/Web/index')}";
+					}
+					$('#warning-block p').html('<strong>警告！</strong>'+data);
+					return;
+				});
+			}
+		});
+
+		
+		$("#title").formValidator({onShowText:"请输入网站标题"})
+		.inputValidator({min:2,max:160,onError:"标题2~160个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能为空"}});
+		
+		$("#desc").formValidator({onShowText:"请输入网站描述"})
+		.inputValidator({min:0,max:300,onError:"最多300个字符"});
+		
+		$("#address").formValidator({onShowText:"请输入联系地址"})
+		.inputValidator({min:0,max:500,onError:"最多500个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"描述两边不能为空"}});
+		
+		$("#phone").formValidator({onFocus:"如0768-8888888或11位手机号码",onCorrect:"谢谢你的合作"})
+		.regexValidator({regExp:["tel","mobile"],dataType:"enum",onError:"你输入的手机或电话格式不正确"});
+		
+		$("#webinfo").formValidator({onShowText:"请输入备案信息"})
+		.inputValidator({min:0,max:300,onError:"最多300个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"描述两边不能为空"}});
+	});
+	
+</script>
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+    $http.get("{:U('Admin/Web/getinfo')}")
+    .success(function(response) {
+    	$scope.datas = response;
+    	if(response.status==1){
+    		$("#openweb").attr("checked","checked");
+    	}else{
+    		$("#banweb").attr("checked","checked");
+    	}
+    	
+    });
+});
+</script> 
+<script>
+$(function(){
+	var button = $('#upload_button'), interval;
+	var confirmdiv = $('#uploadphotoconfirm');
+    var fileType = "ptic",fileNum = "one"; 
+    new AjaxUpload(button,{
+        action: "{:U('Admin/Web/uploadimg')}",
+        name: 'logo',
+        responseType:'json',
+        onSubmit : function(file, ext){
+            if(fileType == "pic")
+            {
+                if (ext && /^(jpg|png|jpeg|gif)$/.test(ext)){
+                    this.setData({
+                        'info': '文件类型为图片'
+                    });
+                } else {
+                	confirmdiv.text('文件格式错误，请上传格式为.png .jpg .jpeg 的图片');
+                    return false;               
+                }
+            }
+                        
+            confirmdiv.text('文件上传中');
+            
+            if(fileNum == 'one')
+                this.disable();
+            
+            interval = window.setInterval(function(){
+                var text = confirmdiv.text();
+                if (text.length <= 5){
+                	confirmdiv.text('文件上传中...');                  
+                } else {
+                	confirmdiv.text('文件上传中');          
+                }
+            }, 200);
+        },
+        onComplete: function(file, response){
+			if(response.isok != 1){
+					confirmdiv.text(response.message);
+			}else{
+				confirmdiv.text("上传完成");
+				$("#logoimg").attr("src",response.message);
+				$("#uploadlogo").html("<input type='text' hidden name='logo' value='"+response.logosql+"'>");
+			}
+				                                
+            window.clearInterval(interval);                
+            this.enable();              
+        }
+    });
+});
+
+</script>
+</body>
+</html>

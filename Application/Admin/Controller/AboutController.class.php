@@ -6,6 +6,10 @@ class AboutController extends CommomController{
 		$this->display();
 	}
 	
+	function help(){
+		$this->display();
+	}
+	
 	
 }
 

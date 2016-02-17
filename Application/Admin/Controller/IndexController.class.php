@@ -12,7 +12,8 @@ class IndexController extends Controller {
 			} elseif (in_array ( $_SESSION ['username'], C ( 'ADMIN_AUTH_KEY' ) )) {
 				$this->display ( 'adminindex' );
 			} else {
-				$this->display ();
+				//
+				$this->display ('adminindex' );
 			}
 		} else {
 			$this->display ( 'adminindex' );

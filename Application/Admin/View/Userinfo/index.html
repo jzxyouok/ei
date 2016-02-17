@@ -6,7 +6,7 @@
 <script src="__ROOT__/Public/Js/angular.js"></script>
 <link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
 </head>
-<body ng-app="myApp" ng-controller="customersCtrl">
+<body>
 	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
 	<div class="row">
 		<div class='col-md-6 col-md-offset-1' >
@@ -18,7 +18,7 @@
 				<div>
 					<label for='realname'>真名</label>
 					<input type="text" class="form-control" name="realname" id="realname"
-						placeholder="请输入真名" required="required" ng-model="datas.realname">
+						placeholder="请输入真名" required="required">
 				</div>
 				<div id="realnameTip"></div>
 			</div>
@@ -26,7 +26,7 @@
 				<div>
 					<label for='personid'>身份证</label>
 					<input type="text" class="form-control" name="personid" id="personid"
-						placeholder="请输入身份证" required="required" ng-model="datas.personid">
+						placeholder="请输入身份证" required="required">
 				</div>
 				<div id="personidTip"></div>
 			</div>
@@ -34,7 +34,7 @@
 			<div class="form-group">
 				<div>
 			    	<label for="address">通讯地址</label>
-			    	<textarea class="form-control" rows="5" name="address" id="address" required="required" ng-model="datas.address"></textarea>
+			    	<textarea class="form-control" rows="5" name="address" id="address" required="required"></textarea>
 				</div>
 				<div id="addressTip"></div>
 			</div>
@@ -43,7 +43,7 @@
 				<div>
 					<label for='phone'>联系电话</label>
 					<input type="text" class="form-control" name="phone" id="phone"
-						placeholder="请输入手机或电话" required="required" ng-model="datas.phone">
+						placeholder="请输入手机或电话" required="required">
 				</div>
 				<div id="phoneTip"></div>
 			</div>
@@ -59,7 +59,7 @@
 		</div>	   	
 		<div class='col-md-4 col-md-offset-1'>
 			<div class="form-group">
-      			<img  src="__ROOT__/Idcard/{{datas.picture1}}" id='picture1' class="img-responsive img-thumbnail" alt="logo" style="height: 260px; width: 260px;" />
+      			<img  src="#" id='picture1' class="img-responsive img-thumbnail" alt="logo" style="height: 260px; width: 260px;" />
       			<p>身份证正面</p>
 		   		<div id='uploadphotoconfirm1' style='color:red'></div>
    			</div>
@@ -70,7 +70,7 @@
 	   		</div>
 	   		
 	   		<div class="form-group">
-      			<img  src="__ROOT__/Idcard/{{datas.picture2}}" id='picture2' class="img-responsive img-thumbnail" alt="logo" style="height: 260px; width: 260px;" />
+      			<img  src="#" id='picture2' class="img-responsive img-thumbnail" alt="logo" style="height: 260px; width: 260px;" />
       			<p>身份反面</p>
 		   		<div id='uploadphotoconfirm2' style='color:red'></div>
    			</div>
@@ -123,15 +123,6 @@
 	});
 	
 </script>
-<!-- <script>
-var app = angular.module('myApp', []);
-app.controller('customersCtrl', function($scope, $http) {
-    $http.get("{:U('Admin/Userinfo/getinfo')}")
-    .success(function(response) {
-    	$scope.datas = response;
-    });
-});
-</script>  -->
 <script>
 $(function(){
 	var button = $('#upload_button1'), interval;

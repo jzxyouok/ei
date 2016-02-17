@@ -1,0 +1,107 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<title>设置密保</title>
+<script src="__ROOT__/Public/Js/angular.js"></script>
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+</head>
+<body ng-app="myApp" ng-controller="customersCtrl">
+	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+	<div class="row">
+		<div class='col-md-6 col-md-offset-1' >
+			<form id="user_form" action="{:U('Admin/Userinfo/updatetokens')}" role="form">
+			<div class="form-group">
+				<div class="alert alert-warning" id='warning-block'>
+		   			<p>设置密保可以用来找回密码</p>
+				</div>
+				<div class="form-group">
+					<label for='question1'>密保1</label>
+				    <select class="form-control" name='question1'> 
+				      <option>我最爱吃？</option> 
+				      <option>我喜欢去哪里？</option> 
+				      <option>我的初中班主任是？</option> 
+				      <option>我喜欢谁？</option> 
+				      <option>我的学号是？</option> 
+				      </select>
+				<div>
+					<input type="text" class="form-control" name="q1" id="q1"
+						placeholder="请输入答案" required="required">
+				</div>
+				<div id="q1Tip"></div>
+				</div>
+			</div>
+						<div class="form-group">
+					<label for='question1'>密保2</label>
+				    <select class="form-control" name='question2'> 
+				      <option>我最爱吃？</option> 
+				      <option>我喜欢去哪里？</option> 
+				      <option>我的初中班主任是？</option> 
+				      <option>我喜欢谁？</option> 
+				      <option>我的学号是？</option> 
+				      </select>
+				<div>
+					<input type="text" class="form-control" name="q2" id="q2"
+						placeholder="请输入答案" required="required">
+				</div>
+				<div id="q2Tip"></div>
+				</div>
+								<div class="form-group">
+					<label for='question3'>密保3</label>
+				    <select class="form-control" name='question3'> 
+				      <option>我最爱吃？</option> 
+				      <option>我喜欢去哪里？</option> 
+				      <option>我的初中班主任是？</option> 
+				      <option>我喜欢谁？</option> 
+				      <option>我的学号是？</option> 
+				      </select>
+				<div>
+					<input type="text" class="form-control" name="q3" id="q3"
+						placeholder="请输入答案" required="required">
+				</div>
+				<div id="q3Tip"></div>
+				</div>
+		<div class="form-group">
+		    <div>
+	         	<button type="submit" class="btn btn-default">修改</button>
+	      	</div>
+	   	</div>
+	   	</form>
+		</div>	   	
+	</div>
+	</div>
+	<script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+	<script src="__ROOT__/Public/tool/ajaxupload.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({formID:"user_form",submitOnce:true,
+			onSuccess:function(){
+				var registerForm=$("#user_form");
+				$.post(registerForm.attr("action"),registerForm.serialize(),function(data){
+					if(data=='修改成功'){
+						window.location.href="{:U('Admin/Userinfo/updatetoken')}";
+					}
+					$('#warning-block p').html('<strong>警告！</strong>'+data);
+					return;
+				});
+			}
+		});
+
+		
+		
+		$("#q1").formValidator({onShowText:"请输入答案"})
+		.inputValidator({min:0,max:100,onError:"最多25个字符"});
+		
+		$("#q2").formValidator({onShowText:"请输入答案"})
+		.inputValidator({min:0,max:100,onError:"最多25个字符"});
+		
+		$("#q3").formValidator({onShowText:"请输入答案"})
+		.inputValidator({min:0,max:100,onError:"最多25个字符"});
+	});
+	
+</script>
+</body>
+</html>

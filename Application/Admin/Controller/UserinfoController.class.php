@@ -7,15 +7,18 @@ class UserinfoController extends CommomController{
 		$isexist=M('userinfo')->where(array('username'=>$username))->find();
 		if($isexist===null){
 			$this->display('index');
+			return;
 		}
 		if($isexist===false){
 			$this->error("系统出错");
 		}
 		if($isexist['status']==0 or $isexist['status']==3){
 			$this->display('indexupdate');
+			return;
 		}
 		if($isexist['status']==1 or $isexist['status']==2){
 			$this->display('indexlist');
+			return;
 		}
 	}
 	
@@ -205,6 +208,89 @@ class UserinfoController extends CommomController{
 		}
 		
 		$this->ajaxReturn('不正常访问');
+	}
+	
+	function updatetoken(){
+		$username=$_SESSION['username'];
+		$isexist=M('usersafe')->where(array('username'=>$username))->find();
+		if($isexist===false){
+			$this->display('系统出错');
+			return;
+		}
+		if($isexist===null){
+			$this->display('updatetoken');
+			return;
+		}else{
+			$this->assign('q1',$isexist['question1']);
+			$this->assign('q2',$isexist['question2']);
+			$this->assign('q3',$isexist['question3']);
+			$this->display('listtoken');
+		}
+	}
+	
+	function updatetokens(){
+		$username=$_SESSION['username'];
+		$isexist=M('usersafe')->where(array('username'=>$username))->find();
+		if($isexist===false){
+			$this->ajaxReturn('系统出错');
+			return;
+		}
+		if($isexist===null){
+			$q1=I('question1','');
+			$q2=I('question2','');
+			$q3=I('question3','');
+			$a1=I('q1','');
+			$a2=I('q2','');
+			$a3=I('q3','');
+			$data['username']=$username;
+			$data['question1']=$q1;
+			$data['question2']=$q2;
+			$data['question3']=$q3;
+			$data['answer1']=$a1;
+			$data['answer2']=$a2;
+			$data['answer3']=$a3;
+			if(false===M('usersafe')->add($data)){
+				$this->ajaxReturn('系统出错');
+			}else{
+				$this->ajaxReturn('修改成功');
+			}
+		}
+		$this->ajaxReturn('请以正常途径访问');
+	}
+	
+	function updatetokenss(){
+		$username=$_SESSION['username'];
+		$isexist=M('usersafe')->where(array('username'=>$username))->find();
+		if($isexist===false){
+			$this->ajaxReturn('系统出错1');
+			return;
+		}
+		if($isexist===null){
+			$this->ajaxReturn('请以正常途径访问');
+		}
+		$q1=I('question1','');
+		$q2=I('question2','');
+		$q3=I('question3','');
+		$a1=I('q1','');
+		$a2=I('q2','');
+		$a3=I('q3','');
+		$data['username']=$username;
+		$data['question1']=$q1;
+		$data['question2']=$q2;
+		$data['question3']=$q3;
+		$data['answer1']=$a1;
+		$data['answer2']=$a2;
+		$data['answer3']=$a3;
+		if(M('usersafe')->where($data)->select()){
+			if(M('usersafe')->where($data)->delete()){
+				$this->ajaxReturn('修改成功');}
+			else{
+				$this->ajaxReturn('系统出错2');
+			}
+		}else{
+			$this->ajaxReturn('回答错误');
+		}
+
 	}
 	
 }

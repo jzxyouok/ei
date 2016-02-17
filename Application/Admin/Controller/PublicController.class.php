@@ -44,7 +44,7 @@ class PublicController extends Controller {
         }
 		if(in_array($user['username'],C('ADMIN_AUTH_KEY'))){ //以用户名来判断是否是超级管理员，绕过验证，不用用户组来判断的原因是用户组有时候是中文    ，而且常删除或更改。
         }else{
-			 if($user['status']!==1){  //status为0时表示锁定
+			 if($user['status']!=1){  //status为0时表示锁定
 			 $this->ajaxReturn("用户不存在或被锁定！！！");}
 		}
             $data['lastloginip'] =  get_client_ip();
@@ -159,6 +159,73 @@ class PublicController extends Controller {
     	}else{
     		$this->ajaxReturn("用户不存在");
     	}
+    }
+    
+    function forgetpasswd(){
+    	$this->display();
+    }
+    
+    function forgetpasswd2(){
+    	$username=I('username','');
+    	$isexist=M('usersafe')->where(array('username'=>$username))->find();
+    	if($isexist===false){
+    		$this->error('系统出错');
+    		return;
+    	}
+    	if($isexist===null){
+    		$this->error('用户不存在或未设置密保');
+    		return;
+    	}
+    	$this->assign('user',$username);
+    	$this->assign('q1',$isexist['question1']);
+    	$this->assign('q2',$isexist['question2']);
+    	$this->assign('q3',$isexist['question3']);
+    	$this->display();
+    }
+    
+    function updatepasswd(){
+    	$username=I('username','');
+    	$isexist=M('usersafe')->where(array('username'=>$username))->find();
+    	if($isexist===false){
+    		$this->ajaxReturn('系统出错1');
+    		return;
+    	}
+    	if($isexist===null){
+    		$this->ajaxReturn('请以正常途径访问');
+    	}
+    	$q1=I('question1','');
+    	$q2=I('question2','');
+    	$q3=I('question3','');
+    	$a1=I('q1','');
+    	$a2=I('q2','');
+    	$a3=I('q3','');
+    	$data['username']=$username;
+    	$data['question1']=$q1;
+    	$data['question2']=$q2;
+    	$data['question3']=$q3;
+    	$data['answer1']=$a1;
+    	$data['answer2']=$a2;
+    	$data['answer3']=$a3;
+    	if(M('usersafe')->where($data)->select()){
+    		$passwd1=I('password1','');
+    		$passwd2=I('password2','');
+    		if($passwd1!=$passwd1){
+    			$this->ajaxReturn('两次密码不一致');
+    		}
+    		if($passwd1=='' or $passwd2==''){
+    			$this->ajaxReturn('密码不能为空');
+    		}
+    		
+    		$new['password']=md5($passwd1);
+    		if(M('user')->where(array('username'=>$username))->save($new)===false){
+    			$this->ajaxReturn('修改失败');
+    		}else{
+    			$this->ajaxReturn('修改成功');
+    		}
+    	}else{
+    		$this->ajaxReturn('回答错误');
+    	}
+    	
     }
     
 }

@@ -55,7 +55,7 @@
    			<a href="#" class="close" data-dismiss="alert">
       	&times;
    			</a>
-   			<p>忘记密码请联系管理员QQ：569929309</p>
+   			<p>密码忘记（忘记密保或者未设置密保）请联系管理员QQ：569929309</p>
 		</div>
         <input type="text" name="username" class="input-block-level" placeholder="账号" required="required">
         <input type="password" name="password" class="input-block-level" placeholder="密码" required="required">
@@ -64,6 +64,7 @@
         <p>
         	<button class="btn btn-large btn-primary" type="submit">登录</button>
         	<span class="btn btn-large btn-success"><a href="{:U('Admin/Public/register')}">注册</a></span>
+              <span class="btn btn-default"><a href="{:U('Admin/Public/forgetpasswd')}">忘记密码</a></span>
         </p>
     </form>
 </div>

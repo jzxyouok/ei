@@ -167,6 +167,10 @@ class PublicController extends Controller {
     
     function forgetpasswd2(){
     	$username=I('username','');
+    	if(strlen($username)>64){
+    		$this->error('用户名太长');
+    		return;
+    	}
     	$isexist=M('usersafe')->where(array('username'=>$username))->find();
     	if($isexist===false){
     		$this->error('系统出错');
@@ -185,6 +189,10 @@ class PublicController extends Controller {
     
     function updatepasswd(){
     	$username=I('username','');
+        if(strlen($username)>64){
+    		$this->error('用户名太长');
+    		return;
+    	}
     	$isexist=M('usersafe')->where(array('username'=>$username))->find();
     	if($isexist===false){
     		$this->ajaxReturn('系统出错1');

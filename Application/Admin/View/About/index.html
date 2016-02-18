@@ -15,7 +15,7 @@
 </script>
 </head>
 <body>
-	<div  class='container' style="margin-bottom: 50px;margin-top: 20px">
+	<div class='container' style="margin-bottom: 50px; margin-top: 20px">
 		<form method='post' id='form'>
 			<!-- 加载编辑器的容器 -->
 			<div class="form-group">
@@ -24,22 +24,20 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<textarea id="editor" name="content">{$about}</textarea>
+				<textarea id="editor" name="about">{$about}</textarea>
 			</div>
 
-			<div class="form-group">
-				<div>
-					<button type="submit" class="btn btn-default">申请修改</button>
-				</div>
-			</div>
 		</form>
+		<div>
+			<button id='bb' class="btn btn-default">修改</button>
+		</div>
 	</div>
 	<script>
 		$(function() {
-			var Form = $("#form");
-			Form.click(function() {
+			var bb = $("#bb");
+			bb.click(function() {
 
-				$.post("__CONTROLLER__/updateabout", Form.serialize(),
+				$.post("__CONTROLLER__/updateabout", $("#form").serialize(),
 						function(data) {
 							alert(data);
 							$('#warning-block p').html(

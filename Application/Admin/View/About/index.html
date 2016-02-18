@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>企业介绍</title>
+<!-- 配置文件 -->
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+<js href="__ROOT__/Public/Js/jquery-1.11.2.min.js" />
+<js href="__ROOT__/Public/ueditor/ueditor.config.js" />
+<js href="__ROOT__/Public/ueditor/ueditor.all.min.js" />
+<script>
+	$(function() {
+		var ue = UE.getEditor('editor');
+	})
+</script>
+</head>
+<body>
+	<div  class='container' style="margin-bottom: 50px;margin-top: 20px">
+		<form method='post' id='form'>
+			<!-- 加载编辑器的容器 -->
+			<div class="form-group">
+				<div class="alert alert-warning" id='warning-block'>
+					<p>企业介绍</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<textarea id="editor" name="content">{$about}</textarea>
+			</div>
+
+			<div class="form-group">
+				<div>
+					<button type="submit" class="btn btn-default">申请修改</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script>
+		$(function() {
+			var Form = $("#form");
+			Form.click(function() {
+
+				$.post("__CONTROLLER__/updateabout", Form.serialize(),
+						function(data) {
+							alert(data);
+							$('#warning-block p').html(
+									'<strong>提示！</strong>' + data);
+							return;
+						});
+
+				return;
+			})
+		})
+	</script>
+</body>
+</html>
+

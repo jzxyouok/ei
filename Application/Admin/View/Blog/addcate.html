@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>ueditor demo</title>
+    <title>企业介绍</title>
 	    <!-- 配置文件 -->
 	<js href="__ROOT__/Public/Js/jquery-1.11.2.min.js" />
     <js href="__ROOT__/Public/ueditor/ueditor.config.js" />    
@@ -14,17 +14,29 @@
     </script>
 </head>
 <body>
-<form action='__CONTROLLER__/addcates' method='post'>
-目录名：<input type="text"  name="title" /><br />
-目录描述:<br />
+<div class="alert alert-warning" id='warning-block'>
+		   			<p>企业介绍</p>
+</div>
+<form method='post' id='form'>
 <!-- 加载编辑器的容器 -->
-<textarea id="editor" name="content" ></textarea><br />
-排序：<input type="text"  name="order" value='1'/><br />
-使用：<input type="radio" checked="checked" name="status" value="1" /><br />
-禁用：<input type="radio" name="status" value="0" /><br />
+<textarea id="editor" name="content" >{$about}</textarea>
 <input type="submit" value="添加" />
 </form>
-    
- <p>返回<a href="__CONTROLLER__/listcate">目录列表</a></p>  
+<script>
+$(function(){
+	var Form=$("#form");
+	Form.click(function(){
+		
+		$.post("__CONTROLLER__/updateabout",Form.serialize(),function(data){
+			alert(data);
+			$('#warning-block p').html('<strong>提示！</strong>'+data);
+			return;
+		});
+		
+		return;
+	})
+})
+</script>
 </body>
 </html>
+

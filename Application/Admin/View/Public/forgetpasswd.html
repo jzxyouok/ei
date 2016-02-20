@@ -17,7 +17,8 @@
 						placeholder="请输入用户名" required="required">
 				</div>
 				<div id="usernameTip"></div>
-				
+				   <input type="text" name="verify" class="form-control" required="required" placeholder="验证码">
+		<img src="__CONTROLLER__/verify" alt="看不清请点击刷新" style="cursor : pointer;" onClick="show(this)" />
 		<div class="form-group">
 		    <div>
 	         	<button type="submit" class="btn btn-default">修改用户密码</button>
@@ -31,5 +32,9 @@
 	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
 	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
 	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+	<script>
+	function show(obj){
+	obj.src="__CONTROLLER__/verify/random/"+Math.random();}
+	</script>
 </body>
 </html>

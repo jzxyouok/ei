@@ -166,18 +166,23 @@ class PublicController extends Controller {
     }
     
     function forgetpasswd2(){
+    	$verify_code=I('verify','');
+    	if(!$this->_verifyCheck($verify_code)){
+    		$this->ajaxReturn('验证码错误！！','eval');
+    		return;
+    	}
     	$username=I('username','');
     	if(strlen($username)>64){
-    		$this->error('用户名太长');
+    		$this->ajaxReturn('用户名太长','eval');
     		return;
     	}
     	$isexist=M('usersafe')->where(array('username'=>$username))->find();
     	if($isexist===false){
-    		$this->error('系统出错');
+    		$this->ajaxReturn('系统出错','eval');
     		return;
     	}
     	if($isexist===null){
-    		$this->error('用户不存在或未设置密保');
+    		$this->ajaxReturn('用户不存在或未设置密保','eval');
     		return;
     	}
     	$this->assign('user',$username);
@@ -188,6 +193,11 @@ class PublicController extends Controller {
     }
     
     function updatepasswd(){
+    	$verify_code=I('verify','');
+    	if(!$this->_verifyCheck($verify_code)){
+    		$this->ajaxReturn('验证码错误！！','eval');
+    		return;
+    	}
     	$username=I('username','');
         if(strlen($username)>64){
     		$this->error('用户名太长');

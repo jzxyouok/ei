@@ -38,7 +38,53 @@ class AboutController extends CommomController{
 	
 	//更新状态
 	function updatestatus(){
-		
+		$username=$_SESSION['username'];
+		$id=I('id','');
+		$status=I('status','');
+		if($id=="" or $status==""){
+			$this->ajaxReturn('请以正常途径访问');
+		}
+		$data['id']=$id;
+		$data['status']=$status;
+		$isok=M('webabout')->where(array('username'=>$username))->save($data);
+		if($isok){
+			$this->ajaxReturn('修改成功');
+		}else{
+			$this->ajaxReturn('修改失败');
+		}
+	}
+	
+	//删除1
+	function deleteabout(){
+		$username=$_SESSION['username'];
+		$id=I('id','');
+		if($id==""){
+			$this->ajaxReturn('请以正常途径访问');
+		}
+		$data['id']=$id;
+		$data['status']=2;
+		$isok=M('webabout')->where(array('username'=>$username))->save($data);
+		if($isok){
+			$this->ajaxReturn('删除成功，真正删除请到回收站');
+		}else{
+			$this->ajaxReturn('删除失败');
+		}
+	}
+	
+	//删除2
+	function deleteabouts(){
+		$username=$_SESSION['username'];
+		$id=I('id','');
+		if($id==""){
+			$this->ajaxReturn('请以正常途径访问');
+		}
+		$data['id']=$id;
+		$isok=M('webabout')->where(array('username'=>$username))->delete($data);
+		if($isok){
+			$this->ajaxReturn('永久删除成功');
+		}else{
+			$this->ajaxReturn('删除失败');
+		}
 	}
 	
 	function updateabout(){

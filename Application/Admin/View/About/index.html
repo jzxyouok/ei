@@ -1,54 +1,124 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>企业介绍</title>
-<!-- 配置文件 -->
-<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
-<js href="__ROOT__/Public/Js/jquery-1.11.2.min.js" />
-<js href="__ROOT__/Public/ueditor/ueditor.config.js" />
-<js href="__ROOT__/Public/ueditor/ueditor.all.min.js" />
-<script>
-	$(function() {
-		var ue = UE.getEditor('editor');
-	})
-</script>
+	<meta charset="UTF-8">
+	<title>网站介绍（单页）</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
 </head>
+
 <body>
-	<div class='container' style="margin-bottom: 50px; margin-top: 20px;width:80%">
-		<form method='post' id='form'>
-			<!-- 加载编辑器的容器 -->
-			<div class="form-group">
-				<div class="alert alert-warning" id='warning-block'>
-					<p>企业介绍</p>
-				</div>
-			</div>
-			<div class="form-group">
-				<textarea id="editor" name="about">{$about}</textarea>
-			</div>
+  	<table id="dg" title="单页管理"  style="width:550px;height:250px">
+	</table>
+	
+<div id="toolbar">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加单页</a>
+		  <span>
+				    <select id='status' class="form-control" name='status' style='width:100px;margin: 0 20px'> 
+				      <option value=1>已开启</option> 
+				      <option value=0>已关闭</option> 
+				      <option value=2>回收站</option> 
+		</select>
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">状态查询</a>
+	</span> 
+</div>
 
-		</form>
-		<div>
-			<button id='bb' class="btn btn-default">修改</button>
-		</div>
-	</div>
-	<script>
-		$(function() {
-			var bb = $("#bb");
-			bb.click(function() {
+<script type="text/javascript">
+$('#dg').datagrid({    
+    url:'__CONTROLLER__/indexs',  
+    collapsible:true,
+    toolbar: '#toolbar',
+    rownumbers:true,
+    pagination:true,
+	pageList:[5,10,30],
+	fit:true, 
+    columns:[[
+        {field:'ck',checkbox:true}, 
+        {field:'id',title:'单页ID',width:100,hidden:true},   
+        {field:'title',title:'标题',width:200},    
+        {field:'createtime',title:'创建时间',width:200,sortable:true},
+        {field:'updatetime',title:'更新时间',width:200,sortable:true},
+        {field:'sort',title:'排序',width:200,sortable:true},
+        {field:'status',title:'状态',width:200,sortable:true,    
+        	formatter: function(value,row,index){
+				//alert(value);
+				$para=row.id+',';
+				if(value=='已开启'){
+					return "已开启|<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='updatestatus("+$para+"0)'>关闭</a>";
+				}else if(value=='已关闭'){
+					return "已关闭|<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='updatestatus("+$para+"1)'>开启</a>";
+				}else{
+					$s="回收站|<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='updatestatus("+$para+"0)'>恢复</a>";
+				    $s=$s+"<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='updatestatus("+$para+"3)'>删除</a>";
+					return $s;
+				}
+				//alert(row);
+				//一整行数据
+				//alert(index);第几行
+			}
+        //
+        }
+    ]]    
+});
 
-				$.post("__CONTROLLER__/updateabout", $("#form").serialize(),
-						function(data) {
-							alert(data);
-							$('#warning-block p').html(
-									'<strong>提示！</strong>' + data);
-							return;
+
+function destroyUser(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows.length!=0){
+		$.messager.confirm('Confirm','你确定要删除?',function(r){
+			if (r){
+				var uri="__CONTROLLER__/deleteabout";
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					$.post(uri,{'id':row.id},function(result){
+						$.messager.show({	// show error message
+							title: '消息',
+							msg: result
 						});
+						$('#dg').datagrid('reload');	// reload the user da
+				});
+				}
+			}
+		});
+	}else{
+	alert("请勾选按钮")}
+}
 
-				return;
-			})
-		})
-	</script>
+function updateuser(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+			window.location.href="__CONTROLLER__/updateabout?id="+row.id; 
+		}else{
+			alert("请勾选按钮")}
+		}
+function adduser(){
+	window.location.href="__CONTROLLER__/addabout";
+}
+		
+
+function getabout(){
+	var status=$('#status').val();
+	$('#dg').datagrid('load', {    
+	    status: status 
+	});
+}
+
+function updatestatus(id,status){
+	alert(id+''+status);
+	$.post('__CONTROLLER__/updatestatus',{'id':id,'status':status},function(result){
+		$.messager.show({	// show error message
+			title: '消息',
+			msg: result
+		});
+		$('#dg').datagrid('reload');	// reload the user da
+});
+	
+}
+</script>
 </body>
 </html>
-

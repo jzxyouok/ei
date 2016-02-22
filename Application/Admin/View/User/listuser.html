@@ -42,6 +42,14 @@ function updateuser(){
 function adduser(){
 	window.location.href="__CONTROLLER__/adduser";
 }
+
+
+function getabout(){
+	var status=$('#status').val();
+	$('#dg').datagrid('load', {
+	    status: status 
+	});
+}
 		
 </script>
 </head>
@@ -70,6 +78,13 @@ function adduser(){
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑用户</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除用户</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加用户</a>
+		  <span>
+				    <select id='status' class="form-control" name='status' style='width:100px;margin: 0 20px'> 
+				      <option value=1>已开启</option> 
+				      <option value=0>已关闭</option>  
+		</select>
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">状态查询</a>
+	</span>
 </div>
 <div id="dlg-buttons">
 	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>

@@ -44,9 +44,8 @@ class AboutController extends CommomController{
 		if($id=="" or $status==""){
 			$this->ajaxReturn('请以正常途径访问');
 		}
-		$data['id']=$id;
 		$data['status']=$status;
-		$isok=M('webabout')->where(array('username'=>$username))->save($data);
+		$isok=M('webabout')->where(array('username'=>$username,'id'=>$id))->save($data);
 		if($isok){
 			$this->ajaxReturn('修改成功');
 		}else{
@@ -61,9 +60,8 @@ class AboutController extends CommomController{
 		if($id==""){
 			$this->ajaxReturn('请以正常途径访问');
 		}
-		$data['id']=$id;
 		$data['status']=2;
-		$isok=M('webabout')->where(array('username'=>$username))->save($data);
+		$isok=M('webabout')->where(array('username'=>$username,'id'=>$id))->save($data);
 		if($isok){
 			$this->ajaxReturn('删除成功，真正删除请到回收站');
 		}else{
@@ -87,32 +85,28 @@ class AboutController extends CommomController{
 		}
 	}
 	
-	function updateabout(){
+	function addabout(){
+		$this->display();
+	}
+	function addabouts(){
 		$username=$_SESSION['username'];
 		$about=I('about','');
-		$isexist=M('webabout')->where(array('username'=>$username))->find();
-		if($isexist===false){
-			$this->ajaxReturn('系统出错');
-			return;
-		}
-		$data['about']=$about;
+		$sort=I('sort',0);
+		$title=I('title','');
+		$status=I('status',1);
 		$data['username']=$username;
-		if($isexist==null){
-			$data['createtime']=date("Y-m-d H:i:s",strtotime('now'));
+		$data['sort']=$sort;
+		$data['title']=$title;
+		$data['status']=$status;
+		$data['about']=$about;
+		$data['createtime']=date("Y-m-d H:i:s",strtotime('now'));
 			if(false===M('webabout')->add($data)){
 				$this->ajaxReturn('系统出错');
 				return;
 			}else{
-				$this->ajaxReturn('修改成功');
+				$this->ajaxReturn('增加成功');
 				return;
 			}
-		}
-		$data['updatetime']=date("Y-m-d H:i:s",strtotime('now'));
-		if(false===M('webabout')->where(array('username'=>$username))->save($data)){
-			$this->ajaxReturn('系统出错');
-			return;
-		}
-		$this->ajaxReturn('修改成功');
 	}
 	
 	

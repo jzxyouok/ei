@@ -27,13 +27,32 @@ class UserController extends CommomController {
 		}
 	}
 	
+// 	public function listusers(){
+// 		if(parent::isroot()){
+// 			$total=M('User')->where("status !=3")->count();
+// 			$pageSize =I('rows','');
+// 			$page = I('page','');
+// 			$pageStart = ($page - 1) * $pageSize;
+// 			$rows =M('User')->where("status !=3")->limit($pageStart.','.$pageSize)->order('createtime desc')->select();
+// 			$data['total']=$total;
+// 			$data['rows']=$rows;
+// 			$this->ajaxReturn($data);
+// 		}else{
+// 			redirect(__ROOT__.'/Public/error.html');
+// 		}
+// 	}
+	
 	public function listusers(){
 		if(parent::isroot()){
-			$total=M('User')->where("status !=3")->count();
+			$status=I('status',1);
+			if($status!=0 and $status!=1){
+				$status=1;
+			}
+			$total=M('User')->where(array('status'=>$status))->count();
 			$pageSize =I('rows','');
 			$page = I('page','');
 			$pageStart = ($page - 1) * $pageSize;
-			$rows =M('User')->where("status !=3")->limit($pageStart.','.$pageSize)->order('createtime desc')->select();
+			$rows =M('User')->where(array('status'=>$status))->limit($pageStart.','.$pageSize)->order('createtime desc')->select();
 			$data['total']=$total;
 			$data['rows']=$rows;
 			$this->ajaxReturn($data);

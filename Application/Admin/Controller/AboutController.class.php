@@ -65,7 +65,7 @@ class AboutController extends CommomController{
 		if($isok){
 			$this->ajaxReturn('删除成功，真正删除请到回收站');
 		}else{
-			$this->ajaxReturn('删除失败');
+			$this->ajaxReturn('删除失败|请点击右侧');
 		}
 	}
 	
@@ -107,6 +107,50 @@ class AboutController extends CommomController{
 				$this->ajaxReturn('增加成功');
 				return;
 			}
+	}
+	
+	function updateabout(){
+		$id=I('id','');
+		if($id==''){
+			$this->error('没有参数');
+		}
+		$data=M('webabout')->where(array('id'=>$id))->find();
+		if($data){
+			$this->assign('data',$data);
+			$this->display();
+		}else{
+			$this->error("找不到该单页");
+		}
+	}
+	
+	function updateabouts(){
+		$id=I('id','');
+		if($id==''){
+			$this->error('没有参数');
+			return;
+		}
+		$username=$_SESSION['username'];
+		$data=M('webabout')->where(array('id'=>$id,'username'=>$username))->find();
+		if($data){
+		$about=I('about','');
+		$sort=I('sort',0);
+		$title=I('title','');
+		$status=I('status',1);
+		$data['sort']=$sort;
+		$data['title']=$title;
+		$data['status']=$status;
+		$data['about']=$about;
+		$data['updatetime']=date("Y-m-d H:i:s",strtotime('now'));
+			if(false===M('webabout')->where(array('id'=>$id,'username'=>$username))->save($data)){
+				$this->ajaxReturn('系统出错');
+				return;
+			}else{
+				$this->ajaxReturn('修改成功');
+				return;
+			}
+		}else{
+			$this->error("找不到该单页");
+		}
 	}
 	
 	

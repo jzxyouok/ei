@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>查看字典</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+  	<table id="dg" title="查看字典"  style="width:550px;height:250px">
+	</table>
+	
+<div id="toolbar">
+<!-- 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加单页</a>
+ -->		  <span>
+				    <select id='type' class="form-control" name='type' style='width:100px;margin: 0 20px'> 
+				      <volist name="type" id="vo">
+				      <option value={$vo.type}>{$vo.type}</option> 
+				  		</volist>
+		</select>
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a>
+	</span> 
+</div>
+
+<script type="text/javascript">
+$('#dg').datagrid({    
+    url:'__CONTROLLER__/listdictionarys',  
+    collapsible:true,
+    toolbar: '#toolbar',
+    rownumbers:true,
+    pagination:true,
+	pageList:[5,10,30],
+	fit:true, 	
+    columns:[[
+        {field:'ck',checkbox:true}, 
+        {field:'id',title:'ID',hidden:true},   
+        {field:'content',width:200,title:'字典内容'},    
+        {field:'type',title:'维度',width:200,sortable:true},
+        {field:'score',title:'分数',width:300,sortable:true,
+        //	
+        formatter: function(value,row,index){
+        	return value
+        }
+        //
+        }
+    ]]    
+});
+
+
+		
+
+function getabout(){
+	var type=$('#type').val();
+	$('#dg').datagrid('load', {    
+		type: type
+	});
+}
+
+</script>
+</body>
+</html>

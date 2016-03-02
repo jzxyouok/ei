@@ -27,8 +27,9 @@
     <div class="dl-main-nav">
         <div class="dl-inform"><div class="dl-inform-title"><span class="dl-inform-icon dl-up"></span></div></div>
         <ul id="J_Nav"  class="nav-list ks-clear">
-            <li class="nav-item dl-selected"><div class="nav-item-inner nav-home">系统管理</div></li>		<li class="nav-item dl-selected"><div class="nav-item-inner nav-order">业务管理</div></li>
-
+            <li class="nav-item dl-selected"><div class="nav-item-inner nav-home">系统管理</div></li>		
+            <li class="nav-item dl-selected"><div class="nav-item-inner nav-order">业务管理</div></li>
+			<li class="nav-item dl-selected"><div class="nav-item-inner nav-order">青木专用</div></li>
         </ul>
     </div>
     <ul id="J_NavContent" class="dl-tab-conten">
@@ -80,7 +81,19 @@
     		            		                         		{id:'29',text:'新增文章',href:"{:U('Admin/Blog/addpaper')}"},
     		            		                         		{id:'291',text:'回收站',href:"{:U('Admin/Blog/rubbish')}"}
     		            		                         		]}
-    		                         		]}];
+    		                         		]},
+    		                         		{id:'3',homePage:'31',menu:[
+    		                																
+    		                											{text:'评论分析',items:[
+    		                					    		                         		{id:'31',text:'查看评论',href:"{:U('Admin/Qingmu/listcomment')}"},
+    		                					    		                         		{id:'32',text:'查看字典',href:"{:U('Admin/Qingmu/listdictionary')}"},
+    		                					    		                         		{id:'33',text:'查看雷达图',href:"{:U('Admin/Qingmu/render')}"},
+    		                					    		                         		]}
+    		                    		                         		]}
+    		                         		
+    		                         		
+    		                         		
+    		                         		];
         
         new PageUtil.MainPage({
             modulesConfig : config

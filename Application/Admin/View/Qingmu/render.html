@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>雷达图</title>
+	<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+	<script  src="__ROOT__/Public/tool/Chart.js"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  	<table id="dg" title="雷达图"  style="">
+	</table>
+	
+<div id="toolbar">
+<!-- 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加单页</a>
+ -->		<!--   <span>
+				    <select id='shopname' name='shopname' style='width:100px;margin: 0 20px'> 
+				      <volist name="shopname" id="vo">
+				      <option value={$vo.shop_name}>{$vo.shop_name}</option> 
+				  		</volist>
+		</select>
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a>
+	</span>  -->
+</div>
+<div>
+<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+			<h1>商品评论情感分析雷达图</h1>
+			<!-- <div class="form-group">
+			<label>商品一</label>
+			<input type="text" class="form-control" id="url1" />
+			</div>
+			<div class="form-group">
+			<label>商品二</label>
+			<input type="text" class="form-control" id='url2' />
+			</div> -->
+<!-- 			<div class="form-group">
+			<button onclick="start()">分析开始</button>
+			</div> -->
+	</div>
+		<div style="width:30%;margin:0 auto">
+			<canvas id="canvas" height="450" width="450"></canvas>
+		</div>
+		<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+		</div>
+	<script>
+	var radarChartData = {
+		labels: ["质量", "舒适度", "物流", "款式", "价格", "服务", "整体感受"],
+		datasets: [
+{
+	label: '示例',
+	fillColor: "rgba(151,187,205,0.2)",
+	strokeColor: "rgba(151,187,205,1)",
+	pointColor: "rgba(151,187,205,1)",
+	pointStrokeColor: "#fff",
+	pointHighlightFill: "#fff",
+	pointHighlightStroke: "rgba(151,187,205,1)",
+	data: [5,5,5,5,5,5,5]
+}
+		]
+	};
+
+	window.onload = function(){
+		window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
+			responsive: true
+		});
+	}
+
+	</script>
+</div>
+
+<script type="text/javascript">
+function start(){
+	var url1=$("#url1").val();
+	var url2=$("#url2").val();
+	$.post('__CONTROLLER__/calrender',{url1:url1,url2:url2},function(data){
+		if(data==1){
+		alert("错误");}
+	alert(data);
+	})
+}
+$('#dg').datagrid({    
+    url:'__CONTROLLER__/listrender',  
+    collapsible:true,
+    toolbar: '#toolbar',
+    rownumbers:true,
+    pagination:true,
+	pageList:[5,10,30],
+	striped:true,
+    columns:[[
+        {field:'ck',checkbox:true}, 
+        {field:'id',title:'ID',hidden:true},      
+        {field:'item_url',title:'商品url',width:300,sortable:true,
+            //	
+            formatter: function(value,row,index){
+            	return "<div class='comment' style='background-color:red'><a href='"+value+"'>"+value+"</a></div>"}
+            //
+        },
+        {field:'updatetime',title:'更新时间'},
+        {field:'d1',precision:'2',title:'质量平均分'},
+        {field:'t1',title:'质量匹配次数'},
+        {field:'d2',title:'舒适度平均分'},
+        {field:'t2',title:'舒适度匹配次数'},
+        {field:'d3',title:'物流平均分'},
+        {field:'t3',title:'物流匹配次数'},
+        {field:'d4',title:'款式平均分'},
+        {field:'t4',title:'款式匹配次数'},
+        {field:'d5',title:'价格平均分'},
+        {field:'t5',title:'价格匹配次数'},
+        {field:'d6',title:'服务平均分'},
+        {field:'t6',title:'服务匹配次数'},
+        {field:'d7',title:'整体感受平均分'},
+        {field:'t7',title:'整体感受匹配次数'},
+        
+    ]]    
+});
+
+
+		
+$("#dg").datagrid({  
+    onClickRow: function (index, row){
+  
+    	if(radarChartData['datasets'].length<3){
+    		for(var i=0;i<radarChartData['datasets'].length;i++){
+    			//alert(radarChartData['datasets'][i]['label']);
+    			if(radarChartData['datasets'][i]['label']===row.item_url){
+    				alert(row.item_url+'已经存在');
+    				radarChartData['datasets'].splice(i,1);
+    				break;
+    			}else{
+    				var radarChartData1 = 
+    				{
+    					label: row.item_url,
+    					fillColor: "rgba(151,187,205,0.2)",
+    					strokeColor: "rgba(151,187,205,1)",
+    					pointColor: "rgba(151,187,205,1)",
+    					pointStrokeColor: "#fff",
+    					pointHighlightFill: "#fff",
+    					pointHighlightStroke: "rgba(151,187,205,1)",
+    					data: [row.d1,row.d2,row.d3,row.d4,row.d5,row.d6,row.d7]
+    				};
+    	    		radarChartData['datasets'].push(radarChartData1);
+    	    		break;
+    			}
+    		}
+    		
+    	}else{
+    		alert('只能选两个');
+    	}
+    	window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
+			responsive: true
+		});
+    }
+})
+
+function getabout(){
+	var shopname=$('#shopname').val();
+	$('#dg').datagrid('load', {    
+		shopname: shopname
+	});
+}
+
+</script>
+</body>
+</html>

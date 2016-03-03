@@ -76,12 +76,12 @@ class QingmuController extends CommomController {
 			$rows =M('qingmu.result','c_')->limit($pageStart.','.$pageSize)->order('updatetime desc')->select();
 			foreach($rows as &$row){
 			$row['d1']=round($row['d1'],2);
-			$row['d2']=round($row['d1'],2);
-			$row['d3']=round($row['d1'],2);
-			$row['d4']=round($row['d1'],2);
-			$row['d5']=round($row['d1'],2);
-			$row['d6']=round($row['d1'],2);
-			$row['d7']=round($row['d1'],2);
+			$row['d2']=round($row['d2'],2);
+			$row['d3']=round($row['d3'],2);
+			$row['d4']=round($row['d4'],2);
+			$row['d5']=round($row['d5'],2);
+			$row['d6']=round($row['d6'],2);
+			$row['d7']=round($row['d7'],2);
 			}
 			$data['total']=$total;
 			$data['rows']=$rows;

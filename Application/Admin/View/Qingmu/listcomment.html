@@ -44,7 +44,7 @@ $('#dg').datagrid({
         {field:'shop_name',title:'店铺名字',width:100,sortable:true},
         {field:'item_url',title:'商品url',width:300,sortable:true,
         //	
-        formatter: function(value,row,index){return "<div class='comment' style='background-color:red'><a href='"+value+"'>"+value+"</a></div>"}
+        formatter: function(value,row,index){return "<div class='comment' style='background-color:red'><a target='_blank' href='"+value+"'>"+value+"</a></div>"}
         //
         },
         {field:'vip_level',title:'用户等级',width:100,sortable:true},

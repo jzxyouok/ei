@@ -12,11 +12,7 @@
 	<script  src="__ROOT__/Public/tool/Chart.js"></script>
 	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
 </head>
-
 <body>
-  	<table id="dg" title="雷达图"  style="">
-	</table>
-	
 <div id="toolbar">
 <!-- 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑单页</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除单页</a>
@@ -31,39 +27,29 @@
 	</span>  -->
 </div>
 <div>
-<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
-			<h1>商品评论情感分析雷达图</h1>
-			<!-- <div class="form-group">
-			<label>商品一</label>
-			<input type="text" class="form-control" id="url1" />
-			</div>
-			<div class="form-group">
-			<label>商品二</label>
-			<input type="text" class="form-control" id='url2' />
-			</div> -->
-<!-- 			<div class="form-group">
-			<button onclick="start()">分析开始</button>
-			</div> -->
+<div class='container'  style="margin-top: 20px">
+			<h2>商品评论情感分析雷达图(有 Bug,已经尽力了)</h2>
+			<p id='render' style="font-size:1.2em">请点击下方所示的评论，方便展示雷达图</p>
 	</div>
-		<div style="width:30%;margin:0 auto">
-			<canvas id="canvas" height="450" width="450"></canvas>
+		<div style="width:50%;margin:0 auto">
+			<canvas id="canvas" height="500px" width="600px"></canvas>
 		</div>
-		<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
-		</div>
+  	<table id="dg" title="雷达图"  style="">
+	</table>
 	<script>
 	var radarChartData = {
 		labels: ["质量", "舒适度", "物流", "款式", "价格", "服务", "整体感受"],
 		datasets: [
-{
+/* {
 	label: '示例',
 	fillColor: "rgba(151,187,205,0.2)",
-	strokeColor: "rgba(151,187,205,1)",
+	strokeColor: "rgba(0,187,205,1)",
 	pointColor: "rgba(151,187,205,1)",
 	pointStrokeColor: "#fff",
 	pointHighlightFill: "#fff",
 	pointHighlightStroke: "rgba(151,187,205,1)",
 	data: [5,5,5,5,5,5,5]
-}
+} */
 		]
 	};
 
@@ -77,15 +63,6 @@
 </div>
 
 <script type="text/javascript">
-function start(){
-	var url1=$("#url1").val();
-	var url2=$("#url2").val();
-	$.post('__CONTROLLER__/calrender',{url1:url1,url2:url2},function(data){
-		if(data==1){
-		alert("错误");}
-	alert(data);
-	})
-}
 $('#dg').datagrid({    
     url:'__CONTROLLER__/listrender',  
     collapsible:true,
@@ -100,7 +77,7 @@ $('#dg').datagrid({
         {field:'item_url',title:'商品url',width:300,sortable:true,
             //	
             formatter: function(value,row,index){
-            	return "<div class='comment' style='background-color:red'><a href='"+value+"'>"+value+"</a></div>"}
+            	return "<div class='comment' style='background-color:red'><a target='_blank' href='"+value+"'>"+value+"</a></div>"}
             //
         },
         {field:'updatetime',title:'更新时间'},
@@ -119,46 +96,72 @@ $('#dg').datagrid({
         {field:'d7',title:'整体感受平均分'},
         {field:'t7',title:'整体感受匹配次数'},
         
-    ]]    
+    ]],
+onClickRow: function (index, row){
+		var isexist=0;
+
+		for(var i=0;i<radarChartData['datasets'].length;i++){
+			if(radarChartData['datasets'][i]['label']===row.item_url){
+				alert(row.item_url+'已经存在,我们将删除');
+				radarChartData['datasets'].splice(i,1);
+				$("#"+row.id+"").remove();
+				isexist=1;
+				break;
+			}else{
+				continue;
+			}
+		}
+		if(isexist){
+			
+		}else{
+			var color1=GetRandomNum(0,125);
+			//alert(color);
+			var radarChartData1 = 
+			{
+					id:row.id,
+				label: row.item_url,
+				fillColor: "rgba(151,187,205,0.2)",
+				strokeColor: "rgba("+color1+",187,205,1)",
+				pointColor: "rgba(151,187,205,0.2)",
+				pointStrokeColor: "#fff",
+				pointHighlightFill: "#fff",
+				pointHighlightStroke: "rgba(151,187,205,1)",
+				data: [row.d1,row.d2,row.d3,row.d4,row.d5,row.d6,row.d7]
+			};
+			$('#render').append("<p id='"+row.id+"'><a target='_blank' style='font-size:1.2em' href='"+row.item_url+"'>"+row.item_url+"</a><button onclick='removeurl("+row.id+")'>移除</button></p>");
+    		radarChartData['datasets'].push(radarChartData1);
+		}
+		
+	window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
+		responsive: true
+	});
+}
 });
 
 
-		
-$("#dg").datagrid({  
-    onClickRow: function (index, row){
-  
-    	if(radarChartData['datasets'].length<3){
-    		for(var i=0;i<radarChartData['datasets'].length;i++){
-    			//alert(radarChartData['datasets'][i]['label']);
-    			if(radarChartData['datasets'][i]['label']===row.item_url){
-    				alert(row.item_url+'已经存在');
-    				radarChartData['datasets'].splice(i,1);
-    				break;
-    			}else{
-    				var radarChartData1 = 
-    				{
-    					label: row.item_url,
-    					fillColor: "rgba(151,187,205,0.2)",
-    					strokeColor: "rgba(151,187,205,1)",
-    					pointColor: "rgba(151,187,205,1)",
-    					pointStrokeColor: "#fff",
-    					pointHighlightFill: "#fff",
-    					pointHighlightStroke: "rgba(151,187,205,1)",
-    					data: [row.d1,row.d2,row.d3,row.d4,row.d5,row.d6,row.d7]
-    				};
-    	    		radarChartData['datasets'].push(radarChartData1);
-    	    		break;
-    			}
-    		}
-    		
-    	}else{
-    		alert('只能选两个');
-    	}
-    	window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
-			responsive: true
-		});
-    }
-})
+
+function removeurl(url){
+	//alert(url);
+	for(var i=0;i<radarChartData['datasets'].length;i++){
+	//	alert(radarChartData['datasets'][i]['id']);
+		if(radarChartData['datasets'][i]['id']==url){
+			alert(radarChartData['datasets'][i]['label']+'已经存在,我们将删除');
+			radarChartData['datasets'].splice(i,1);
+			break;
+		}
+	}
+ 	$("#"+url+"").remove();
+	window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
+		responsive: true
+	}); 
+}
+
+function GetRandomNum(Min,Max)
+{   
+var Range = Max - Min;   
+var Rand = Math.random();   
+return(Min + Math.round(Rand * Range));   
+}   
 
 function getabout(){
 	var shopname=$('#shopname').val();

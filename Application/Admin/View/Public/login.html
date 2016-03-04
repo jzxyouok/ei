@@ -1,89 +1,227 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>后台管理系统</title>
-	<meta charset="UTF-8">
-   <link rel="stylesheet" type="text/css" href="__ROOT__/Public/admincss/bootstrap.css" />
+<html xmlns="http://www.w3.org/1999/xhtml" style="background-color:#f8f8f8;"><head>
+    <title>Qingmu-数据分析小组平台</title>
+    <meta http-equiv="x-ua-compatible" content="IE=EmulateIE9">
+	<meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+ 	<script type="text/javascript" src="__ROOT__/Public/adminjs/jquery.js"></script>
+	   <link rel="stylesheet" type="text/css" href="__ROOT__/Public/admincss/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="__ROOT__/Public/admincss/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="__ROOT__/Public/admincss/style.css" />
-    <script type="text/javascript" src="__ROOT__/Public/adminjs/jquery.js"></script>
-    <script type="text/javascript" src="__ROOT__/Public/adminjs/jquery.sorted.js"></script>
-    <script type="text/javascript" src="__ROOT__/Public/adminjs/bootstrap.js"></script>
-    <script type="text/javascript" src="__ROOT__/Public/adminjs/ckform.js"></script>
-    <script type="text/javascript" src="__ROOT__/Public/adminjs/common.js"></script>
-    <style type="text/css">
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
+	    <script type="text/javascript" src="__ROOT__/Public/adminjs/bootstrap.js"></script>
+    <!--[if IE]>
+        <script>
+            $(function(){
+                alert("请不要使用IE浏览器或者IE内核的浏览器打开网站。");
+            });
+        </script>
+    <![endif]-->
+    <style>
+        body{
+            background-color: #f8f8f8;
+            min-height: 520px;
+            min-width: 1000px;
+            font-family: "Microsoft YaHei";
+            margin: 0px;
         }
-
-        .form-signin {
-            max-width: 300px;
-            padding: 19px 29px 29px;
-            margin: 0 auto 20px;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        .head{
+            width: calc(100% - 60px);
+            height: 25px;
+            background-color: pink;
+            line-height: 25px;
+            padding: 10px 30px;
         }
-
-        .form-signin .form-signin-heading,
-        .form-signin .checkbox {
-            margin-bottom: 10px;
+        .head img{
+            width: 80px;
+            height: 25px;
         }
-
-        .form-signin input[type="text"],
-        .form-signin input[type="password"] {
+        .head label{
+            vertical-align: super;
+            color: green;
+            margin-left: 3%;
+            font-weight: normal;
+            font-size:1.2em
+        }
+        .body{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -175px;
+            margin-left: -420px;
+            background-color: #f8f8f8;
+            min-width: 920px;
+        }
+        .body img{
+            width: 350px;
+            height: 350px;
+            vertical-align: top;
+        }
+        .body .login{
+            width: 400px;
+            height: 350px;
+            background-color: #FFFFFF;
+            display: inline-block;
+            margin-left: 90px;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+            box-shadow:3px 3px 8px #E9E4E4;
+        }
+        .body .login>div:nth-child(1){
+            width: 100%;
+            height: 50px;
+            background-color: pink;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+        }
+        .body .login>div>div{
+            width: 140px;
+            height: 50px;
+            background-color: green;
+            line-height: 50px;
+            color: #FFFFFF;
+            text-align: center;
             font-size: 16px;
-            height: auto;
-            margin-bottom: 15px;
-            padding: 7px 9px;
+            letter-spacing: 5px;
+            border-top-left-radius: 4px;
         }
-
-    </style>  
+        .input{
+            text-align: center;
+            padding-top: 25px;
+            line-height: 35px;
+        }
+        .input>img{
+            vertical-align: middle;
+        }
+        .input>input[type=text], .input>input[type=password]{
+            border: 1px solid #99a3a3;
+            border-radius: 4px;
+            height: 28px;
+            width: 220px;
+            padding: 0 10px;
+        }
+        .input>input[type=button]{
+            cursor: pointer;
+            margin-right: 60px;
+            border: 0px;
+            border-radius: 4px;
+            background-color: #1abc9c;
+            height: 40px;
+            width: 120px;
+            font-size: 16px;
+            color: #525252;
+            font-weight: 600;
+        }
+        .input>input[type=button]:hover{
+            background-color: #0BA082;
+        }
+        .input>label{
+            color: red;
+        }
+        .link{
+            position: absolute;
+            right: 100px;
+            bottom: -30px;
+        }
+        .foot{
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            text-align: center;
+            width: 100%;
+            font-size: 14px;
+            color: #746969;
+            min-width: 1000px;
+        }
+        @media (max-width: 1000px){
+            .body{
+                left: 80px;
+                margin-left: 0px;
+            }
+        }
+        @media (max-height: 520px){
+            .body{
+                top: 97px;
+                margin-top: 0px;
+            }
+            .foot{
+                top: 490px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <form class="form-signin" method="post" id='loginform'>
-        <h2 class="form-signin-heading">智能展示系统登陆</h2>
-        <div class="alert alert-warning" id='warning-block'>
+    <!--login-->
+    <div class="head">
+        <!-- <img src="__ROOT__/Public/Qingmu/BI-LOGO3.png"> -->
+        <label>青木科技数据分析小组平台</label>
+    </div>
+        <div class="alert alert-success" id='warning-block' style="text-align:center">
    			<a href="#" class="close" data-dismiss="alert">
       	&times;
    			</a>
    			<p>密码忘记（忘记密保或者未设置密保）请联系管理员QQ：569929309</p>
 		</div>
-        <input type="text" name="username" class="input-block-level" placeholder="账号" required="required">
-        <input type="password" name="password" class="input-block-level" placeholder="密码" required="required">
-        <input type="text" name="verify" class="input-medium" required="required" placeholder="验证码">
-		<img src="__CONTROLLER__/verify" alt="看不清请点击刷新" style="cursor : pointer;" onClick="show(this)" />
-        <p>
-        	<button class="btn btn-large btn-primary" type="submit">登录</button>
-        	<span class="btn btn-large btn-success"><a href="{:U('Admin/Public/register')}">注册</a></span>
+    <div class="body">
+        <img src="__ROOT__/Public/Qingmu/login-img.png" style="border:2px solid pink;
+border-radius:100px;">
+        <div class="login">
+            <div>
+                <div>登录页面</div>
+            </div>
+            <form class="form-signin" method="post" id='loginform'>
+            <div class="input">
+                <img src="__ROOT__/Public/Qingmu/login-user.png"  style="width:35px;height:30px;">
+                <input name="username" required="required"  placeholder="用户名" type="text">
+            </div>
+            <div class="input">
+                <img src="__ROOT__/Public/Qingmu/login-verification.png" style="width:34px;height:30px;">
+                <input name="password" required="required" placeholder="密码" type="password">
+            </div>
+            <div class="input">
+                <img src="__ROOT__/Public/Qingmu/login-password.png" style="width:34px;height:33px;vertical-align:top;">
+                <input id="hashcode" required="required" name='verify' style="width:104px;vertical-align:top;" placeholder="验证码" type="text">
+                <img src="__CONTROLLER__/verify" alt="验证码" id="code" onclick="code_onclick(this)" style="cursor : pointer;width:110px;height:30px;vertical-align:top;border-radius:4px;">
+            </div>
+            <div class="input" style="text-align:center;">
+                <button class="btn btn-large btn-primary" type="submit">登录</button>
+                 <span class="btn btn-large btn-success"><a href="{:U('Admin/Public/register')}">注册</a></span>
               <span class="btn btn-default"><a href="{:U('Admin/Public/forgetpasswd')}">忘记密码</a></span>
-        </p>
-    </form>
-</div>
-	<script>
-	$("#loginform").submit(function(){
-		  //alert($('#loginform').serialize());
-		  $.getJSON("__CONTROLLER__/checkLogin",$('#loginform').serialize(),function(result){
-			  if(result=='登陆成功'){
-				 document.location="{:U('Admin/Index/index')}";
-		    	return;
-		    }
-			$('#warning-block p').html('<strong>警告！</strong>'+result);
-		    $("#warning-block").show();
-		  }).error(function(result){alert(result);});
-		  
-		  return false;
-		});
-	function show(obj){
-	obj.src="__CONTROLLER__/verify/random/"+Math.random();}
+            </div>
+           </form>
+        </div>
+    </div>
+    
+    <script>
+/* 		$(function(){
+			//code_onclick();
+			$('input').keydown(function(e){
+	            if(e.keyCode ==13){
+	            	login();
+	            };
+	        });
+		}); */
+		$("#loginform").submit(function(){
+			  //alert($('#loginform').serialize());
+			  $.getJSON("__CONTROLLER__/checkLogin",$('#loginform').serialize(),function(result){
+				  alert(result);
+				  if(result=='登陆成功'){
+					 document.location="{:U('Admin/Index/index')}";
+			    	return;
+			    }
+				$('#warning-block p').html('<strong>警告！</strong>'+result);
+			    $("#warning-block").show();
+			  }).error(function(result){alert(result);});
+			  
+			  return false;
+			});
+		
+		function code_onclick(obj){
+			obj.src="__CONTROLLER__/verify/random/"+Math.random();
+		};
 	</script>
-</body>
-</html>
+    <div class="foot" style="margin-bottom:30px">
+        COPYRIGHT © 2015 – 2016 qingmutec Co., Ltd. ALL RIGHTS RESERVED.<br>
+        青木数字技术有限公司
+    </div>
+
+<div style="top: 180px; left: 880px;" id="RobPub1SysMsg"><p class="msg"></p><p class="closer"></p></div></body></html>

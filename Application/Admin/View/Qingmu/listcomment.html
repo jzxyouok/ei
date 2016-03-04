@@ -24,6 +24,7 @@
 				      <option value={$vo.shop_name }>{$vo.shop_name}</option> 
 				  		</volist>
 		</select>
+		<input type='text' id='url' placeholder="查询商品url"  style="width:300px"  />
 	<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a>
 	</span> 
 </div>
@@ -40,7 +41,13 @@ $('#dg').datagrid({
     columns:[[
         {field:'ck',checkbox:true}, 
         {field:'id',title:'ID',hidden:true},   
-        {field:'content',title:'评论内容'},    
+        {field:'content',title:'评论内容',
+            //	
+            formatter: function(value,row,index){
+            	var content="<div style='white-space:normal; width:400px;'>"+value+"</div>";
+            	return content;
+            }	
+        },    
         {field:'shop_name',title:'店铺名字',width:100,sortable:true},
         {field:'item_url',title:'商品url',width:300,sortable:true,
         //	
@@ -57,8 +64,10 @@ $('#dg').datagrid({
 
 function getabout(){
 	var shop_name=$('#shop_name').val();
+	var url=$('#url').val().trim();
 	$('#dg').datagrid('load', {    
-		shop_name: shop_name 
+		shop_name: shop_name,
+		url:url
 	});
 }
 

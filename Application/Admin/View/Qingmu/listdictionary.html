@@ -23,8 +23,12 @@
 				      <volist name="type" id="vo">
 				      <option value={$vo.type}>{$vo.type}</option> 
 				  		</volist>
-		</select>
-	<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a>
+					</select>
+					 <select id='nullscore' class="form-control" name='nullscore' style='width:100px;margin: 0 20px'> 
+					 <option value=0>未打分</option> 
+					 <option value=1>已打分</option> 
+					 </select>
+	<a href="#" class="easyui-linkbutton" onclick="getabout()">查询</a>
 	</span> 
 </div>
 
@@ -35,6 +39,7 @@ $('#dg').datagrid({
     toolbar: '#toolbar',
     rownumbers:true,
     pagination:true,
+    singleSelect:true,
 	pageList:[5,10,30],
 	fit:true, 	
     columns:[[
@@ -45,20 +50,39 @@ $('#dg').datagrid({
         {field:'score',title:'分数',width:300,sortable:true,
         //	
         formatter: function(value,row,index){
-        	return value
+        	var content="<span style='margin-right:10px'>"+value+"</span>";
+        	for(var i=1;i<=5;i++){
+        		content+="<button style='cursor:pointer;margin-right:10px' onclick='updatescore("+row.id+","+i+")'>"+i+"</button>"
+        	}
+        	return content;
         }
         //
-        }
+        },   
+        {field:'people',width:200,title:'打分人'},   
+        {field:'createtime',width:200,title:'打分时间'}
     ]]    
 });
 
-
-		
+function updatescore(id,score){
+	if(confirm('确定打为'+score+"分")){
+		//alert(score);
+		var uri='__CONTROLLER__/updatescore'
+		$.post(uri,{'id':id,'score':score},function(result){
+			$.messager.show({	// show error message
+				title: '消息',
+				msg: result
+			});
+			$('#dg').datagrid('reload');	// reload the user da
+	});
+	}
+}
 
 function getabout(){
 	var type=$('#type').val();
+	var nullscore=$('#nullscore').val();
 	$('#dg').datagrid('load', {    
-		type: type
+		type: type,
+		nullscore:nullscore
 	});
 }
 

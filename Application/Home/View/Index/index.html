@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>Landing Page | Amaze UI Example</title>
+  <title>中小企业智能管理系统</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
@@ -98,7 +98,7 @@
 <header class="am-topbar am-topbar-fixed-top">
   <div class="am-container">
     <h1 class="am-topbar-brand">
-      <a href="#">Amaze UI</a>
+      <a href="#">Ei智能系统</a>
     </h1>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
@@ -107,8 +107,8 @@
 
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
       <ul class="am-nav am-nav-pills am-topbar-nav">
-        <li class="am-active"><a href="#">首页</a></li>
-        <li><a href="#">项目</a></li>
+        <li class="am-active"><a href="__ROOT__">首页</a></li>
+        <li><a href="__ROOT__/admin">后台</a></li>
         <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
             下拉菜单 <span class="am-icon-caret-down"></span>
@@ -124,12 +124,20 @@
       </ul>
 
       <div class="am-topbar-right">
-        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span> 注册</button>
+        <button onclick='register()' class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span>注册</button>
       </div>
 
       <div class="am-topbar-right">
-        <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录</button>
+        <button onclick='login()' class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录</button>
       </div>
+      <script>
+      function login(){
+    	  window.open("{:U('Admin/Public/login')}");
+      }
+      function register(){
+    	  window.open("{:U('Admin/Public/register')}");
+      }
+      </script>
     </div>
   </div>
 </header>
@@ -137,7 +145,7 @@
 <div class="get">
   <div class="am-g">
     <div class="am-u-lg-12">
-      <h1 class="get-title">Amaze UI - HTML5 跨屏前端框架</h1>
+      <h1 class="get-title">黄页 - 中小企业  智能展示平台</h1>
 
       <p>
         期待你的参与，共同打造一个简单易用的前端框架

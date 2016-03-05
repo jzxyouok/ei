@@ -24,6 +24,16 @@ function render(){
 	}else{
 	alert("请勾选按钮，显示雷达")}
 }
+
+function getrender2(){
+	var url1=$('#url1').val();
+	var url2=$('#url2').val();
+	if(url1=='' || url2==''){
+		alert('请填写两条商品');
+		return;
+	}
+	window.open('__CONTROLLER__/render2?row1='+url1+'&row2='+url2);
+}
 </script>
   	<table id="dg" title="雷达图"  style="">
 	</table>
@@ -42,7 +52,10 @@ function render(){
 <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="render()">勾选查询雷达</a>
 <input type='text' style="width:300px" id='url' placeholder="查询商品url" />
 <a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a> 
-
+<span>右边点击看两件商品的雷达对比</span>
+<input type='text' style="width:300px" id='url1' placeholder="商品url" />
+<input type='text' style="width:300px" id='url2' placeholder="商品url" />
+<a href="#" class="easyui-linkbutton"  onclick="getrender2()">查询对比雷达图</a> 
 </div>
 <!-- <div>
 <div class='container'  style="margin-top: 20px">

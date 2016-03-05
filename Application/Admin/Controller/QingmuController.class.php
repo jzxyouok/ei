@@ -124,6 +124,24 @@ class QingmuController extends CommomController {
 	}
 	}
 	
+		function render2(){
+	$id1=I('row1','');
+	$id2=I('row2','');
+	if($id1=='' or $id2==''){
+		$this->error("找不到雷达图");
+	}else{
+	$data1=M('qingmu.result','c_')->where(array('item_url'=>$id1))->find();
+	$data2=M('qingmu.result','c_')->where(array('item_url'=>$id2))->find();
+	if($data1==false or $data1==false){
+	$this->error("找不到雷达图");
+	}
+	$this->assign('data1',$data1);
+	$this->assign('data2',$data2);
+	//$this->assign('datas',$datas);
+	$this->display();
+	}
+	}
+	
 	function listsb(){
 	$url=I('url','');
 			if($url!=''){

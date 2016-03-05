@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>情感分析雷达</title>
+    <title>对比VS情感分析雷达</title>
     	<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
 	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
@@ -11,8 +11,23 @@
 <body>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
     <div id="main" style="height:400px"></div>
+            <div class='container'>
+    <p>戳右边这个查看这是什么商品：<a href='{$data1.item_url}' target="_blank">{$data1.item_url}</a></p>
+     <p>戳右边这个查看这是什么商品：<a href='{$data2.item_url}' target="_blank">{$data2.item_url}</a></p>
+     </div>	
     <hr />
       <div id="main1" style="height:400px"></div>
+      <div class='container'>
+		<div style="margin:20px;text-align:center">
+		      <select id='urlsb' class="form-control" name='status' > 
+				      <option value={$data1.item_url}>{$data1.item_url}</option> 
+				      <option value={$data2.item_url}>{$data2.item_url}</option> 
+		</select>
+		<div class="form-control" >
+		<a href="#"  onclick="geturlsb()">查询字典匹配程度</a>
+		</div>
+		</div>
+      </div>
       <div>
       <table id="dg" title="查看字典"  style="margin:20px; height:500px">
 	</table>
@@ -43,10 +58,8 @@
                 var 
                 option = {
                 	    title : {
-                	    	
-                	        text: '商品'+'{$data.item_url}',
-                	        subtext: '评分时间：{$data.updatetime}',
-                	        	 link: '{$data.item_url}'
+                	        text: '商品情感分析对比(分数)',
+                	        subtext: '对比后不信请点击下方URL看字典匹配程度',
                 	    },
                 	    tooltip : {
                 	        trigger: 'axis'
@@ -55,7 +68,7 @@
                 	        orient : 'vertical',
                 	        x : 'right',
                 	        y : 'bottom',
-                	        data:['{$data.item_url}评论情感打分','实际开销（Actual Spending）']
+                	        data:['{$data1.item_url}评论情感打分','{$data2.item_url}评论情感打分']
                 	    },
                 	    toolbox: {
                 	        show : true,
@@ -86,8 +99,12 @@
                 	            type: 'radar',
                 	            data : [
                 	                {
-                	                    value : [{$data.d1},{$data.d2},{$data.d3},{$data.d4},{$data.d5},{$data.d6},{$data.d7}],
-                	                    name : '{$data.item_url}评论情感打分'
+                	                    value : [{$data1.d1},{$data1.d2},{$data1.d3},{$data1.d4},{$data1.d5},{$data1.d6},{$data1.d7}],
+                	                    name : '{$data1.item_url}评论情感打分'
+                	                },
+                	                {
+                	                    value : [{$data2.d1},{$data2.d2},{$data2.d3},{$data2.d4},{$data2.d5},{$data2.d6},{$data2.d7}],
+                	                    name : '{$data2.item_url}评论情感打分'
                 	                }
                 	            ]
                 	        }
@@ -95,67 +112,59 @@
                 	};
                 	                    
         	var option1 = {
-        		    title: {
-        		        x: 'center',
-        		        text: '情感得分匹配次数',
-        		        subtext: '数据分析小组',
+        	  	    title : {
+            	        text: '商品情感分析对比(匹配次数)',
+            	        subtext: '对比后不信请点击下方URL看字典匹配程度',
+            	    },
+        		    tooltip : {
+        		        trigger: 'axis',
+        		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+        		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        		        }
         		    },
-        		    tooltip: {
-        		        trigger: 'item'
+        		    legend: {
+        		        data:['{$data1.item_url}','{$data2.item_url}']
         		    },
         		    toolbox: {
-        		        show: true,
-        		        feature: {
-        		            dataView: {show: true, readOnly: false},
-        		            restore: {show: true},
-        		            saveAsImage: {show: true}
-        		        }
-        		    },
-        		    calculable: true,
+            	        show : true,
+            	        feature : {
+            	            mark : {show: true},
+            	            dataView : {show: true, readOnly: false},
+            	            restore : {show: true},
+            	            saveAsImage : {show: true}
+            	        }
+            	    },
         		    grid: {
-        		        borderWidth: 0,
-        		        y: 80,
-        		        y2: 60
+        		        left: '3%',
+        		        right: '4%',
+        		        bottom: '3%',
+        		        containLabel: true
         		    },
-        		    xAxis: [
+        		    xAxis : [
         		        {
-        		            type: 'category',
-        		            show: false,
-        		            data: ['质量', '舒适度', '物流', '款式', '价格', '服务', '整体感受']
+        		            type : 'category',
+        		            data : ['质量', '舒适度', '物流', '款式', '价格', '服务', '整体感受']
         		        }
         		    ],
-        		    yAxis: [
+        		    yAxis : [
         		        {
-        		            type: 'value',
-        		            show: false
+        		            type : 'value'
         		        }
         		    ],
-        		    series: [
+        		    series : [
         		        {
-        		            name: '情感得分匹配次数',
-        		            type: 'bar',
-        		            itemStyle: {
-        		                normal: {
-        		                    color: function(params) {
-        		                        // build a color map as your need.
-        		                        var colorList = [
-        		                          '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
-        		                           '#FE8463','#9BCA63'
-        		                        ];
-        		                        return colorList[params.dataIndex]
-        		                    },
-        		                    label: {
-        		                        show: true,
-        		                        position: 'top',
-        		                        formatter: '{b}\n{c}'
-        		                    }
-        		                }
-        		            },
-        		            data: [{$data.t1},{$data.t2},{$data.t3},{$data.t4},{$data.t5},{$data.t6},{$data.t7}],
-        	
+        		            name:'{$data1.item_url}',
+        		            type:'bar',
+        		            data:[{$data1.t1},{$data1.t2},{$data1.t3},{$data1.t4},{$data1.t5},{$data1.t6},{$data1.t7}]
+        		        },
+        		        {
+        		            name:'{$data2.item_url}',
+        		            type:'bar',
+        		            data:[{$data2.t1},{$data2.t2},{$data2.t3},{$data2.t4},{$data2.t5},{$data2.t6},{$data2.t7}]
         		        }
         		    ]
         		};
+
         		                    
                 // 为echarts对象加载数据 
                 myChart.setOption(option); 
@@ -164,17 +173,19 @@
         );
     </script>
           <script type="text/javascript">
-$('#dg').datagrid({    
-    url:'__CONTROLLER__/listsb',
-    queryParams:{url:'{$data.item_url}'},
-    collapsible:true,
-    toolbar: '#toolbar',
-    rownumbers:true,
-    pagination:true,
-    singleSelect:true,
-	pageList:[5,10,30],
-	//fit:true, 	
-    columns:[[
+          function geturlsb(){
+        	  var urlsb=$('#urlsb').val();
+        	  $('#dg').datagrid({    
+        		    url:'__CONTROLLER__/listsb',
+        		    queryParams:{url:urlsb},
+        		    collapsible:true,
+        		    toolbar: '#toolbar',
+        		    rownumbers:true,
+        		    pagination:true,
+        		    singleSelect:true,
+        			pageList:[5,10,30],
+        			//fit:true, 	
+        		    columns:[[
 {field:'ck',checkbox:true}, 
 {field:'id',title:'ID',hidden:true},   
               {field:'comment_id',title:'评论',
@@ -191,7 +202,9 @@ $('#dg').datagrid({
               {field:'p7',title:'整体感受',width:115},
               {field:'createtime',title:'打分时间',width:145},
  
-    ]]    
-});
+    ]]     
+        		});
+          }
+
       </script>
 </body>

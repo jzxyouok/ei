@@ -15,7 +15,7 @@ return array (
 		'URL_MODEL' => '2',
 		
 		'USER_AUTH_KEY' => 'userid', // 用户会话标识
-		'NEEDLOGIN' => 2, // 1表示登陆开启，其他表示关闭
+		'NEEDLOGIN' => 1, // 1表示登陆开启，其他表示关闭
 		'ADMIN_AUTH_KEY' => array (
 				'hunterhug' 
 		), // 超级管理员

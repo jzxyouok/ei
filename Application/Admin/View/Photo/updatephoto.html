@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>轮转图片</title>
+  <title>修改图片</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -17,43 +17,43 @@
 <div  style='margin-top: 20px'>
   <div class='am-g  am-container'>
   		<div class='am-u-md-6'>
-  		<form class="am-form" id='form' action='__CONTROLLER__/addphoto'>
+  		<form class="am-form" id='form' action='__CONTROLLER__/updatephotos'>
  		 <fieldset>
-    	<legend>图片信息</legend>
-
+    	<legend>修改图片信息</legend>
+		<input name='id'  hidden="hidden" type='hidden' value='{$data.id}'>
     	<div class="am-form-group">
      	 <label for="title">标题</label>
-      	<input type="text" id="title" name="title" placeholder="输入图片标题" maxlength="30">
+      	<input type="text" id="title" value="{$data.title}" name="title" placeholder="输入图片标题" maxlength="30">
       	<div id='titleTip'></div>
     	</div>
     	
     	<div class="am-form-group">
      	 <label for="desc">描述</label>
-      	<textarea id="desc" name="desc" rows="7" placeholder="图片描述" maxlength="200"></textarea>
+      	<textarea id="desc" name="desc" rows="7" placeholder="图片描述" maxlength="200">{$data.desc}</textarea>
     	<div id='descTip'></div>
     	</div>
     	
     	 <div class="am-form-group">
      	 <label for="url">跳转Url</label>
-      	<input type="url" id="url" name="url" placeholder="跳转Url">
+      	<input type="url" id="url" name="url" value="{$data.url}" placeholder="跳转Url">
       	<div id='urlTip'></div>
     	</div>
     	 <div class="am-form-group">
      	 <label for="sort">排序</label>
-			<input type="number"  name="sort" value='0' min="0"/>
+			<input type="number"  name="sort" value='{$data.sort}' min="0"/>
     	</div>
     	<div id='uploadlogo'></div>
     	 <div class="am-form-group">
 	     	</div>
 	     	    	 <div>
-	         <button  type="submit" class="am-btn am-btn-success am-radius am-btn-xl">增加</button>
+	         <button  type="submit" class="am-btn am-btn-success am-radius am-btn-xl">修改</button>
 	     </div>
     	</fieldset>
     	</form>
   		</div>
   		<div class='am-u-md-6'>
   			<div  align="center">
-      			<img  src="__ROOT__/Public/image/logo.jpg" id='logoimg' class="am-img-responsive" alt="图片" style="border:1px red solid;height: 260px; width: 260px;" />
+      			<img  src="__ROOT__/Uploads/{$data.storeplace}" id='logoimg' class="am-img-responsive" alt="图片" style="border:1px red solid;height: 260px; width: 260px;" />
       			<p>请上传格式为.png .jpg .jpeg的图片。</p>
 		   		<p>上传完毕后需要点击左边曾加按钮才能生效。</p>
 		   		<div id='uploadphotoconfirm' style='color:red'></div>
@@ -63,100 +63,7 @@
   </div>
   </div>
   <hr />
-  <!-- content start -->
-  <div class="admin-content">
-    <div class="am-cf am-padding">
-      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">轮转图（最多六张）</strong> / <small>Gallery</small></div>
-    </div>
-
-    <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list">
-      <volist name='img' id='vo'>
-      <li>
-        <a href="__ROOT__/Uploads/{$vo.storeplace}" target="_blank">
-          <img class="am-img-thumbnail am-img-bdrs" src="__ROOT__/Uploads/{$vo.storeplace}" alt=""/>
-        </a>
-          <div class="gallery-title">标题:{$vo.title}</div>
-          <div class="gallery-desc">时间：{$vo.createtime}</div>
-          <div>
-      		<button class="am-btn-primary" onclick="updatephoto({$vo.id})">
-      		修改图片
-      		 </button>
-      		 <button class="am-btn-primary" onclick="deletephoto({$vo.id})">
-             		删除图片
-      		 </button>
-      		     <if condition="$vo.status eq 0 ">
-      		      <button class="am-btn-warning" onclick="openphoto({$vo.id})">
-      		开启图片
-      		 </button>
-        <else /> 
-             <button class="am-btn-warning" onclick="closephoto({$vo.id})">
-      		关闭图片
-      		 </button>
-    </if>
-      		 
-
-          </div>
-          <script>
-          function updatephoto(id){
-        	  window.open('__CONTROLLER__/updatephoto?id='+id);
-          }
-          
-          function deletephoto(id){
-        	  if(confirm('删除这张图片？')){
-        		  $.post('__CONTROLLER__/deletephoto',{id:id},function(data){
-          			  alert(data);
-        			  if(data='成功'){
-        					window.location.href="{:U('Admin/Photo/index')}";
-        			  }
-        		  });
-        	  }
-        	  return;
-          }
-          
-              function openphoto(id){
-            	  if(confirm('开启这张图片？')){
-            		  $.post('__CONTROLLER__/openphoto',{id:id},function(data){
-            			  alert(data);
-            			  if(data='成功'){
-            					window.location.href="{:U('Admin/Photo/index')}";
-            			  }
-            		  });
-            	  }
-            	  return;
-              }
-              
-              function closephoto(id){
-            	  if(confirm('关闭这张图片？')){
-            		  $.post('__CONTROLLER__/closephoto',{id:id},function(data){
-            			  alert(data);
-            			  if(data='成功'){
-            					window.location.href="{:U('Admin/Photo/index')}";
-            			  }
-            		  });
-            	  }
-            	  return;
-              }
-          </script>
-      </li>
-	</volist>
-    </ul>
-
-<!--     <div class="am-margin am-cf">
-      <hr/>
-      <p class="am-fl">共 15 条记录</p>
-      <ol class="am-pagination am-fr">
-        <li class="am-disabled"><a href="#">&laquo;</a></li>
-        <li class="am-active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
-      </ol>
-    </div> -->
-
-  </div>
-  <!-- content end -->
+  
   <!--[if lt IE 9]>
 <script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
@@ -178,10 +85,10 @@
 				var registerForm=$("#form");
 				$.post(registerForm.attr("action"),registerForm.serialize(),function(data){
 					alert(data);
-					if(data=='修改成功'){
+			/* 		if(data=='修改成功'){
 						$("#uploadlogo").html('');
 						window.location.href="{:U('Admin/Photo/index')}";
-					}
+					} */
 					return false;
 				});
 			}

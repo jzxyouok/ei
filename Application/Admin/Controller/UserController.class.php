@@ -112,7 +112,7 @@ class UserController extends CommomController {
 			$data['id'] = $userid;
 			$data['nickname'] = $nickname;
 			$data['status']=I('status','1');	
-			$data['updatetime']=date("Y-m-d H:i:s",strtotime('now'));;
+			$data['updatetime']=date("Y-m-d H:i:s",strtotime('now'));
 			$email=I('email','',FILTER_VALIDATE_EMAIL);
 			if($email==''){
 				$this->ajaxReturn('邮箱格式错误');

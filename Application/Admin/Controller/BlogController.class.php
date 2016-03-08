@@ -11,10 +11,6 @@ class BlogController extends CommomController {
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
     	$rows =M('Category')->limit($pageStart.','.$pageSize)->select();
-    	foreach($rows as &$row){
-    		$row['createtime']=date('Y-m-d:H-i-s', $row['createtime']);
-    		$row['updatetime']=date('Y-m-d:H-i-s', $row['updatetime']);
-    	}
     	$data['total']=$total;
     	$data['rows']=$rows;
     	$this->ajaxReturn($data);
@@ -167,7 +163,8 @@ class BlogController extends CommomController {
     }
     
     public function addpaper(){
-    	$data=M('Category')->select();
+    	$username=$_SESSION['username'];
+    	$data=M('category')->where(array('username'=>$username))->select();
     	$this->assign('cate',$data);
     	$this->display();
     }

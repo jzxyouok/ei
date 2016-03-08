@@ -73,10 +73,12 @@
       <volist name='img' id='vo'>
       <li>
         <a href="__ROOT__/Uploads/{$vo.storeplace}" target="_blank">
-          <img class="am-img-thumbnail am-img-bdrs" src="__ROOT__/Uploads/{$vo.storeplace}" alt=""/>
+          <img class="am-img-thumbnail am-img-bdrs am-img-responsive" style="height: 250px; width: 250px;" src="__ROOT__/Uploads/{$vo.storeplace}" alt=""/>
         </a>
-          <div class="gallery-title">标题:{$vo.title}</div>
+          <div class="gallery-title" style="word-wrap: break-word;word-break:break-all;min-height:50px"><a href="{$vo.url}" target="_blank">标题:{$vo.title}</a></div>
           <div class="gallery-desc">时间：{$vo.createtime}</div>
+          <div class="gallery-desc">排序：{$vo.sort}</div>
+
           <div>
       		<button class="am-btn-primary" onclick="updatephoto({$vo.id})">
       		修改图片

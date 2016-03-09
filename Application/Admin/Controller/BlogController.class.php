@@ -6,11 +6,17 @@ class BlogController extends CommomController {
     	$this->display();
     }
     public function listcates(){
-    	$total=M('Category')->count();
+    	$username=$_SESSION['username'];
+    	$status=I('status','');
+    	if($status!=''){
+    		$jinhan['status']=$status;
+    	}
+    	$jinhan['username']=$username;
+    	$total=M('category')->where($jinhan)->field('content',true)->count();
     	$pageSize =I('rows','');
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
-    	$rows =M('Category')->limit($pageStart.','.$pageSize)->select();
+    	$rows =M('category')->where($jinhan)->order('`order` desc')->field('content',true)->limit($pageStart.','.$pageSize)->select();
     	$data['total']=$total;
     	$data['rows']=$rows;
     	$this->ajaxReturn($data);
@@ -86,76 +92,80 @@ class BlogController extends CommomController {
     	$this->display();
     }
     public function addcates(){
+    	$username=$_SESSION['username'];
     	$title=I('title','');
     	if($title==''){
-    		$this->error('标题不能为空');
+    		$this->ajaxReturn('标题不能为空');
     	}
     	$content=I('content','','');
-    	$order=I('order','1');
-    	$status=I('status','1');
+    	$order=I('order',0);
+    	$status=I('status',0);
     	$data['title']=$title;
     	$data['content']=$content;
     	$data['order']=$order;
     	$data['status']=$status;
-    	$data['createtime']=time();
-    	$data['updatetime']=time();
-    	if(M('Category')->add($data)){
-    		$this->success("增加成功");
+    	$data['username']=$username;
+    	$data['createtime']=date("Y-m-d H:i:s",strtotime('now'));
+    	if(M('category')->add($data)){
+    		$this->ajaxReturn("增加成功");
     	}else{
-    		$this->error("增加失败");
+    		$this->ajaxReturn("增加失败");
     	}	
     }
     
     public function updatecate(){
+    	$username=$_SESSION['username'];
     	$id=I('id','');
     	if($id==''){
-    		$this->error("找不到该目录");
+    		$this->ajaxReturn("找不到该目录");
     	}
-    	$data=M('Category')->where(array(id=>$id))->find();
+    	$data=M('category')->where(array('id'=>$id,'username'=>$username))->find();
     	if($data){
-    		$data['createtime']=date('Y-m-d:H:i:s',$data['createtime']);
-    		$data['updatetime']=date('Y-m-d:H:i:s',$data['updatetime']);
-    		$this->assign($data);
+    		$this->assign('data',$data);
     		$this->display();
     	}else{
-    		$this->error("找不到该目录");
+    		$this->ajaxReturn("找不到该目录");
     	}
     }
     public function updatecates(){
+    	$username=$_SESSION['username'];
     	$id=I('id','');
     	if($id==''){
-    		$this->error("找不到该目录");
+    		$this->ajaxReturn("找不到该目录");
     	}
     	$title=I('title','');
     	if($title==''){
-    		$this->error('标题不能为空');
+    		$this->ajaxReturn('标题不能为空');
     	}
-    	$content=I('content','','');
-    	$order=I('order','1');
-    	$status=I('status','1');
+    	$content=I('content','');
+    	$order=I('order',0);
+    	$status=I('status',0);
     	$data['title']=$title;
     	$data['content']=$content;
     	$data['order']=$order;
     	$data['status']=$status;
-    	$data['updatetime']=time();
-    	if(false===M('Category')->where(array(id=>$id))->save($data)){
-    		$this->error("修改失败");
+    	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
+    	if(false===M('category')->where(array('id'=>$id,'username'=>$username))->save($data)){
+    		$this->ajaxReturn("修改失败");
     	}else{
-    		$this->success("修改成功",	U('Blog/updatecate?id='.$id));
+    		$this->ajaxReturn('修改成功');
     	}
     }
     
     public function deletecate(){
+    	$username=$_SESSION['username'];
     	$id=I('id','');
     	if($id==''){
     		$this->ajaxReturn("不存在该目录");
     	}
-    	if(!M('Category')->where(array('id'=>$id))->find()){
+    	if(!M('category')->where(array('id'=>$id,'username'=>$username))->find()){
     		$this->ajaxReturn("找不到该目录");
-    	}else if(M('Paper')->where(array('cid'=>$id))->select()){
+    	}else if(M('paper')->where(array('cid'=>$id))->select()){
     			$this->ajaxReturn("目录下有文章");
+    		}else{
+    			
     		}
-    	if(M('Category')->where(array('id'=>$id))->delete()){
+    	if(M('category')->where(array('id'=>$id,'username'=>$username))->delete()){
     			$this->ajaxReturn("删除成功");
     		}else{
     			$this->ajaxReturn("删除失败");
@@ -271,6 +281,26 @@ class BlogController extends CommomController {
   		$this->ajaxReturn("删除成功");
   	}else{
   		$this->ajaxReturn("删除失败");
+  	}
+  }
+  
+  /**/
+  function updatestatus(){
+  	$username=$_SESSION['username'];
+  	$id=I('id','');
+  	$status=I('status','');
+  	if($id==''){
+  		$this->ajaxReturn('没有这个东西');
+  	}
+  	if($status!=1 and $status!=0){
+  		$this->ajaxReturn('状态问题');
+  	}
+  	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
+  	$data['status']=$status;
+  	if(M('category')->where(array('id'=>$id,'username'=>$username))->save($data)){
+  		$this->ajaxReturn('修改成功');
+  	}else{
+  		$this->ajaxReturn('修改失败');
   	}
   }
 }

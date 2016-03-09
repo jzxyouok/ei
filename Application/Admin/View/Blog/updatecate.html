@@ -1,47 +1,100 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html >
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>ueditor demo</title>
+<meta charset="UTF-8">
+<title>修改分类</title>
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
 </head>
 <body>
-<form action='__CONTROLLER__/updatecates' method='post'>
-创建于：{$createtime}<br/>
-更新于：{$updatetime}<br />
-<input type='hidden' name='id' value='{$id}' />
-目录名：<input type="text"  name="title" value='{$title}' /><br />
-目录描述:<br />
-<!-- 加载编辑器的容器 -->
-<textarea id="editor" name="content" >{$content}</textarea><br />
-排序：<input type="text"  name="order" value='{$order}' /><br />
-<if condition="($status eq 1)">
-使用：<input type="radio" checked="checked" name="status" value="1" /><br />
-<else />使用：<input type="radio" name="status" value="1" /><br />
-</if>
-<if condition="($status eq 0)">
-禁用：<input type="radio" checked="checked" name="status" value="0" /><br />
-<else />禁用：<input type="radio" name="status" value="0" /><br />
-</if>
-<input type="submit" value="更新" />
-</form>
-       <!-- 配置文件 -->
-    <script type="text/javascript" src="__ROOT__/Public/ueditor/ueditor.config.js"></script>
-    <!-- 编辑器源码文件 -->
-    <script type="text/javascript" src="__ROOT__/Public/ueditor/ueditor.all.js"></script>
-    <!-- 实例化编辑器 -->
-    <script type="text/javascript">
-   /*  var ue = UE.getEditor('editor', {
-        toolbars: [
-            ['fullscreen', 'source', 'undo', 'redo', 'bold']
-        ],
-        autoHeightEnabled: true,
-        autoFloatEnabled: true
-    }); */
-    var ue = UE.getEditor('editor',{
-    	initialFrameHeight:150,
-    });
+	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+	<div class='col-md-9 col-md-offset-1' >
+	<form id="user_form" action="{:U('Admin/Blog/updatecates')}" role="form">
+		<div class="form-group">
+			<div class="alert alert-warning" id='warning-block'>
+	   			<p>修改分类</p>
+			</div>
+			<input type='text' name='id' value="{$data.id}" hidden="hidden">
+			<div>
+				<label>目录标题</label>
+				<input type="text" class="form-control" name="title" id="title"
+					placeholder="请输入目录标题" required="required" value="{$data.title}">
+			</div>
+			<div id="titleTip"></div>
+		</div>
+		<div class="form-group">
+		<label>目录简介</label>
+		<textarea id="editor" name="content" placeholder="目录简介">{$data.content}</textarea>
+		</div>
+		<div class="form-group">
+			<label>目录排序</label>
+			<input type="number"  name="order" value='{$data.order}' min="0"  />
+		</div>
+	   	<div class="form-group">
+	   		<label>目录状态</label>
+	   		<if condition="$data.status eq 0">
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="0" checked>禁用目录
+			   </label>
+			</div>
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="1" >启用目录
+			   </label>
+			</div>
+			<else />
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="0">禁用目录
+			   </label>
+			</div>
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="1"  checked>启用目录
+			   </label>
+			</div>
+			</if>
+		</div>
+   	
+		
+	<div class="form-group">
+	    <div>
+         	<button type="submit" class="btn btn-default">修改分类</button>
+      	</div>
+   	</div>
+   
+	</form>
+	</div>
+	</div>
+	<script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+		    <!-- 配置文件 -->
+    <script src="__ROOT__/Public/ueditor/ueditor.config.js"></script>
+    <script src="__ROOT__/Public/ueditor/ueditor.all.min.js"></script>
+    <script>
+    $(function(){
+        var ue = UE.getEditor('editor');
+    })
     </script>
-    
- <p>返回<a href="__CONTROLLER__/listcate">目录列表</a></p>  
+	<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({formID:"user_form",submitOnce:true,
+			onSuccess:function(){
+				var registerForm=$("#user_form");
+				$.post(registerForm.attr("action"),registerForm.serialize(),function(data){
+					alert(data);
+					$('#warning-block p').html('<strong>警告！</strong>'+data);
+					return;
+				});
+			}
+		});
+
+		$("#title").formValidator({onShowText:"请输入目录标题"})
+		.inputValidator({min:1,max:100,onError:"标题最多100个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能为空"}})
+	});
+	
+</script>
 </body>
 </html>

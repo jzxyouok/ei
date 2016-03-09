@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  	<table id="dg" title="目录管理"  style="width:550px;height:250px">
+  	<table id="dg" title="文章分类"  style="width:550px;height:250px">
 	</table>
 	
 <div id="toolbar">
@@ -39,23 +39,18 @@ $('#dg').datagrid({
     columns:[[
         {field:'ck',checkbox:true}, 
         {field:'id',title:'单页ID',width:100,hidden:true},   
-        {field:'title',title:'标题',width:200},   
-        {field:'content',title:'内容',width:200},    
-        {field:'createtime',title:'创建时间',width:200,sortable:true},
-        {field:'updatetime',title:'更新时间',width:200,sortable:true},
-        {field:'order',title:'排序',width:200,sortable:true},
-        {field:'status',title:'状态',width:200,sortable:true,    
+        {field:'title',title:'标题',width:200},    
+        {field:'createtime',title:'创建时间',width:200},
+        {field:'updatetime',title:'更新时间',width:200},
+        {field:'order',title:'排序',width:100},
+        {field:'status',title:'状态',width:200,    
         	formatter: function(value,row,index){
 				//alert(value);
 				$para=row.id+',';
-				if(value=='已开启'){
+				if(value==1){
 					return "已开启|<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='updatestatus("+$para+"0)'>关闭</a>";
-				}else if(value=='已关闭'){
-					return "已关闭|<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='updatestatus("+$para+"1)'>开启</a>";
 				}else{
-					$s="回收站|<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='updatestatus("+$para+"0)'>恢复</a>";
-				    $s=$s+"<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='deleteabouts("+$para+"1)'>真正删除</a>";
-					return $s;
+					return "已关闭|<button style='color:red;font-size:1.1em;margin-left:10px;cursor:pointer' onclick='updatestatus("+$para+"1)'>开启</a>";
 				}
 				//alert(row);
 				//一整行数据
@@ -72,7 +67,7 @@ function destroyUser(){
 	if (rows.length!=0){
 		$.messager.confirm('Confirm','你确定要删除?',function(r){
 			if (r){
-				var uri="__CONTROLLER__/deleteabout";
+				var uri="__CONTROLLER__/deletecate";
 				for(var i=0;i<rows.length;i++){
 					var row=rows[i];
 					$.post(uri,{'id':row.id},function(result){
@@ -107,7 +102,7 @@ function deleteabouts(id,temp){
 function updateuser(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){
-			window.location.href="__CONTROLLER__/updateabout?id="+row.id; 
+			window.open("__CONTROLLER__/updatecate?id="+row.id); 
 		}else{
 			alert("请勾选按钮")}
 		}

@@ -61,7 +61,9 @@
     <script src="__ROOT__/Public/ueditor/ueditor.all.min.js"></script>
     <script>
     $(function(){
-        var ue = UE.getEditor('editor');
+        var ue = UE.getEditor('editor',{
+        	initialFrameHeight:400
+        });
     })
     </script>
 	<script type="text/javascript">

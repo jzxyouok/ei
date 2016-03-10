@@ -179,22 +179,33 @@ class BlogController extends CommomController {
     	$this->display();
     }
     public function addpapers(){
+    	$username=$_SESSION['username'];
     	$title=I('title','');
     	if($title==''){
-    		$this->error('标题不能为空');
+    		$this->ajaxReturn('标题不能为空');
     	}
     	$author=I('author','');
     	if($author==''){
-    		$this->error('作者不能为空');
+    		$this->ajaxReturn('作者不能为空');
     	}
     	$cid=I('cid','');
     	if($cid==''){
-    		$this->error('目录不能为空');
+    		$this->ajaxReturn('目录不能为空');
+    	}
+    	$photo=I('photo','');
+    	$data['photo']=$photo;
+    	$paths=explode('/', $photo);
+    	if (!is_dir('./Uploads/'.$paths[0]))
+    	{
+    		$uploadok=mkdir('./Uploads/'.$paths[0]);
+    	}
+    	if(false===copy('./Temp/'.$photo,'./Uploads/'.$photo)){
+    		$this->ajaxReturn('上传图片失败');
     	}
     	$content=I('content','','');
-    	$view=I('view','1');
-    	$order=I('order','1');
-    	$status=I('status','1');
+    	$view=I('view',0);
+    	$order=I('order',0);
+    	$status=I('status',0);
     	$data['title']=$title;
     	$data['cid']=$cid;
     	$data['author']=$author;
@@ -202,12 +213,11 @@ class BlogController extends CommomController {
     	$data['view']=$view;
     	$data['order']=$order;
     	$data['status']=$status;
-    	$data['createtime']=time();
-    	$data['updatetime']=time();
-    	if(M('Paper')->add($data)){
-    		$this->success("增加成功");
+    	$data['createtime']=date('Y-m-d H:i:s',strtotime('now'));
+    	if(M('paper')->add($data)){
+    		$this->ajaxReturn("增加成功");
     	}else{
-    		$this->error("增加失败");
+    		$this->ajaxReturn("增加失败");
     	}
     }
     

@@ -25,21 +25,35 @@ class BlogController extends CommomController {
     	$this->display();
     }
     public function listpapers(){
-    	$total=M('Paper')->count();
+    	$username=$_SESSION['username'];
+    	$status=I('status',1);
+    	$total=M('paper')->where(array('username'=>$username,'status'=>$status))->count();
     	$pageSize =I('rows','');
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
-    	$rows =M('Paper')->limit($pageStart.','.$pageSize)->select();
+    	$rows =M('paper')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
     	foreach($rows as &$row){
-    		$row['cid']=M('Category')->where(array(id=>$row['cid']))->getField('title');
-    		$row['createtime']=date('Y-m-d:H-i-s', $row['createtime']);
-    		$row['updatetime']=date('Y-m-d:H-i-s', $row['updatetime']);
+    		$row['cid']=M('category')->where(array('id'=>$row['cid']))->getField('title');
     	}
     	$data['total']=$total;
     	$data['rows']=$rows;
     	$this->ajaxReturn($data);
     }
-    
+    public function listpapersh(){
+    	$username=$_SESSION['username'];
+    	$status=2;
+    	$total=M('paper')->where(array('username'=>$username,'status'=>$status))->count();
+    	$pageSize =I('rows','');
+    	$page = I('page','');
+    	$pageStart = ($page - 1) * $pageSize;
+    	$rows =M('paper')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
+    	foreach($rows as &$row){
+    		$row['cid']=M('category')->where(array('id'=>$row['cid']))->getField('title');
+    	}
+    	$data['total']=$total;
+    	$data['rows']=$rows;
+    	$this->ajaxReturn($data);
+    }
     public function listcomment(){
     	$this->display();
     } 
@@ -183,7 +197,7 @@ class BlogController extends CommomController {
     	$title=I('title','');
     	if($title==''){
     		$this->ajaxReturn('标题不能为空');
-    	}
+    	}	
     	$author=I('author','');
     	if($author==''){
     		$this->ajaxReturn('作者不能为空');
@@ -203,6 +217,7 @@ class BlogController extends CommomController {
     		$this->ajaxReturn('上传图片失败');
     	}
     	$content=I('content','','');
+    	$desccontent=I('desccontent','');
     	$view=I('view',0);
     	$order=I('order',0);
     	$status=I('status',0);
@@ -210,10 +225,12 @@ class BlogController extends CommomController {
     	$data['cid']=$cid;
     	$data['author']=$author;
     	$data['content']=$content;
+    	$data['desccontent']=$desccontent;
     	$data['view']=$view;
     	$data['order']=$order;
     	$data['status']=$status;
     	$data['createtime']=date('Y-m-d H:i:s',strtotime('now'));
+    	$data['username']=$username;
     	if(M('paper')->add($data)){
     		$this->ajaxReturn("增加成功");
     	}else{
@@ -223,71 +240,91 @@ class BlogController extends CommomController {
     
     public function updatepaper(){
     	$id=I('id','');
+    	$username=$_SESSION['username'];
     	if($id==''){
-    		$this->error('找不到该文章') ;   	}
-    	$data=M('Paper')->where(array(id=>$id))->find();
+    		$this->ajaxReturn('找不到该文章') ;   	}
+    	$data=M('paper')->where(array('id'=>$id,'username'=>$username))->find();
     	if($data){
-    		$data['createtime']=date('Y-m-d:H:i:s',$data['createtime']);
-    		$data['updatetime']=date('Y-m-d:H:i:s',$data['updatetime']);
-    		$cate=M('Category')->field('id,title')->select();
+    		$cate=M('category')->where(array('username'=>$username))->field('id,title')->select();
     		$this->assign('cate',$cate);
     		$this->assign($data);
     		$this->display();
     	}else{
-    		$this->error('找不到该文章') ;
+    		$this->ajaxReturn('找不到该文章') ;
     	}
     }
     
     public function updatepapers(){
+    	$username=$_SESSION['username'];
     	$id=I('id','');
-    	if($id==''){
-    		$this->error('找不到该文章') ;   	
+    	$title=I('title','');
+    	if($title==''){
+    		$this->ajaxReturn('标题不能为空');
     	}
-    	if(M('Paper')->where(array(id=>$id))->find()){
-    		$title=I('title','');
-    		if($title==''){
-    		$this->error('标题不能为空');
-    		}
-    		$author=I('author','');
-    		if($author==''){
-    		$this->error('作者不能为空');
-    		}
-    		$cid=I('cid','');
-    		if($cid==''){
-    		$this->error('目录不能为空');
-    		}
-	    	$content=I('content','','');
-	    	$view=I('view','1');
-	    	$order=I('order','1');
-	    	$status=I('status','1');
-	    	$data['title']=$title;
-	    	$data['cid']=$cid;
-	    	$data['author']=$author;
-	    	$data['content']=$content;
-	    	$data['view']=$view;
-	    	$data['order']=$order;
-	    	$data['status']=$status;
-	    	$data['updatetime']=time();
-	    	if(M('Paper')->where(array(id=>$id))->save($data)){
-	    		$this->success("更新成功",U('Blog/updatepaper?id='.$id));
-	    	}else{
-	    		$this->error("更新失败");
-	    	}
-    }else{
-    	$this->error('找不到该文章') ;
-    }
+    	$author=I('author','');
+    	if($author==''){
+    		$this->ajaxReturn('作者不能为空');
+    	}
+    	$cid=I('cid','');
+    	if($cid==''){
+    		$this->ajaxReturn('目录不能为空');
+    	}
+    	$photo=I('photo','');
+    	if($photo!=''){
+    	$data['photo']=$photo;
+    	$paths=explode('/', $photo);
+    	if (!is_dir('./Uploads/'.$paths[0]))
+    	{
+    		$uploadok=mkdir('./Uploads/'.$paths[0]);
+    	}
+    	if(false===copy('./Temp/'.$photo,'./Uploads/'.$photo)){
+    		$this->ajaxReturn('上传图片失败');
+    	}
+    	}
+    	$content=I('content','','');
+    	$desccontent=I('desccontent','');
+    	$view=I('view',0);
+    	$order=I('order',0);
+    	$status=I('status',0);
+    	$data['title']=$title;
+    	$data['cid']=$cid;
+    	$data['author']=$author;
+    	$data['content']=$content;
+    	$data['desccontent']=$desccontent;
+    	$data['view']=$view;
+    	$data['order']=$order;
+    	$data['status']=$status;
+    	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
+    	if(M('paper')->where(array('id'=>$id,'username'=>$username))->save($data)){
+    		$this->ajaxReturn("修改成功");
+    	}else{
+    		$this->ajaxReturn("修改失败");
+    	}
   }
-  
-  public function deletepaper(){
+  public function deletepaperh(){
   	$id=I('id','');
   	if($id==''){
   		$this->ajaxReturn("不存在该文章");
   	}
-  	if(!M('Paper')->where(array('id'=>$id))->find()){
+  	$username=$_SESSION['username'];
+  	$data['status']=2;
+  	if(M('paper')->where(array('id'=>$id,'username'=>$username))->save($data)){
+  		$this->ajaxReturn('已送到回收站');
+  	}else{
+  		$this->ajaxReturn('删除失败');
+  	}
+  }
+  public function deletepaper(){
+  	$id=I('id','');
+  	$username=$_SESSION['username'];
+  	if($id==''){
+  		$this->ajaxReturn("不存在该文章");
+  	}
+  	if(!M('paper')->where(array('id'=>$id,'username'=>$username))->find()){
   		$this->ajaxReturn("找不到该文章");
   	}
   	
-  	if(M('Paper')->where(array('id'=>$id))->delete()){
+  	if(M('paper')->where(array('id'=>$id,'username'=>$username))->delete()){
   		$this->ajaxReturn("删除成功");
   	}else{
   		$this->ajaxReturn("删除失败");
@@ -312,6 +349,41 @@ class BlogController extends CommomController {
   	}else{
   		$this->ajaxReturn('修改失败');
   	}
+  }
+  function updatepaperstatus(){
+  	$username=$_SESSION['username'];
+  	$id=I('id','');
+  	$status=I('status','');
+  	if($id==''){
+  		$this->ajaxReturn('没有这个东西');
+  	}
+  	if($status!=1 and $status!=0){
+  		$this->ajaxReturn('状态问题');
+  	}
+  	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
+  	$data['status']=$status;
+  	if(M('paper')->where(array('id'=>$id,'username'=>$username))->save($data)){
+  		$this->ajaxReturn('修改成功');
+  	}else{
+  		$this->ajaxReturn('修改失败');
+  	}
+  }
+  function recoverpaper(){
+  	$username=$_SESSION['username'];
+  	$id=I('id','');
+  	if($id==''){
+  		$this->ajaxReturn('没有这个东西');
+  	}
+  	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
+  	$data['status']=0;
+  	if(M('paper')->where(array('id'=>$id,'username'=>$username))->save($data)){
+  		$this->ajaxReturn('恢复成功');
+  	}else{
+  		$this->ajaxReturn('恢复失败');
+  	}
+  }
+  function rubbish(){
+  	$this->display();
   }
 }
 ?>

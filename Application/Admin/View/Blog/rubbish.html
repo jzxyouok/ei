@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>文章回收站</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+  	<table id="dg" title="回收站"  style="width:550px;height:250px">
+	</table>
+	
+<div id="toolbar">
+<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除文章</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="recoverUser()">恢复文章</a>
+</div>
+
+<script type="text/javascript">
+$('#dg').datagrid({    
+    url:'__CONTROLLER__/listpapersh',  
+    collapsible:true,
+    toolbar: '#toolbar',
+    rownumbers:true,
+    pagination:true,
+	pageList:[5,10,30],
+	fit:true, 
+    columns:[[
+        {field:'ck',checkbox:true}, 
+        {field:'id',title:'单页ID',width:100,hidden:true},   
+        {field:'title',title:'标题',width:120},   
+        {field:'author',title:'作者',width:120},   
+        {field:'cid',title:'目录',width:120},    
+        {field:'createtime',title:'创建时间',width:120},
+        {field:'updatetime',title:'更新时间',width:120},
+        {field:'view',title:'浏览量',width:100},
+        {field:'order',title:'排序',width:100}
+    ]]    
+});
+
+
+function destroyUser(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows.length!=0){
+		$.messager.confirm('Confirm','你确定要删除?',function(r){
+			if (r){
+				var uri="__CONTROLLER__/deletepaper";
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					$.post(uri,{'id':row.id},function(result){
+						$.messager.show({	// show error message
+							title: '消息',
+							msg: result
+						});
+						$('#dg').datagrid('reload');	// reload the user da
+				});
+				}
+			}
+		});
+	}else{
+	alert("请勾选按钮")}
+}
+
+
+
+function recoverUser(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows.length!=0){
+		$.messager.confirm('Confirm','你确定要恢复?',function(r){
+			if (r){
+				var uri="__CONTROLLER__/recoverpaper";
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					$.post(uri,{'id':row.id},function(result){
+						$.messager.show({	// show error message
+							title: '消息',
+							msg: result
+						});
+						$('#dg').datagrid('reload');	// reload the user da
+				});
+				}
+			}
+		});
+	}else{
+	alert("请勾选按钮")}
+}
+</script>
+</body>
+</html>

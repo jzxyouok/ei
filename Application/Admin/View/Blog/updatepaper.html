@@ -1,56 +1,197 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html >
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>ueditor demo</title>
+<meta charset="UTF-8">
+<title>编辑文章</title>
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
 </head>
 <body>
-<form action='__CONTROLLER__/updatepapers' method='post'>
-创建于：{$createtime}<br/>
-更新于：{$updatetime}<br />
-<input type='hidden' name='id' value='{$id}' />
-标题：<input type="text"  name="title" value={$title} /><br />
-作者：<input type="text"  name="author" value='{$author}' /><br />
-所属目录:<select name="cid">
+	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+	<div class='col-md-8' >
+	<form id="user_form" action="{:U('Admin/Blog/updatepapers')}" role="form">
+		<div class="form-group">
+			<div class="alert alert-warning" id='warning-block'>
+	   			<p>编辑文章</p>
+			</div>
+			<div>
+			<input type='text' name='id' value='{$id}' hidden="hidden"/>
+				<label>标题</label>
+				<input type="text" class="form-control" name="title" id="title"
+					placeholder="请输入标题" value={$title}' required="required">
+			</div>
+			<div id="titleTip"></div>
+			<div>
+				<label>作者</label>
+				<input type="text" class="form-control" name="author" id="author"
+					placeholder="请输入作者" value='{$author}' required="required">
+			</div>
+			<div id="authorTip"></div>
+			<div>
+				<label>目录</label>
+				<select name='cid' class="form-control">
 <volist  name='cate' id='vo'>
 <if condition="$vo.id eq $cid "><option value="{$vo.id}" selected="selected">{$vo.title}</option>
 <else /><option value="{$vo.id}" >{$vo.title}</option>
 </if>
 </volist>
-</select><br />
-正文:<br />
-<!-- 加载编辑器的容器 -->
-<textarea id="editor" name="content" >{$content}</textarea><br />
-排序：<input type="text"  name="order" value='{$order}'/><br />
-浏览量：<input type="text"  name="view" value='{$view}'/><br />
-<if condition="($status eq 1)">
-使用：<input type="radio" checked="checked" name="status" value="1" /><br />
-<else />使用：<input type="radio" name="status" value="1" /><br />
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+		<label>简介</label>
+		<textarea id="editor1" class="form-control" rows="5"  name="desccontent" placeholder="简介">{$desccontent}
+		</textarea>
+		</div>
+		<div class="form-group">
+		<label>正文</label>
+		<textarea id="editor" name="content" placeholder="正文">{$content}</textarea>
+		</div>
+		<div class="form-group">
+			<label>文章排序</label>
+			<input type="number" class="form-control" name="order" value='{$order}' min="0"/>
+		</div>
+		
+		<div class="form-group">
+			<label>浏览量</label>
+			<input type="number" class="form-control"  name="view" value='{$view}' min="0"/>
+		</div>
+	   	<div class="form-group">
+	   		<label>文章状态</label>
+	   		<if condition="($status eq 1)">
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="0">禁用文章
+			   </label>
+			</div>
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="1" checked>启用文章
+			   </label>
+			</div>
+		<else />
+					<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="0" checked>禁用文章
+			   </label>
+			</div>
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="1" >启用文章
+			   </label>
+			</div>
 </if>
-<if condition="($status eq 0)">
-禁用：<input type="radio" checked="checked" name="status" value="0" /><br />
-<else />禁用：<input type="radio" name="status" value="0" /><br />
-</if>
-<input type="submit" value="更新" />
-</form>
-      <!-- 配置文件 -->
-    <script type="text/javascript" src="__ROOT__/Public/ueditor/ueditor.config.js"></script>
-    <!-- 编辑器源码文件 -->
-    <script type="text/javascript" src="__ROOT__/Public/ueditor/ueditor.all.js"></script>
-    <!-- 实例化编辑器 -->
-    <script type="text/javascript">
-   /*  var ue = UE.getEditor('editor', {
-        toolbars: [
-            ['fullscreen', 'source', 'undo', 'redo', 'bold']
-        ],
-        autoHeightEnabled: true,
-        autoFloatEnabled: true
-    }); */
-    var ue = UE.getEditor('editor',{
-    	initialFrameHeight:300,
-    });
+
+		</div>
+   	
+		<div id='uploadlogo'></div>
+	<div class="form-group">
+	    <div>
+         	<button type="submit" class="btn btn-default">修改文章</button>
+      	</div>
+   	</div>
+   
+	</form>
+	</div>
+	<div class='col-md-3 col-md-offset-1' >
+	  			<div  align="center">
+	  			<h1>封面</h1>
+      			<img  src="__ROOT__/Uploads/{$photo}" id='logoimg' class="am-img-responsive" alt="图片" style="border:1px red solid;height: 260px; width: 260px;" />
+      			<p>请上传格式为.png .jpg .jpeg的图片。</p>
+		   		<p>上传完毕后需要点击左边曾加按钮才能生效。</p>
+		   		<div id='uploadphotoconfirm' style='color:red'></div>
+		   		<div><button type="submit" class="btn btn-default" id='upload_button'>上传图片</button></div>
+   				<br />
+   				<div class="btn btn-default"><a target="_blank" href="__ROOT__/Uploads/{$photo}">查看封面</a></div>
+   			</div>
+	</div>
+	</div>
+	<script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+		    <!-- 配置文件 -->
+    <script src="__ROOT__/Public/ueditor/ueditor.config.js"></script>
+    <script src="__ROOT__/Public/ueditor/ueditor.all.min.js"></script>
+    <script src="__ROOT__/Public/tool/ajaxupload.js"></script>
+    <script>
+    $(function(){
+        var ue = UE.getEditor('editor',{
+        	initialFrameHeight:400
+        });
+   /*      var u1 = UE.getEditor('editor1',{
+        	//initialFrameHeight:400
+        }); */
+    })
     </script>
-    
- <p>返回<a href="__CONTROLLER__/listpaper">文章列表</a></p>  
+	<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({formID:"user_form",submitOnce:true,
+			onSuccess:function(){
+				var registerForm=$("#user_form");
+				$.post(registerForm.attr("action"),registerForm.serialize(),function(data){
+					alert(data);
+				});
+			}
+		});
+
+		$("#title").formValidator({onShowText:"请输入文章标题"})
+		.inputValidator({min:1,max:100,onError:"最多100个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"两边不能为空"}});
+		$("#author").formValidator({onShowText:"请输入作者信息"})
+		.inputValidator({min:1,max:100,onError:"最多100个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"两边不能为空"}})
+	});
+	
+</script>
+<script>
+$(function(){
+	var button = $('#upload_button'), interval;
+	var confirmdiv = $('#uploadphotoconfirm');
+    var fileType = "ptic",fileNum = "one"; 
+    new AjaxUpload(button,{
+        action: "{:U('Admin/Photo/uploadimg')}",
+        name: 'logo',
+        responseType:'json',
+        onSubmit : function(file, ext){
+            if(fileType == "pic")
+            {
+                if (ext && /^(jpg|png|jpeg|gif)$/.test(ext)){
+                    this.setData({
+                        'info': '文件类型为图片'
+                    });
+                } else {
+                	confirmdiv.text('文件格式错误，请上传格式为.png .jpg .jpeg 的图片');
+                    return false;               
+                }
+            }
+                        
+            confirmdiv.text('文件上传中');
+            
+            if(fileNum == 'one')
+                this.disable();
+            
+            interval = window.setInterval(function(){
+                var text = confirmdiv.text();
+                if (text.length <= 5){
+                	confirmdiv.text('文件上传中...');                  
+                } else {
+                	confirmdiv.text('文件上传中');          
+                }
+            }, 200);
+        },
+        onComplete: function(file, response){
+			if(response.isok != 1){
+					confirmdiv.text(response.message);
+			}else{
+				confirmdiv.text("上传完成");
+				$("#logoimg").attr("src",response.message);
+				$("#uploadlogo").html("<input hidden='hidden' type='hidden'  name='photo' value='"+response.logosql+"'>");
+			}
+				                                
+            window.clearInterval(interval);                
+            this.enable();              
+        }
+    });
+});
+
+</script>
 </body>
 </html>

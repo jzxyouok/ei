@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>文章回收站</title>
+	<title>产品回收站</title>
 	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
 	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
 	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
@@ -11,17 +11,17 @@
 </head>
 
 <body>
-  	<table id="dg" title="文章回收站"  style="width:550px;height:250px">
+  	<table id="dg" title="产品回收站"  style="width:550px;height:250px">
 	</table>
 	
 <div id="toolbar">
-<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除文章</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="recoverUser()">恢复文章</a>
+<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除产品</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="recoverUser()">恢复产品</a>
 </div>
 
 <script type="text/javascript">
 $('#dg').datagrid({    
-    url:'__CONTROLLER__/listpapersh',  
+    url:'__CONTROLLER__/listproductsh',  
     collapsible:true,
     toolbar: '#toolbar',
     rownumbers:true,
@@ -31,9 +31,12 @@ $('#dg').datagrid({
     columns:[[
         {field:'ck',checkbox:true}, 
         {field:'id',title:'单页ID',width:100,hidden:true},   
-        {field:'title',title:'标题',width:120},   
-        {field:'author',title:'作者',width:120},   
-        {field:'cid',title:'目录',width:120},    
+        {field:'title',title:'标题',width:120},
+        {field:'photo',title:'图片',width:120,
+        	formatter: function(value,row,index){
+        		return "<span style='background-color:red'><a href='__ROOT__/Uploads/"+value+"' target='_blank'>产品图片<a></span>"
+        	}},   
+        {field:'cid',title:'类目',width:120},    
         {field:'createtime',title:'创建时间',width:120},
         {field:'updatetime',title:'更新时间',width:120},
         {field:'view',title:'浏览量',width:100},
@@ -47,7 +50,7 @@ function destroyUser(){
 	if (rows.length!=0){
 		$.messager.confirm('Confirm','你确定要删除?',function(r){
 			if (r){
-				var uri="__CONTROLLER__/deletepaper";
+				var uri="__CONTROLLER__/deleteproduct";
 				for(var i=0;i<rows.length;i++){
 					var row=rows[i];
 					$.post(uri,{'id':row.id},function(result){
@@ -71,7 +74,7 @@ function recoverUser(){
 	if (rows.length!=0){
 		$.messager.confirm('Confirm','你确定要恢复?',function(r){
 			if (r){
-				var uri="__CONTROLLER__/recoverpaper";
+				var uri="__CONTROLLER__/recoverproduct";
 				for(var i=0;i<rows.length;i++){
 					var row=rows[i];
 					$.post(uri,{'id':row.id},function(result){

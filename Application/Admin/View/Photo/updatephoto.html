@@ -58,6 +58,7 @@
 		   		<p>上传完毕后需要点击左边曾加按钮才能生效。</p>
 		   		<div id='uploadphotoconfirm' style='color:red'></div>
 		   		<div><button type="submit" class="am-btn-primary" id='upload_button'>上传图片</button></div>
+   			   						<div><a class="am-btn-success" id='lookphoto' href="__ROOT__/Uploads/{$data.storeplace}" target="_blank">查看图片</a></div>
    			</div>
 	      </div>
   </div>
@@ -150,6 +151,7 @@ $(function(){
 			}else{
 				confirmdiv.text("上传完成");
 				$("#logoimg").attr("src",response.message);
+				$('#lookphoto').attr("href",response.message);
 				$("#uploadlogo").html("<input hidden='hidden' type='hidden'  name='storeplace' value='"+response.logosql+"'>");
 			}
 				                                

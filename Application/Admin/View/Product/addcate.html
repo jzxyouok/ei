@@ -2,64 +2,50 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>修改分类</title>
+<title>增加产品类目</title>
 <link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
 </head>
 <body>
 	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
 	<div class='col-md-9 col-md-offset-1' >
-	<form id="user_form" action="{:U('Admin/Blog/updatecates')}" role="form">
+	<form id="user_form" action="{:U('Admin/Product/addcates')}" role="form">
 		<div class="form-group">
 			<div class="alert alert-warning" id='warning-block'>
-	   			<p>修改分类</p>
+	   			<p>增加类目</p>
 			</div>
-			<input type='text' name='id' value="{$data.id}" hidden="hidden">
 			<div>
-				<label>目录标题</label>
+				<label>类目标题</label>
 				<input type="text" class="form-control" name="title" id="title"
-					placeholder="请输入目录标题" required="required" value="{$data.title}">
+					placeholder="请输入类目标题" required="required">
 			</div>
 			<div id="titleTip"></div>
 		</div>
 		<div class="form-group">
-		<label>目录简介</label>
-		<textarea id="editor" name="content" placeholder="目录简介">{$data.content}</textarea>
+		<label>类目介绍</label>
+		<textarea id="editor" name="content" placeholder="类目介绍"></textarea>
 		</div>
 		<div class="form-group">
-			<label>目录排序</label>
-			<input type="number" class="form-control"  name="order" value='{$data.order}' min="0"  />
+			<label>类目排序</label>
+			<input type="number"  class="form-control"  name="order" value='0' min="0"/>
 		</div>
 	   	<div class="form-group">
-	   		<label>目录状态</label>
-	   		<if condition="$data.status eq 0">
+	   		<label>类目状态</label>
 			<div class="radio">
 			   <label>
-			      <input type="radio" name="status" value="0" checked>禁用目录
+			      <input type="radio" name="status" value="0">禁用类目
 			   </label>
 			</div>
 			<div class="radio">
 			   <label>
-			      <input type="radio" name="status" value="1" >启用目录
+			      <input type="radio" name="status" value="1" checked>启用类目
 			   </label>
 			</div>
-			<else />
-			<div class="radio">
-			   <label>
-			      <input type="radio" name="status" value="0">禁用目录
-			   </label>
-			</div>
-			<div class="radio">
-			   <label>
-			      <input type="radio" name="status" value="1"  checked>启用目录
-			   </label>
-			</div>
-			</if>
 		</div>
    	
 		
 	<div class="form-group">
 	    <div>
-         	<button type="submit" class="btn btn-default">修改分类</button>
+         	<button type="submit" class="btn btn-default">增加类目</button>
       	</div>
    	</div>
    
@@ -75,7 +61,9 @@
     <script src="__ROOT__/Public/ueditor/ueditor.all.min.js"></script>
     <script>
     $(function(){
-        var ue = UE.getEditor('editor');
+        var ue = UE.getEditor('editor',{
+        	initialFrameHeight:400
+        });
     })
     </script>
 	<script type="text/javascript">
@@ -85,13 +73,17 @@
 				var registerForm=$("#user_form");
 				$.post(registerForm.attr("action"),registerForm.serialize(),function(data){
 					alert(data);
+					if(data=='增加成功'){
+						window.location.href="{:U('Admin/Product/addcate')}";
+						return;
+					}
 					$('#warning-block p').html('<strong>警告！</strong>'+data);
 					return;
 				});
 			}
 		});
 
-		$("#title").formValidator({onShowText:"请输入目录标题"})
+		$("#title").formValidator({onShowText:"请输入产品类目标题"})
 		.inputValidator({min:1,max:100,onError:"标题最多100个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能为空"}})
 	});
 	

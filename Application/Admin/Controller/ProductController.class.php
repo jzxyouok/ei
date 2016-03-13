@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
-class BlogController extends CommomController {
+class ProductController extends CommomController {
     public function listcate(){
     	$this->display();
     }
@@ -12,57 +12,57 @@ class BlogController extends CommomController {
     		$jinhan['status']=$status;
     	}
     	$jinhan['username']=$username;
-    	$total=M('category')->where($jinhan)->field('content',true)->count();
+    	$total=M('pcategory')->where($jinhan)->field('content',true)->count();
     	$pageSize =I('rows','');
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
-    	$rows =M('category')->where($jinhan)->order('`order` desc')->field('content',true)->limit($pageStart.','.$pageSize)->select();
+    	$rows =M('pcategory')->where($jinhan)->order('`order` desc')->field('content',true)->limit($pageStart.','.$pageSize)->select();
     	$data['total']=$total;
     	$data['rows']=$rows;
     	$this->ajaxReturn($data);
     }
-    public function listpaper(){
+    public function listproduct(){
     	$username=$_SESSION['username'];
-    	$data=M('category')->where(array('username'=>$username))->select();
+    	$data=M('pcategory')->where(array('username'=>$username))->select();
     	$this->assign('cate',$data);
     	$this->display();
     }
-    public function listpapers(){
+    public function listproducts(){
     	$username=$_SESSION['username'];
     	$cid=I('cid','');
     	$status=I('status',1);
     	if($cid==''){
-    	$total=M('paper')->where(array('username'=>$username,'status'=>$status))->count();
+    	$total=M('product')->where(array('username'=>$username,'status'=>$status))->count();
     	}
     	else{
-    		$total=M('paper')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->count();
+    		$total=M('product')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->count();
     	}
     	$pageSize =I('rows','');
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
     	if($cid==''){
-    	$rows =M('paper')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
+    	$rows =M('product')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent,price',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
     	}else{
-    		$rows =M('paper')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
+    		$rows =M('product')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->field('content,desccontent,price',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
     		 
     	}
     	foreach($rows as &$row){
-    		$row['cid']=M('category')->where(array('id'=>$row['cid']))->getField('title');
+    		$row['cid']=M('pcategory')->where(array('id'=>$row['cid']))->getField('title');
     	}
     	$data['total']=$total;
     	$data['rows']=$rows;
     	$this->ajaxReturn($data);
     }
-    public function listpapersh(){
+    public function listproductsh(){
     	$username=$_SESSION['username'];
     	$status=2;
-    	$total=M('paper')->where(array('username'=>$username,'status'=>$status))->count();
+    	$total=M('product')->where(array('username'=>$username,'status'=>$status))->count();
     	$pageSize =I('rows','');
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
-    	$rows =M('paper')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
+    	$rows =M('product')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent,price',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
     	foreach($rows as &$row){
-    		$row['cid']=M('category')->where(array('id'=>$row['cid']))->getField('title');
+    		$row['cid']=M('pcategory')->where(array('id'=>$row['cid']))->getField('title');
     	}
     	$data['total']=$total;
     	$data['rows']=$rows;
@@ -78,7 +78,7 @@ class BlogController extends CommomController {
     	$pageStart = ($page - 1) * $pageSize;
     	$rows =M('Comment')->limit($pageStart.','.$pageSize)->select();
     	foreach($rows as &$row){
-    		$row['pid']=M('Paper')->where(array(id=>$row['pid']))->getField('title');
+    		$row['pid']=M('product')->where(array(id=>$row['pid']))->getField('title');
     		$row['createtime']=date('Y-m-d:H-i-s', $row['createtime']);
     		$row['content']=htmlspecialchars($row['content']);
     	}
@@ -93,7 +93,7 @@ class BlogController extends CommomController {
     		$this->error("没有这个评论");
     	}else{
     		$data=M('Comment')->where(array(id=>$id))->find();
-    		$data['pid']=M('Paper')->where(array(id=>$data['pid']))->getField('title');
+    		$data['pid']=M('product')->where(array(id=>$data['pid']))->getField('title');
     		$this->assign($data);
     		$this->display();
     	}	
@@ -123,7 +123,7 @@ class BlogController extends CommomController {
     	$username=$_SESSION['username'];
     	$title=I('title','');
     	if($title==''){
-    		$this->ajaxReturn('标题不能为空');
+    		$this->ajaxReturn('产品分类标题不能为空');
     	}
     	$content=I('content','','');
     	$order=I('order',0);
@@ -134,7 +134,7 @@ class BlogController extends CommomController {
     	$data['status']=$status;
     	$data['username']=$username;
     	$data['createtime']=date("Y-m-d H:i:s",strtotime('now'));
-    	if(M('category')->add($data)){
+    	if(M('pcategory')->add($data)){
     		$this->ajaxReturn("增加成功");
     	}else{
     		$this->ajaxReturn("增加失败");
@@ -145,21 +145,21 @@ class BlogController extends CommomController {
     	$username=$_SESSION['username'];
     	$id=I('id','');
     	if($id==''){
-    		$this->ajaxReturn("找不到该目录");
+    		$this->ajaxReturn("找不到该类目");
     	}
-    	$data=M('category')->where(array('id'=>$id,'username'=>$username))->find();
+    	$data=M('pcategory')->where(array('id'=>$id,'username'=>$username))->find();
     	if($data){
     		$this->assign('data',$data);
     		$this->display();
     	}else{
-    		$this->ajaxReturn("找不到该目录");
+    		$this->ajaxReturn("找不到该类目");
     	}
     }
     public function updatecates(){
     	$username=$_SESSION['username'];
     	$id=I('id','');
     	if($id==''){
-    		$this->ajaxReturn("找不到该目录");
+    		$this->ajaxReturn("找不到该类目");
     	}
     	$title=I('title','');
     	if($title==''){
@@ -173,7 +173,7 @@ class BlogController extends CommomController {
     	$data['order']=$order;
     	$data['status']=$status;
     	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
-    	if(false===M('category')->where(array('id'=>$id,'username'=>$username))->save($data)){
+    	if(false===M('pcategory')->where(array('id'=>$id,'username'=>$username))->save($data)){
     		$this->ajaxReturn("修改失败");
     	}else{
     		$this->ajaxReturn('修改成功');
@@ -184,41 +184,41 @@ class BlogController extends CommomController {
     	$username=$_SESSION['username'];
     	$id=I('id','');
     	if($id==''){
-    		$this->ajaxReturn("不存在该目录");
+    		$this->ajaxReturn("不存在该类目");
     	}
-    	if(!M('category')->where(array('id'=>$id,'username'=>$username))->find()){
-    		$this->ajaxReturn("找不到该目录");
-    	}else if(M('paper')->where(array('cid'=>$id))->select()){
-    			$this->ajaxReturn("目录下有文章");
+    	if(!M('pcategory')->where(array('id'=>$id,'username'=>$username))->find()){
+    		$this->ajaxReturn("找不到该类目");
+    	}else if(M('product')->where(array('cid'=>$id))->select()){
+    			$this->ajaxReturn("类目下有产品");
     		}else{
     			
     		}
-    	if(M('category')->where(array('id'=>$id,'username'=>$username))->delete()){
+    	if(M('pcategory')->where(array('id'=>$id,'username'=>$username))->delete()){
     			$this->ajaxReturn("删除成功");
     		}else{
     			$this->ajaxReturn("删除失败");
     		}
     }
     
-    public function addpaper(){
+    public function addproduct(){
     	$username=$_SESSION['username'];
-    	$data=M('category')->where(array('username'=>$username))->select();
+    	$data=M('pcategory')->where(array('username'=>$username))->select();
     	$this->assign('cate',$data);
     	$this->display();
     }
-    public function addpapers(){
+    public function addproducts(){
     	$username=$_SESSION['username'];
     	$title=I('title','');
     	if($title==''){
     		$this->ajaxReturn('标题不能为空');
     	}	
-    	$author=I('author','');
-    	if($author==''){
-    		$this->ajaxReturn('作者不能为空');
+    	$price=I('price','');
+    	if($price==''){
+    		$this->ajaxReturn('价格不能为空');
     	}
     	$cid=I('cid','');
     	if($cid==''){
-    		$this->ajaxReturn('目录不能为空');
+    		$this->ajaxReturn('类目不能为空');
     	}
     	$photo=I('photo','');
     	$data['photo']=$photo;
@@ -237,7 +237,7 @@ class BlogController extends CommomController {
     	$status=I('status',0);
     	$data['title']=$title;
     	$data['cid']=$cid;
-    	$data['author']=$author;
+    	$data['price']=$price;
     	$data['content']=$content;
     	$data['desccontent']=$desccontent;
     	$data['view']=$view;
@@ -245,43 +245,43 @@ class BlogController extends CommomController {
     	$data['status']=$status;
     	$data['createtime']=date('Y-m-d H:i:s',strtotime('now'));
     	$data['username']=$username;
-    	if(M('paper')->add($data)){
+    	if(M('product')->add($data)){
     		$this->ajaxReturn("增加成功");
     	}else{
     		$this->ajaxReturn("增加失败");
     	}
     }
     
-    public function updatepaper(){
+    public function updateproduct(){
     	$id=I('id','');
     	$username=$_SESSION['username'];
     	if($id==''){
-    		$this->ajaxReturn('找不到该文章') ;   	}
-    	$data=M('paper')->where(array('id'=>$id,'username'=>$username))->find();
+    		$this->ajaxReturn('找不到该产品') ;   	}
+    	$data=M('product')->where(array('id'=>$id,'username'=>$username))->find();
     	if($data){
-    		$cate=M('category')->where(array('username'=>$username))->field('id,title')->select();
+    		$cate=M('pcategory')->where(array('username'=>$username))->field('id,title')->select();
     		$this->assign('cate',$cate);
     		$this->assign($data);
     		$this->display();
     	}else{
-    		$this->ajaxReturn('找不到该文章') ;
+    		$this->ajaxReturn('找不到该产品') ;
     	}
     }
     
-    public function updatepapers(){
+    public function updateproducts(){
     	$username=$_SESSION['username'];
     	$id=I('id','');
     	$title=I('title','');
     	if($title==''){
     		$this->ajaxReturn('标题不能为空');
     	}
-    	$author=I('author','');
+    	$price=I('price','');
     	if($author==''){
     		$this->ajaxReturn('作者不能为空');
     	}
     	$cid=I('cid','');
     	if($cid==''){
-    		$this->ajaxReturn('目录不能为空');
+    		$this->ajaxReturn('类目不能为空');
     	}
     	$photo=I('photo','');
     	if($photo!=''){
@@ -302,43 +302,43 @@ class BlogController extends CommomController {
     	$status=I('status',0);
     	$data['title']=$title;
     	$data['cid']=$cid;
-    	$data['author']=$author;
+    	$data['price']=$price;
     	$data['content']=$content;
     	$data['desccontent']=$desccontent;
     	$data['view']=$view;
     	$data['order']=$order;
     	$data['status']=$status;
     	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
-    	if(M('paper')->where(array('id'=>$id,'username'=>$username))->save($data)){
+    	if(M('product')->where(array('id'=>$id,'username'=>$username))->save($data)){
     		$this->ajaxReturn("修改成功");
     	}else{
     		$this->ajaxReturn("修改失败");
     	}
   }
-  public function deletepaperh(){
+  public function deleteproducth(){
   	$id=I('id','');
   	if($id==''){
-  		$this->ajaxReturn("不存在该文章");
+  		$this->ajaxReturn("不存在该产品");
   	}
   	$username=$_SESSION['username'];
   	$data['status']=2;
-  	if(M('paper')->where(array('id'=>$id,'username'=>$username))->save($data)){
+  	if(M('product')->where(array('id'=>$id,'username'=>$username))->save($data)){
   		$this->ajaxReturn('已送到回收站');
   	}else{
   		$this->ajaxReturn('删除失败');
   	}
   }
-  public function deletepaper(){
+  public function deleteproduct(){
   	$id=I('id','');
   	$username=$_SESSION['username'];
   	if($id==''){
-  		$this->ajaxReturn("不存在该文章");
+  		$this->ajaxReturn("不存在该产品");
   	}
-  	if(!M('paper')->where(array('id'=>$id,'username'=>$username))->find()){
-  		$this->ajaxReturn("找不到该文章");
+  	if(!M('product')->where(array('id'=>$id,'username'=>$username))->find()){
+  		$this->ajaxReturn("找不到该产品");
   	}
   	
-  	if(M('paper')->where(array('id'=>$id,'username'=>$username))->delete()){
+  	if(M('product')->where(array('id'=>$id,'username'=>$username))->delete()){
   		$this->ajaxReturn("删除成功");
   	}else{
   		$this->ajaxReturn("删除失败");
@@ -358,13 +358,13 @@ class BlogController extends CommomController {
   	}
   	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
   	$data['status']=$status;
-  	if(M('category')->where(array('id'=>$id,'username'=>$username))->save($data)){
+  	if(M('pcategory')->where(array('id'=>$id,'username'=>$username))->save($data)){
   		$this->ajaxReturn('修改成功');
   	}else{
   		$this->ajaxReturn('修改失败');
   	}
   }
-  function updatepaperstatus(){
+  function updateproductstatus(){
   	$username=$_SESSION['username'];
   	$id=I('id','');
   	$status=I('status','');
@@ -376,13 +376,13 @@ class BlogController extends CommomController {
   	}
   	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
   	$data['status']=$status;
-  	if(M('paper')->where(array('id'=>$id,'username'=>$username))->save($data)){
+  	if(M('product')->where(array('id'=>$id,'username'=>$username))->save($data)){
   		$this->ajaxReturn('修改成功');
   	}else{
   		$this->ajaxReturn('修改失败');
   	}
   }
-  function recoverpaper(){
+  function recoverproduct(){
   	$username=$_SESSION['username'];
   	$id=I('id','');
   	if($id==''){
@@ -390,7 +390,7 @@ class BlogController extends CommomController {
   	}
   	$data['updatetime']=date('Y-m-d H:i:s',strtotime('now'));
   	$data['status']=0;
-  	if(M('paper')->where(array('id'=>$id,'username'=>$username))->save($data)){
+  	if(M('product')->where(array('id'=>$id,'username'=>$username))->save($data)){
   		$this->ajaxReturn('恢复成功');
   	}else{
   		$this->ajaxReturn('恢复失败');

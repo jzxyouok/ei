@@ -22,16 +22,30 @@ class BlogController extends CommomController {
     	$this->ajaxReturn($data);
     }
     public function listpaper(){
+    	$username=$_SESSION['username'];
+    	$data=M('category')->where(array('username'=>$username))->select();
+    	$this->assign('cate',$data);
     	$this->display();
     }
     public function listpapers(){
     	$username=$_SESSION['username'];
+    	$cid=I('cid','');
     	$status=I('status',1);
+    	if($cid==''){
     	$total=M('paper')->where(array('username'=>$username,'status'=>$status))->count();
+    	}
+    	else{
+    		$total=M('paper')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->count();
+    	}
     	$pageSize =I('rows','');
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
+    	if($cid==''){
     	$rows =M('paper')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
+    	}else{
+    		$rows =M('paper')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
+    		 
+    	}
     	foreach($rows as &$row){
     		$row['cid']=M('category')->where(array('id'=>$row['cid']))->getField('title');
     	}

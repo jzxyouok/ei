@@ -18,13 +18,21 @@
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑文章</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除文章</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加文章</a>
-		  <span>
-				    <select id='status' class="form-control" name='status' style='width:100px;margin: 0 20px'> 
+		 
+		<label>状态：</label>
+				    <select id='status' class="form-control" name='status' style='width:120px;margin: 0 20px'> 
 				      <option value=1>已开启</option> 
 				      <option value=0>已关闭</option> 
 		</select>
-	<a href="#" class="easyui-linkbutton"  onclick="getabout()">状态查询</a>
-	</span> 
+		<label>目录：</label>
+		<select name='cid' id='cid' class="form-control" style='width:120px;margin: 0'>
+				<option value=""></option>
+				<volist name='cate' id='vo'>
+				<option value="{$vo.id}">{$vo.title}</option>
+				</volist>
+				</select>
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a>
+
 </div>
 
 <script type="text/javascript">
@@ -117,8 +125,10 @@ function adduser(){
 
 function getabout(){
 	var status=$('#status').val();
+	var cid=$('#cid').val();
 	$('#dg').datagrid('load', {    
-	    status: status 
+	    status: status,
+	    cid:cid
 	});
 }
 

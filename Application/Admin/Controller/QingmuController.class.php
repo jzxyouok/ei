@@ -176,10 +176,10 @@ class QingmuController extends CommomController {
 			return;
 		}
 		/*
-		 * $data=M('shopdata','stat','mysql://biuser:qingmutecoa@192.168.0.20/qingmu')->group('refshopid')->select();
+		 * $data=M('shopdata','stat',C('qingmu'))->group('refshopid')->select();
 		 * foreach($data as &$row){
 		 * $shopid=$row['refshopid'];
-		 * $shop=M('shop','ref','mysql://biuser:qingmutecoa@192.168.0.20/qingmu')->where(array('id'=>$shopid))->find();
+		 * $shop=M('shop','ref',C('qingmu'))->where(array('id'=>$shopid))->find();
 		 * if($shop){
 		 * $row['refshopname']=$shop['sname'];
 		 * }
@@ -187,7 +187,7 @@ class QingmuController extends CommomController {
 		 * $this->assign('data',$data);
 		 */
 		
-		$shop = M ( 'shop', 'ref', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->order ( 'sname' )->where ( array (
+		$shop = M ( 'shop', 'ref', C('qingmu') )->order ( 'sname' )->where ( array (
 				'isShow' => 1 
 		) )->select ();
 		$this->assign ( 'data', $shop );
@@ -252,25 +252,25 @@ class QingmuController extends CommomController {
 			$ok = 0;
 		}
 		if ($ok == 1 and $refshopid != '') {
-			$db = M ( 'shopdata', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' );
+			$db = M ( 'shopdata', 'stat', C('qingmu') );
 			$sql = "refshopid=" . $refshopid . " and STR_TO_DATE(statDay,'%Y-%m-%d') between '" . $bt . "' and '" . $et . "'";
 			$total = $db->where ( $sql )->count ();
 		} else {
-			$total = M ( 'shopdata', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->where ( "refshopid=" . $refshopid )->count ();
+			$total = M ( 'shopdata', 'stat', C('qingmu') )->where ( "refshopid=" . $refshopid )->count ();
 		}
 		$pageSize = I ( 'rows', 30 );
 		$page = I ( 'page', 1 );
 		$pageStart = ($page - 1) * $pageSize;
 		if ($ok == 1 and $refshopid != '') {
-			$db = M ( 'shopdata', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' );
+			$db = M ( 'shopdata', 'stat', C('qingmu') );
 			$sql = "refshopid=" . $refshopid . " and STR_TO_DATE(statDay,'%Y-%m-%d') between '" . $bt . "' and '" . $et . "'";
 			$rows = $db->where ( $sql )->limit ( $pageStart . ',' . $pageSize )->order ( "STR_TO_DATE(statDay,'%Y-%m-%d')" )->select ();
 		} else {
-			$rows = M ( 'shopdata', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->where ( "refshopid=" . $refshopid )->order ( "STR_TO_DATE(statDay,'%Y-%m-%d')" )->limit ( $pageStart . ',' . $pageSize )->select ();
+			$rows = M ( 'shopdata', 'stat', C('qingmu') )->where ( "refshopid=" . $refshopid )->order ( "STR_TO_DATE(statDay,'%Y-%m-%d')" )->limit ( $pageStart . ',' . $pageSize )->select ();
 		}
 		foreach ( $rows as &$row ) {
 			$shopid = $row ['refshopid'];
-			$shop = M ( 'shop', 'ref', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->where ( array (
+			$shop = M ( 'shop', 'ref', C('qingmu') )->where ( array (
 					'id' => $shopid 
 			) )->find ();
 			if ($shop) {
@@ -281,7 +281,7 @@ class QingmuController extends CommomController {
 			$time = $row ['statday'];
 			$timez = explode ( '-', $time );
 			$time1 = $timez [0] . '-' . $timez [1];
-			$mubiao = M ( 'sellplan', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->where ( "refshopid=" . $shopid . " and pmonth='" . $time1 . "'" )->find ();
+			$mubiao = M ( 'sellplan', 'stat', C('qingmu') )->where ( "refshopid=" . $shopid . " and pmonth='" . $time1 . "'" )->find ();
 			if ($mubiao) {
 				$row ['plan'] = $mubiao ['plan'];
 				switch ($timez [1]) {
@@ -337,10 +337,10 @@ class QingmuController extends CommomController {
 			return;
 		}
 		/*
-		 * $data=M('shopdata','stat','mysql://biuser:qingmutecoa@192.168.0.20/qingmu')->group('refshopid')->select();
+		 * $data=M('shopdata','stat',C('qingmu'))->group('refshopid')->select();
 		 * foreach($data as &$row){
 		 * $shopid=$row['refshopid'];
-		 * $shop=M('shop','ref','mysql://biuser:qingmutecoa@192.168.0.20/qingmu')->where(array('id'=>$shopid))->find();
+		 * $shop=M('shop','ref',C('qingmu'))->where(array('id'=>$shopid))->find();
 		 * if($shop){
 		 * $row['refshopname']=$shop['sname'];
 		 * }
@@ -348,7 +348,7 @@ class QingmuController extends CommomController {
 		 * $this->assign('data',$data);
 		 */
 	
-		$shop = M ( 'shop', 'ref', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->order ( 'sname' )->where ( array (
+		$shop = M ( 'shop', 'ref', C('qingmu') )->order ( 'sname' )->where ( array (
 				'isShow' => 1
 		) )->select ();
 		$this->assign ( 'data', $shop );
@@ -514,10 +514,10 @@ class QingmuController extends CommomController {
 				}else{
 				foreach ($paichushijian as $temp){
 					$sql1=$sql1." and statday not like '".$day."-".$temp."'";
-					var_dump($sql1);
+					//var_dump($sql1);
 				}
 				}/* $this->ajaxReturn($sql1);return; */
-				$sql1rs= M('shopdata', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu')->where($sql1)->field("count(*) as calday, sum(sumcgmoney)/count(*) as cgmoney")->order("statday desc")->select();
+				$sql1rs= M('shopdata', 'stat', C('qingmu'))->where($sql1)->field("count(*) as calday, sum(sumcgmoney)/count(*) as cgmoney")->order("statday desc")->select();
 				$sql1r=$sql1rs[0];
 				//var_dump($sql1r);
 				/**************保护对象*******************/
@@ -527,7 +527,7 @@ class QingmuController extends CommomController {
 				$calday=$sql1r['calday'];
 				/***************保护对象******************/
 				$sql2="refshopid=".$refshopid." and statday like '".$day."-%'";
-				$sql2rs= M('shopdata', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu')->where($sql2)->order("statday desc")->limit(1)->select();
+				$sql2rs= M('shopdata', 'stat', C('qingmu'))->where($sql2)->order("statday desc")->limit(1)->select();
 				if($sql2rs==false){
 					continue;
 				}
@@ -551,13 +551,13 @@ class QingmuController extends CommomController {
 				//是否已经是最后一天
 				$status=0;
 				$shopname='';
-				$shop = M ( 'shop', 'ref', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->where ( array (
+				$shop = M ( 'shop', 'ref', C('qingmu') )->where ( array (
 						'id' =>$refshopid))->find ();
 				if ($shop) {
 					//店铺名
 					$shopname = $shop ['sname'];
 				}
-				$mubiao = M ( 'sellplan', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->where ( "refshopid=" . $refshopid . " and pmonth='" . $day . "'" )->find ();
+				$mubiao = M ( 'sellplan', 'stat', C('qingmu') )->where ( "refshopid=" . $refshopid . " and pmonth='" . $day . "'" )->find ();
 				if ($mubiao) {
 					//月总目标
 					$plan= $mubiao ['plan'];
@@ -631,6 +631,8 @@ class QingmuController extends CommomController {
 					$data['updatetime']=date ( "Y-m-d H:i:s", strtotime ( 'now' ) );
 					if($pai==2){
 						$data['paichustatus']=1;
+					}else{
+						$data['paichustatus']=null;
 					}
 					$isexist1=M('qingmu.timer', 'oa')->where('id='.$updateid)->save($data);
 					$isexist1=M('qingmu.timer', 'oa')->where('id='.$updateid)->find();
@@ -648,7 +650,6 @@ class QingmuController extends CommomController {
 						$isexist1['qsumrate']='none';
 					}
 					$rows[]=$isexist1;
-					$data['paichustatus']=4;
 				}else{
 					$isexist1=M('qingmu.timer', 'oa')->add($data);
 					$isexist2=M('qingmu.timer', 'oa')->where(array('yearmonth'=>$day,'shopname'=>$shopname))->find();
@@ -750,12 +751,12 @@ class QingmuController extends CommomController {
 				}
 		}
 		
-		$db = M ( 'shopdata', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' );
+		$db = M ( 'shopdata', 'stat', C('qingmu') );
 		$sql = "refshopid=" . $refshopid . " and STR_TO_DATE(statDay,'%Y-%m-%d') between '" . $bt . "' and '" . $et . "'";
 		$rows = $db->where ( $sql )->order ( "STR_TO_DATE(statDay,'%Y-%m-%d')" )->select ();
 		foreach ( $rows as &$row ) {
 			$shopid = $row ['refshopid'];
-			$shop = M ( 'shop', 'ref', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->where ( array (
+			$shop = M ( 'shop', 'ref', C('qingmu') )->where ( array (
 					'id' => $shopid
 			) )->find ();
 			if ($shop) {
@@ -768,7 +769,7 @@ class QingmuController extends CommomController {
 			$time = $row ['statday'];
 			$timez = explode ( '-', $time );
 			$time1 = $timez [0] . '-' . $timez [1];
-			$mubiao = M ( 'sellplan', 'stat', 'mysql://biuser:qingmutecoa@192.168.0.20/qingmu' )->where ( "refshopid=" . $shopid . " and pmonth='" . $time1 . "'" )->find ();
+			$mubiao = M ( 'sellplan', 'stat', C('qingmu') )->where ( "refshopid=" . $shopid . " and pmonth='" . $time1 . "'" )->find ();
 			if ($mubiao) {
 				$row ['plan'] = $mubiao ['plan'];
 				switch ($timez [1]) {

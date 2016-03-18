@@ -991,7 +991,7 @@ class QingmuController extends CommomController {
 			}
 						//数据量个数
 			$size=count($rows);
-			$rows[$size]=[];
+			$rows[$size]=array();
 			//一次指数初始值
 			$yi[0]=($rows[0]['cgmoney']+$rows[1]['cgmoney']+$rows[2]['cgmoney'])/3;
 			$rows[0]['yi']=$yi[0];

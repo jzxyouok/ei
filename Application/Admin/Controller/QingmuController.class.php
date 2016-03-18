@@ -190,6 +190,7 @@ class QingmuController extends CommomController {
 		$shop = M ( 'shop', 'ref', C('qingmu') )->order ( 'sname' )->where ( array (
 				'isShow' => 1 
 		) )->select ();
+		var_dump(C('qingmu'));
 		var_dump($shop);
 		$this->assign ( 'data', $shop );
 		$this->display (); // M('User','other_','mysql://biuser:qingmutecoa@192.168.0.20/qingmu#utf8');

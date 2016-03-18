@@ -19,13 +19,13 @@ class UserController extends CommomController {
 	}
 	
 	//列出冻结用户
-	public function listcolduser(){
+	/*public function listcolduser(){
 		if(parent::isroot()){
 			$this->display();
 		}else{
 			redirect(__ROOT__.'/Public/error.html');
 		}
-	}
+	}*/
 	
 // 	public function listusers(){
 // 		if(parent::isroot()){
@@ -61,7 +61,7 @@ class UserController extends CommomController {
 		}
 	}
 	
-	public function listcoldusers(){
+/*	public function listcoldusers(){
 		if(parent::isroot()){
 			$total=M('User')->where(array('status'=>0))->count();
 			$pageSize =I('rows','');
@@ -74,7 +74,7 @@ class UserController extends CommomController {
 		}else{
 			redirect(__ROOT__.'/Public/error.html');
 		}
-	}
+	}*/
 	
 	//更改用户信息
 	public function updateuser(){

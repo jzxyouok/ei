@@ -118,11 +118,17 @@ class UserinfoController extends CommomController{
 	
 	public function listinfos(){
 		if(parent::isroot()){
-			$total=M('Userinfo')->count();
+			$status=I('status','');
+			if($status===''){
+				
+			}else{
+				$select['status']=$status;
+			}
+			$total=M('Userinfo')->where($select)->count();
 			$pageSize =I('rows','');
 			$page = I('page','');
 			$pageStart = ($page - 1) * $pageSize;
-			$rows =M('Userinfo')->limit($pageStart.','.$pageSize)->order('status desc')->select();
+			$rows =M('Userinfo')->where($select)->limit($pageStart.','.$pageSize)->order('status desc')->select();
 			foreach($rows as &$row){
 				$row['picture1']="<a  target='_blank' style='color:red' href='".__ROOT__."/Idcard/".$row['picture1']."'>正面</a>";
 				$row['picture2']="<a  target='_blank' style='color:red' href='".__ROOT__."/Idcard/".$row['picture2']."'>反面</a>";

@@ -78,10 +78,29 @@ function agreeuser(){
 <div id="toolbar">
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="passuser()">审核通过</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="agreeuser()">同意修改</a>
+		  <span>
+				    <select id='status' class="form-control" name='status' style='width:100px;margin: 0 20px'> 
+				       <option value=''>全部</option>
+				       <option value=0>待审核</option>
+				      <option value=1>已审核</option> 
+				      <option value=2>请求修改</option>
+				       <option value=3>修改中</option> 
+		</select>
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">状态查询</a>
+	</span>
 </div>
+
 <div id="dlg-buttons">
 	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
 </div>
+<script>
+function getabout(){
+	var status=$('#status').val();
+	$('#dg').datagrid('load', {
+	    status: status 
+	});
+}
+</script>
 </body>
 </html>

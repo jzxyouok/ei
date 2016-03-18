@@ -21,7 +21,7 @@ return array (
 		), // 超级管理员
 		'REGISTER' => 1,
 		
-		'DB_2' => 'mysql://root:6833066@localhost:3306/qingmu'
+	//	'DB_2' => 'mysql://root:6833066@localhost:3306/qingmu'
 		
 )
 ;

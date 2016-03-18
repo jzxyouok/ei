@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>月预测统计数据</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+  	<table id="dg" title="月预测统计数据"  style="width:550px;height:250px">
+	</table>
+	
+<div id="toolbar">
+<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="seedetail()">查看详情</a>
+<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="exportdata()">导出月份数据</a>
+<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deletedata()">删除</a>
+<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="forecast()">预测</a>
+<!-- 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加单页</a>
+ -->		  <span>
+				    <select id='refshopid' class="form-control" name='refshopid' style='width:300px;margin: 0 20px'> 
+				      <volist name="data" id="vo">
+				      <option value={$vo.id}>{$vo.sname}</option> 
+				  		</volist>
+					</select>
+					起始时间（格式：2015-02）：<input id="bt" type="text" name='bt' class="easyui-datebox" value='2011-03'>
+					结束时间：<input id="et" type="text" name='et' class="easyui-datebox" value='2016-12'>
+					<a href="#" class="easyui-linkbutton" onclick="getabout()">查询</a>
+	</span> 
+</div>
+<script type="text/javascript">
+function forecast(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows!=''){
+				var s=rows[0].id;
+				for(var i=1;i<rows.length;i++){
+					var row=rows[i];
+					var id=row.id
+					s=s+','+id;
+				}
+				window.open("__CONTROLLER__/forecast?l="+s);
+	}else{
+	alert("请勾选按钮")}
+}
+
+function deletedata(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows!=''){
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					var id=row.id
+					var shopname=row.shopname;
+					var yearmonth=row.yearmonth
+					if(confirm('删除:'+shopname+yearmonth)){
+						$.post('__CONTROLLER__/delete',{'id':id},function(result){
+							$.messager.show({	// show error message
+								title: '消息',
+								msg: result
+							});
+							$('#dg').datagrid('reload');	// reload the user da
+					});
+					}else{
+						continue;
+					}
+				}
+	}else{
+	alert("请勾选按钮")}
+}
+
+function exportdata(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows!=''){
+				var s='0';
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					var day=row.yearmonth;
+					var shopid=row.shopid;
+					window.open("__CONTROLLER__/exportdata?refshopid="+shopid+"&day="+day);
+				}
+				//alert(s);
+	}else{
+	alert("请勾选按钮")}
+}
+function seedetail(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows!=''){
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					var id=row.id;
+					var day=row.yearmonth;
+					var shopid=row.shopid;
+					//alert(day+shopname);
+					window.open("__CONTROLLER__/seedetail?refshopid="+shopid+"&day="+day+"&id="+id);
+				}
+	}else{
+	alert("请勾选按钮")}
+}
+</script>
+<script type="text/javascript">
+
+
+$('#dg').datagrid({    
+    url:'__CONTROLLER__/listmonthtime',  
+    collapsible:true,
+    toolbar: '#toolbar',
+    rownumbers:true,
+   // pagination:true,
+   // pageSize:30,
+   // singleSelect:true,
+	//pageList:[5,10,50],
+	fit:true, 	
+    columns:[[
+        {field:'ck',checkbox:true}, 
+        {field:'id',title:'ID',hidden:true}, 
+        {field:'shopid',title:'shopID',hidden:true},   
+        {field:'shopname',width:120,title:'店铺名'},    
+        {field:'yearmonth',title:'时间',width:80},
+        {field:'cgmoney',title:'日成交额（常规）',width:120,
+        	formatter: function(value,row,index){
+        		return "<span style='color:red'>"+CurrencyFormatted(value)+"</span>";
+        	}},
+            {field:'qcgmoney',title:'去年同期日成交额',width:120,
+            	formatter: function(value,row,index){
+            		return "<span style='color:blue'>"+CurrencyFormatted(value)+"</span>";
+            	}},
+            {field:'summonthmoney',title:'月累计（总体）',width:120},
+            {field:'plan',title:'月目标（总体） ',width:120
+                /*        	,
+               	formatter: function(value,row,index){
+               		return value.toFixed(2);
+               	}	 */ 
+               },
+               {field:'sumrate',title:'月完成率（总体）！！',width:120,
+               	formatter: function(value,row,index){
+               		return "<span style='color:red'>"+CurrencyFormatted(value*100)+"%</span>";
+               	}
+               },
+               {field:'qsumrate',title:'去年同期月完成率（总体）',width:120,
+                  	formatter: function(value,row,index){
+                  		return "<span style='color:blue'>"+CurrencyFormatted(value*100)+"%</span>";
+                  	}
+                  },  //常规月累计成交量   
+            {field:'sumcgmonthmoney',title:'月累计（常规）',width:120},
+            {field:'lzcgplan',title:'月目标（常规） ',width:120
+                /*        	,
+               	formatter: function(value,row,index){
+               		return value.toFixed(2);lzcgplan
+               	}	 */ 
+               },
+                {field:'cgrate',title:'月完成率(常规)！！',width:120
+            	,
+            	formatter: function(value,row,index){
+            		return "<span style='color:red'>"+CurrencyFormatted(value*100)+"%</span>";
+            	}
+                },
+                {field:'qcgrate',title:'去年同期月完成率(常规)',width:120
+                	,
+                	formatter: function(value,row,index){
+                		return "<span style='color:blue'>"+CurrencyFormatted(value*100)+"%</span>";
+                	}
+                    },
+            {field:'status',title:'状态',width:80,
+                	formatter: function(value,row,index){
+                		if(value=='1'){
+                		return "<span style='color:green'>正常</span>";
+                		}
+                		else{
+                			return "<span style='color:red'>异常</span>";	
+                		}
+                	}},
+                    {field:'day',title:'月最后一天',width:100
+                        /*  	,
+                          	formatter: function(value,row,index){
+                          		return value.toFixed(2);
+                          	}	 
+                           */
+                          },
+            {field:'calday',title:'常规天数',width:80},
+            {field:'paichushijian',title:'排除时间(常规里排除)',width:120,
+            	formatter: function(value,row,index){
+            		if(value){
+            		return "<div style='word-break:break-all;white-space:pre-wrap; '>"+value+"</div>";
+            		}else{
+            			return '';
+            		}
+            		}},
+            {field:'paichustatus',title:'排除状态',width:80,
+            	formatter: function(value,row,index){
+            		if(value=='1'){
+            		return "<span style='color:green'>已排除</span>";
+            		}
+            		else if(value=='0'){
+            			return "<span style='color:red'>排除中</span>";	
+            		}else{
+            			return "";
+            		}
+            	}},
+            {field:'createtime',title:'计算时间',width:120},
+            {field:'updatetime',title:'查询时间',width:120},
+            {field:'username',title:'操作人',width:120}
+    ]]    
+});
+
+$.fn.datebox.defaults.formatter = function(date) {
+	var y = date.getFullYear();
+	var m = date.getMonth() + 1;
+	return y + '-' + (m < 10 ? '0' + m : m);
+	};
+	//
+	$.fn.datebox.defaults.parser = function(s) {
+	if (s) {
+	var a = s.split('-');
+	var d = new Date(parseInt(a[0]), parseInt(a[1]) - 1,0);
+	return d;
+	} else {
+	return new Date();
+	}
+
+	};
+	
+function CurrencyFormatted(amount) {
+    var i = parseFloat(amount);
+    if(isNaN(i)) { i = 0.00; }
+    var minus = '';
+    if(i < 0) { minus = '-'; }
+    i = Math.abs(i);
+    i = parseInt((i + .005) * 100);
+    i = i / 100;
+    s = new String(i);
+    if(s.indexOf('.') < 0) { s += '.00'; }
+    if(s.indexOf('.') == (s.length - 2)) { s += '0'; }
+    s = minus + s;
+    return s;
+}
+
+function updatescore(id,score){
+	if(confirm('确定打为'+score+"分")){
+		//alert(score);
+		var uri='__CONTROLLER__/updatescore'
+		$.post(uri,{'id':id,'score':score},function(result){
+			$.messager.show({	// show error message
+				title: '消息',
+				msg: result
+			});
+			$('#dg').datagrid('reload');	// reload the user da
+	});
+	}
+}
+
+function getabout(){
+	var refshopid=$('#refshopid').val();
+	var bt=$('input[name=bt]').val();
+	var et=$('input[name=et]').val();
+ 	if(bt=='' || et==''){
+		alert('日期不能为空');
+		return
+	} 
+	$('#dg').datagrid('load', {    
+		refshopid:refshopid,
+		bt:bt,
+		et:et
+	});
+}
+
+</script>
+</body>
+</html>

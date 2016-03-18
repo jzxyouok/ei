@@ -42,6 +42,33 @@ class UserController extends CommomController {
 // 		}
 // 	}
 	
+	function lock(){
+		if(parent::isroot()){
+			$id=I('id','');
+			$data['status']=0;
+			if(M('User')->where(array('id'=>$id))->save($data)){
+				$this->ajaxReturn('锁定成功');
+			}else{
+				$this->ajaxReturn('锁定失败');
+			}
+		}else{
+			redirect(__ROOT__.'/Public/error.html');
+		}
+	}
+	
+	function uplock(){
+		if(parent::isroot()){
+			$id=I('id','');
+			$data['status']=1;
+			if(M('User')->where(array('id'=>$id))->save($data)){
+				$this->ajaxReturn('解锁成功');
+			}else{
+				$this->ajaxReturn('解锁失败');
+			}	
+		}else{
+			redirect(__ROOT__.'/Public/error.html');
+		}
+	}
 	public function listusers(){
 		if(parent::isroot()){
 			$status=I('status',1);

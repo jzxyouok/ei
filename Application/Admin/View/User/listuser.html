@@ -12,7 +12,7 @@
 <script type="text/javascript">
 function destroyUser(){
 	var rows = $('#dg').datagrid('getSelections');
-	if (rows){
+	if (rows!=''){
 		$.messager.confirm('Confirm','你确定要删除?',function(r){
 			if (r){
 				var uri="__CONTROLLER__/deleteuser";
@@ -31,7 +31,48 @@ function destroyUser(){
 	}else{
 	alert("请勾选按钮")}
 }
-
+function lock(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows!=''){
+		$.messager.confirm('Confirm','你确定要锁定该用户?',function(r){
+			if (r){
+				var uri="__CONTROLLER__/lock";
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					$.post(uri,{'id':row.id},function(result){
+						$.messager.show({	// show error message
+							title: '消息',
+							msg: result
+						});
+						$('#dg').datagrid('reload');	// reload the user da
+				});
+				}
+			}
+		});
+	}else{
+	alert("请勾选按钮")}
+}
+function uplock(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows!=''){
+		$.messager.confirm('Confirm','你确定要解锁该用户?',function(r){
+			if (r){
+				var uri="__CONTROLLER__/uplock";
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					$.post(uri,{'id':row.id},function(result){
+						$.messager.show({	// show error message
+							title: '消息',
+							msg: result
+						});
+						$('#dg').datagrid('reload');	// reload the user da
+				});
+				}
+			}
+		});
+	}else{
+	alert("请勾选按钮")}
+}
 function updateuser(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){
@@ -78,10 +119,12 @@ function getabout(){
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑用户</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除用户</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加用户</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="lock()">加锁</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="uplock()">解锁</a> 
 		  <span>
 				    <select id='status' class="form-control" name='status' style='width:100px;margin: 0 20px'> 
-				      <option value=1>网站自主已开启</option> 
-				      <option value=0>网站自主已关闭</option>  
+				      <option value=1>正常状态</option> 
+				      <option value=0>已锁定</option>  
 		</select>
 	<a href="#" class="easyui-linkbutton"  onclick="getabout()">状态查询</a>
 	</span>

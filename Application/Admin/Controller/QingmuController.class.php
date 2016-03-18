@@ -570,6 +570,13 @@ class QingmuController extends CommomController {
 					$tempy=$temp[0];//2015
 					$tempm=$temp[1];//05
 					$tempd=$temp[2];//06
+					
+					/*
+					 * 这里傻逼放一个界定 是否最后一天的标记，排除BUG在此
+					 * 
+					 * 还是不放了！！
+					 * */
+		
 					switch ($tempd){
 						case '29':
 							if($tempm=='02'){
@@ -629,10 +636,12 @@ class QingmuController extends CommomController {
 				//var_dump($data);
 				if($updateid!=0){
 					$data['updatetime']=date ( "Y-m-d H:i:s", strtotime ( 'now' ) );
-					if($pai==2){
+					if($pai==2 and $status==1){//没问题的
 						$data['paichustatus']=1;
+					}else if($pai==2 and $status==0){//傻逼的最后一天
+						$data['paichustatus']=0;
 					}else{
-						$data['paichustatus']=null;
+						$data['paichustatus']=null;//其他
 					}
 					$isexist1=M('qingmu.timer', 'oa')->where('id='.$updateid)->save($data);
 					$isexist1=M('qingmu.timer', 'oa')->where('id='.$updateid)->find();

@@ -125,7 +125,7 @@ class BlogController extends CommomController {
     	if($title==''){
     		$this->ajaxReturn('标题不能为空');
     	}
-    	$content=I('content','','');
+    	$content=I('content','');
     	$order=I('order',0);
     	$status=I('status',0);
     	$data['title']=$title;

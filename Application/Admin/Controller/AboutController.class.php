@@ -90,7 +90,7 @@ class AboutController extends CommomController{
 	}
 	function addabouts(){
 		$username=$_SESSION['username'];
-		$about=I('about','');
+		$about=I('about','','');
 		$sort=I('sort',0);
 		$title=I('title','');
 		$status=I('status',1);
@@ -132,7 +132,7 @@ class AboutController extends CommomController{
 		$username=$_SESSION['username'];
 		$data=M('webabout')->where(array('id'=>$id,'username'=>$username))->find();
 		if($data){
-		$about=I('about','');
+		$about=I('about','','');
 		$sort=I('sort',0);
 		$title=I('title','');
 		$status=I('status',1);

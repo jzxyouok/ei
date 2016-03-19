@@ -202,7 +202,7 @@ border-radius:100px;">
 		}); */
 		$("#loginform").submit(function(){
 			  //alert($('#loginform').serialize());
-			  $.getJSON("__CONTROLLER__/checkLogin",$('#loginform').serialize(),function(result){
+			  $.post("__CONTROLLER__/checkLogin",$('#loginform').serialize(),function(result){
 				  alert(result);
 				  if(result=='登陆成功'){
 					 document.location="{:U('Admin/Index/index')}";

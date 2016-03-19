@@ -23,7 +23,7 @@
 		</div>
 		<div class="form-group">
 		<label>目录简介</label>
-		<textarea id="editor" name="content" placeholder="目录简介">{$data.content}</textarea>
+		<textarea id="editor" rows="8" class="form-control" name="content" placeholder="目录简介">{$data.content}</textarea>
 		</div>
 		<div class="form-group">
 			<label>目录排序</label>
@@ -73,11 +73,11 @@
 		    <!-- 配置文件 -->
     <script src="__ROOT__/Public/ueditor/ueditor.config.js"></script>
     <script src="__ROOT__/Public/ueditor/ueditor.all.min.js"></script>
-    <script>
+<!--     <script>
     $(function(){
         var ue = UE.getEditor('editor');
     })
-    </script>
+    </script> -->
 	<script type="text/javascript">
 	$(function(){
 		$.formValidator.initConfig({formID:"user_form",submitOnce:true,

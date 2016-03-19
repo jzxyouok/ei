@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>{$webinfo.title}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" href="__ROOT__/Public/Ui/assets/i/favicon.png">
+  <link rel="stylesheet" href="__ROOT__/Public/Ui/assets/css/amazeui.min.css"/>
+  <style>
+    .get {
+      background: #1E5B94;
+      color: #fff;
+      text-align: center;
+    }
+
+    .get-title {
+      font-size: 200%;
+      border: 2px solid #fff;
+      padding: 20px;
+      display: inline-block;
+    }
+
+    .get-btn {
+      background: #fff;
+    }
+
+    .detail {
+      background: #fff;
+    }
+
+    .detail-h2 {
+      text-align: center;
+      font-size: 150%;
+      margin: 40px 0;
+    }
+
+    .detail-h3 {
+      color: #1f8dd6;
+    }
+
+    .detail-p {
+      color: #7f8c8d;
+    }
+
+    .detail-mb {
+      margin-bottom: 30px;
+    }
+
+    .hope {
+      background: #3bb4f2;
+      padding: 50px 0;
+    }
+
+    .hope-img {
+      text-align: center;
+    }
+
+    .hope-hr {
+      border-color: #149C88;
+    }
+
+    .hope-title {
+      font-size: 140%;
+    }
+
+    .about {
+      background: #fff;
+      padding: 40px 0;
+      color: #7f8c8d;
+    }
+
+    .about-color {
+      color: #34495e;
+    }
+
+    .about-title {
+      font-size: 180%;
+      padding: 30px 0 50px 0;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+  </style>
+</head>
+<body>
+<header class="am-topbar am-topbar-fixed-top">
+  <div class="am-container">
+    <h1 class="am-topbar-brand">
+      {$webinfo.title}
+    </h1>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
+            data-am-collapse="{target: '#collapse-head'}"><span class="am-sr-only">导航切换</span> <span
+        class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="collapse-head">
+      <ul class="am-nav am-nav-pills am-topbar-nav">
+        <li class="am-active"><a href="__ROOT__">首页</a></li>
+        <li class="am-dropdown" data-am-dropdown>
+          <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+           平台介绍<span class="am-icon-caret-down"></span>
+          </a>
+          <ul class="am-dropdown-content">
+          <!--   <li class="am-dropdown-header">标题</li> -->
+            <volist name='about' id='vo'>
+            <li><a href="__ROOT__/Home/Index/about?id={$vo.id}">{$vo.title}</a></li>
+            </volist>
+          </ul>
+        </li>
+        <volist name='nav' id='vo'>
+				<li>
+                	<a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a>
+                    
+                </li>
+       </volist>
+      </ul>
+
+      <div class="am-topbar-right">
+        <button onclick='register()' class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span>注册</button>
+      </div>
+
+      <div class="am-topbar-right">
+        <button onclick='login()' class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录</button>
+      </div>
+      <script>
+      function login(){
+    	  window.open("{:U('Admin/Public/login')}");
+      }
+      function register(){
+    	  window.open("{:U('Admin/Public/register')}");
+      }
+      </script>
+    </div>
+  </div>
+</header>
+
+<div class="get">
+  <div data-am-widget="slider" class="am-slider am-slider-c1" data-am-slider='{&quot;directionNav&quot;:false}' >
+  <ul class="am-slides">
+   <volist name='photo' id='vo'>  
+  
+      <li data-thumb="__ROOT__/Uploads/{$vo.storeplace}"  style='height:500px'>
+    
+        	<a href="{$vo.url}" target="_blank">
+        	 <div  style='height:500px'>
+        	<img src="__ROOT__/Uploads/{$vo.storeplace}" style="height: 100%">
+        	 </div>
+        	</a>
+         <div class="am-slider-desc"><p  style='font-size:1.0em;padding: 0;margin: 0'>{$vo.title}</p>
+         <p style='font-size:0.8em;padding: 0;margin: 0'>{$vo.desc}</p>
+         </div>
+      </li>
+    </volist>
+  </ul>
+</div>
+
+
+</div>
+
+<div class="detail">
+  <div class="am-g am-container">
+    <div class="am-u-lg-12">
+      <h2 class="detail-h2">简单的企业官网！期待和你一起去实现！</h2>
+
+      <div class="am-g">
+        <div class="am-u-lg-3 am-u-md-6 am-u-sm-12 detail-mb">
+
+          <h3 class="detail-h3">
+            <i class="am-icon-mobile am-icon-sm"></i>
+            为移动而生
+          </h3>
+
+          <p class="detail-p">
+            该平台使用Amaze UI，该UI 采用业内先进的 mobile first 理念，从小屏逐步扩展到大屏，最终实现所有屏幕适配，适应移动互联潮流。
+          </p>
+        </div>
+        <div class="am-u-lg-3 am-u-md-6 am-u-sm-12 detail-mb">
+          <h3 class="detail-h3">
+            <i class="am-icon-cogs am-icon-sm"></i>
+            模块化齐全
+          </h3>
+
+          <p class="detail-p">
+            该平台模块齐全，满足企业官网的全部需求，包括图片轮转，产品介绍，企业介绍，新闻中心，招聘信息等模块，也可自定义模块，且后期可以增加模块。
+          </p>
+        </div>
+        <div class="am-u-lg-3 am-u-md-6 am-u-sm-12 detail-mb">
+          <h3 class="detail-h3">
+            <i class="am-icon-check-square-o am-icon-sm"></i>
+            持久性支持
+          </h3>
+
+          <p class="detail-p">
+            该平台使用服务器-客户端模式，由网站管理员进行维护，只需进行注册并使用，无需任何服务器操作。支持持久化，降低后继维护成本。</p>
+        </div>
+        <div class="am-u-lg-3 am-u-md-6 am-u-sm-12 detail-mb">
+          <h3 class="detail-h3">
+            <i class="am-icon-send-o am-icon-sm"></i>
+            配置简单
+          </h3>
+
+          <p class="detail-p">
+          该平台简单化操作，注册后只需进行简单配置即可快速拥有企业官网，简单，快捷。后台操作极具人性化，相比市场上的复杂后台，简直可以用友好来形容。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hope">
+  <div class="am-g am-container">
+  <!--   <div class="am-u-lg-2 am-u-md-4 am-u-sm-12 hope-img">
+      <img src="__ROOT__/Public/Ui/assets/i/examples/landing.png" alt="" data-am-scrollspy="{animation:'slide-left', repeat: false}">
+      <hr class="am-article-divider am-show-sm-only hope-hr">
+    </div> -->
+    <div class="am-u-lg-12 am-u-md-12 am-u-sm-12">
+      <h2 class="hope-title">黄页  AND 互联网+ AND 传统企业</h2>
+
+      <p>
+      黄页是一种以提供最直接联系信息的方式，是沟通企业与消费者的媒体。19世纪末诞生于美国，由于电话号簿白色印刷纸张不够，而临时采用黄色，至此沿用。信息时代的来临，以及20世纪末万维网的诞生，出现了相关的互联网黄页。网络传播的的方便性和快捷性无疑为企业带来了福音，然而参差不齐的互联网展示方式，或者依托第三方平台，或者自主建立网站，都是一种费钱费力费时的方式。于是，一个新的想法出现了：新型互联网黄页——企业智能展示平台。</p>
+  <p>   互联网+口号的喊出，以及政府加大对传统企业的信息化建设力度，一个依托互联网的新型企业展示平台很有必要出现。更多的中小传统企业必要也必须加大信息化建设，更亲密的和互联网进行融合与互动，借助网络平台扩大影响力，转型升级。与其花大量金钱和时间外包建站，不如统一设计和建造一个平台。
+      </p>通过设计和建造统一的互联网展示平台，使得中小企业只需注册用户，然后进行简单的相关配置，就能通过网络进行自身展示，避免了自主建设网站产生的各种不必要麻烦。
+      <P>
+      
+      </P>
+    </div>
+  </div>
+</div>
+
+<div class="about">
+  <div class="am-g am-container">
+    <div class="am-u-lg-12">
+      <h2 class="about-title about-color">非常欢迎大家注册试用该平台</h2>
+
+      <div class="am-g">
+        <div class="am-u-lg-6 am-u-md-8 am-u-sm-12">
+          <h4 class="about-color">关于网站</h4>
+
+          <p>{$webinfo.desc}</p>
+      </div>
+       <div class="am-u-lg-5 am-u-md-4 am-u-sm-12">
+          <h4 class="about-color">联系方式</h4>
+
+          <p>{$webinfo.address}</p>
+          <p>{$webinfo.phone}</p>
+          </div>
+      </div>
+    </div>
+      <div class="am-u-lg-12">
+      <h2 class="about-title about-color">我们的用户</h2>
+       <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
+  am-avg-md-3 am-avg-lg-4 am-gallery-default" data-am-gallery="{ pureview: true }" >
+      <volist name='user' id='vo'>
+      <li style='margin-bottom: 40px'>
+        <div class="am-gallery-item">
+            
+               <div  style='height:200px;width:200px'>
+              <img style="height: 100%" class=" am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$vo.logo}"  alt="{$vo.title}"/>
+              
+                <h3 class="am-gallery-title" style='text-align:center;font-size:1.2em'>
+                  <a href="__ROOT__/Ei/User/Index?username={$vo.username}" class="">{$vo.title} </a>
+                </h3>
+                 
+                </div>
+          
+        </div> 	
+        	 
+      </li>
+      </volist>
+  </ul>
+      </div>
+  </div>
+</div>
+
+<footer class="footer">
+<p>COPYRIGHT © 2015 – 2016  ALL RIGHTS RESERVED
+<br/>{$webinfo.webinfo}
+<br/>Modify by <a href="http://weibo.com/hunterhug" target="_blank">一只尼玛</a>
+</p>
+  <p>© 2014 <a href="http://www.yunshipei.com" target="_blank">AllMobilize, Inc.</a> Licensed under <a
+      href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>. by the AmazeUI Team.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="__ROOT__/Public/Ui/assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__ROOT__/Public/Ui/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="__ROOT__/Public/Ui/assets/js/amazeui.min.js"></script>
+</body>
+</html>

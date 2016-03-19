@@ -1,285 +1,215 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-  <meta charset="UTF-8">
-  <title>中小企业智能展示平台</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-siteapp"/>
-  <link rel="alternate icon" type="image/png" href="__ROOT__/Public/Ui/assets/i/favicon.png">
-  <link rel="stylesheet" href="__ROOT__/Public/Ui/assets/css/amazeui.min.css"/>
-  <style>
-    .get {
-      background: #1E5B94;
-      color: #fff;
-      text-align: center;
-    }
-
-    .get-title {
-      font-size: 200%;
-      border: 2px solid #fff;
-      padding: 20px;
-      display: inline-block;
-    }
-
-    .get-btn {
-      background: #fff;
-    }
-
-    .detail {
-      background: #fff;
-    }
-
-    .detail-h2 {
-      text-align: center;
-      font-size: 150%;
-      margin: 40px 0;
-    }
-
-    .detail-h3 {
-      color: #1f8dd6;
-    }
-
-    .detail-p {
-      color: #7f8c8d;
-    }
-
-    .detail-mb {
-      margin-bottom: 30px;
-    }
-
-    .hope {
-      background: #0bb59b;
-      padding: 50px 0;
-    }
-
-    .hope-img {
-      text-align: center;
-    }
-
-    .hope-hr {
-      border-color: #149C88;
-    }
-
-    .hope-title {
-      font-size: 140%;
-    }
-
-    .about {
-      background: #fff;
-      padding: 40px 0;
-      color: #7f8c8d;
-    }
-
-    .about-color {
-      color: #34495e;
-    }
-
-    .about-title {
-      font-size: 180%;
-      padding: 30px 0 50px 0;
-      text-align: center;
-    }
-
-    .footer p {
-      color: #7f8c8d;
-      margin: 0;
-      padding: 15px 0;
-      text-align: center;
-      background: #2d3e50;
-    }
-  </style>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="description" content=""/>
+<meta name="keywords" content=""/> 
+<title>{$webinfo.title}</title> 
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/home/css/shared.css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/home/css/style.css" />
+<script type="text/javascript" src="__ROOT__/Public/home/js/jquery-1.11.2.min.js"></script>
+<!--图片滚动-->
+<script type="text/javascript" src="__ROOT__/Public/home/js/superslide.2.1.js"></script>
 </head>
+<!--主体开始-->
 <body>
-<header class="am-topbar am-topbar-fixed-top">
-  <div class="am-container">
-    <h1 class="am-topbar-brand">
-      <a href="#">Ei展示平台</a>
-    </h1>
-
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
-            data-am-collapse="{target: '#collapse-head'}"><span class="am-sr-only">导航切换</span> <span
-        class="am-icon-bars"></span></button>
-
-    <div class="am-collapse am-topbar-collapse" id="collapse-head">
-      <ul class="am-nav am-nav-pills am-topbar-nav">
-        <li class="am-active"><a href="__ROOT__">首页</a></li>
-        <li><a href="__ROOT__/admin">后台</a></li>
-        <li class="am-dropdown" data-am-dropdown>
-          <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-            下拉菜单 <span class="am-icon-caret-down"></span>
-          </a>
-          <ul class="am-dropdown-content">
-            <li class="am-dropdown-header">标题</li>
-            <li><a href="#">1. 默认样式</a></li>
-            <li><a href="#">2. 基础设置</a></li>
-            <li><a href="#">3. 文字排版</a></li>
-            <li><a href="#">4. 网格系统</a></li>
+<!--头部开始-->
+<div class="head_warp">
+	<div class="head clearfix">
+    	<h1 class="logo"><a href="/"><img src="__ROOT__/Uploads/{$webinfo.logo}" title="logo" style='height:80px'/></a></h1>	
+        <div class="head_r">
+        	<div class="web_info">
+            	<span class="tel">联系方式：{$webinfo.phone}</span>
+            	
+            </div>
+            <!--标题开始，最多5个-->
+            <ul class="nav clearfix" id="nav">
+            	<li><a href="__ROOT__" >首页</a></li>
+			<!--标题1-->			
+            	<li>
+                	<a href="/abouts.html">介绍单页</a>
+                    <div class="nav_box clearfix">
+                    	<div class="nav_list">
+                    	<volist name='about' id='vo'>
+                        	<p><a href="__ROOT__/Home/Index/about?id="+{$vo.id}>{$vo.title}</a></p>
+						</volist>	
+                        </div>
+                    </div>
+                </li>
+                <volist name='nav' id='vo'>
+				<li>
+                	<a href="__ROOT__/Home/Index/page?id="+{$vo.id}>{$vo.title}</a>
+                    
+                </li>
+                </volist>
+				<li><a href="{:U('Admin/Public/login')}" target='__blank' style='color:#8a1f24'>登录</a></li>
+				<li><a href="{:U('Admin/Public/register')}" target='__blank' style='color:#8a1f24'>注册</a></li>
+			<!--标题1结束-->		
+            </ul>
+            <!--标题结束-->	
+        </div>
+    </div>	
+</div>
+<!--头部结束-->
+<!--内容区域开始-->
+<div class="main_warp">
+     
+	
+	<div class="focus_warp">
+        <div class="focusBox">
+          <ul class="pic">   
+          <volist name='photo' id='vo'>  
+            <li><a href="{$vo.url}" target="_blank"><img src="__ROOT__/Uploads/{$vo.storeplace}" alt="{$vo.title}"/></a></li> 
+           </volist>
+           </ul>
+          <a class="prev" href="javascript:void(0)"></a> <a class="next" href="javascript:void(0)"></a>
+          <ul class="hd">
+<!--             <li class="on"></li> -->
+             <volist name='photo' id='vo'>  
+            <li></li>
+           </volist>
           </ul>
-        </li>
-      </ul>
-
-      <div class="am-topbar-right">
-        <button onclick='register()' class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span>注册</button>
-      </div>
-
-      <div class="am-topbar-right">
-        <button onclick='login()' class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录</button>
-      </div>
-      <script>
-      function login(){
-    	  window.open("{:U('Admin/Public/login')}");
-      }
-      function register(){
-    	  window.open("{:U('Admin/Public/register')}");
-      }
-      </script>
+        </div>
     </div>
-  </div>
-</header>
+	<script type="text/javascript">
+	$(".focusBox").slide({ mainCell: "ul.pic", effect: "fold", autoPlay: true,delayTime:300});
+	</script>
+   
+<!-- 
+	<div  id="banner">
+		<img src="__ROOT__/Public/home/banner_image1.jpg">
+	</div> -->
 
-<div class="get">
-  <div data-am-widget="slider" style="height:80%" class="am-slider am-slider-default" data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;controlNav&quot;:&quot;thumbnails&quot;}' >
-  <ul class="am-slides">
-      <li data-thumb="http://s.amazeui.org/media/i/demos/bing-2.jpg">
-        	<img src="http://s.amazeui.org/media/i/demos/bing-2.jpg">
-         
-      </li>
-      <li data-thumb="http://s.amazeui.org/media/i/demos/bing-3.jpg">
-        	<img src="http://s.amazeui.org/media/i/demos/bing-3.jpg">
-         
-      </li>
-      <li data-thumb="http://s.amazeui.org/media/i/demos/bing-4.jpg">
-        	<img src="http://s.amazeui.org/media/i/demos/bing-4.jpg">
-         
-      </li>
-  </ul>
-</div>
-
-
-</div>
-
-<div class="detail">
-  <div class="am-g am-container">
-    <div class="am-u-lg-12">
-      <h2 class="detail-h2">One Web 、Any Device，期待和你一起去实现!</h2>
-
-      <div class="am-g">
-        <div class="am-u-lg-3 am-u-md-6 am-u-sm-12 detail-mb">
-
-          <h3 class="detail-h3">
-            <i class="am-icon-mobile am-icon-sm"></i>
-            为移动而生
-          </h3>
-
-          <p class="detail-p">
-            Amaze UI 采用业内先进的 mobile first 理念，从小屏逐步扩展到大屏，最终实现所有屏幕适配，适应移动互联潮流。
-          </p>
+	
+    <!--公司介绍块开始-->
+    <div class="about_warp">
+    	<div class="about clearfix">
+        	<div class="about_l">
+            	<h3 class="about_tit"><a href="#">关于星石</a></h3>
+                <div class="about_des">
+				星石投资成立于2007年，是国内第一批阳光私募公司，也是国内规模最大的阳光私募公司之一。
+				星石投资在发展过程中主动寻求规范，积极配合监管，参照基金公司组织架构完善公司治理，
+				公司的管理团队大都来自国内大型基金管理公司，具有多年的行业经验。
+				2013年星石投资成为证券业协会会员、基金业协会首批特别会员。
+				</div>	
+                <a href="/" class="more_02">查看详情</a>
+            </div>
+			
+			<!--切换信息块，最多三个-->
+            <div class="about_tab">
+                <div class="hd">
+                    <ul>
+                        <li>公告</li>
+                        <li>新闻</li>
+                        <li>观点</li>
+                    </ul>
+                </div>
+				<!--块内容开始-->
+                <div class="bd">
+					<!--信息块1-->
+                    <div class="about_info">
+                    	<div class="info_pic">
+						<!--图片-->
+						<img src="prev" data-original="__ROOT__/Public/home/banner_image1.jpg" />
+                        </div>
+						<!--标题-->
+                        <div class="info_r"> 
+                        	<div class="info_rec">
+                            	<h3><a href="/">标题1</a></h3>
+                                <div class="info_des">
+								这是标题1的内容
+								</div>
+                                <a href="/" class="more_01">更多</a>
+                            </div>	
+                            <ul class="info_list">  
+                            	<li><a href="/">标题2</a></li>
+                            	<li><a href="/">标题3</a></li> 
+                            	<li><a href="/">标题4</a></li>    
+                            </ul>	
+                        </div>
+                    </div>
+					<!--信息块1结束-->
+					<!--信息块1-->
+                    <div class="about_info">
+                    	<div class="info_pic">
+						<!--图片-->
+						<img src="prev" data-original="__ROOT__/Public/home/banner_image1.jpg" />
+                        </div>
+						<!--标题-->
+                        <div class="info_r"> 
+                        	<div class="info_rec">
+                            	<h3><a href="/">标题1</a></h3>
+                                <div class="info_des">
+								这是标题1的内容
+								</div>
+                                <a href="/" class="more_01">更多</a>
+                            </div>	
+                            <ul class="info_list">  
+                            	<li><a href="/">标题2</a></li>
+                            	<li><a href="/">标题3</a></li> 
+                            	<li><a href="/">标题4</a></li>    
+                            </ul>	
+                        </div>
+                    </div>
+					<!--信息块1结束-->
+					<!--信息块1-->
+                    <div class="about_info">
+                    	<div class="info_pic">
+						<!--图片-->
+						<img src="prev" data-original="__ROOT__/Public/home/banner_image1.jpg" />
+                        </div>
+						<!--标题-->
+                        <div class="info_r"> 
+                        	<div class="info_rec">
+                            	<h3><a href="/">标题1</a></h3>
+                                <div class="info_des">
+								这是标题1的内容
+								</div>
+                                <a href="/" class="more_01">更多</a>
+                            </div>	
+                            <ul class="info_list">  
+                            	<li><a href="/">标题2</a></li>
+                            	<li><a href="/">标题3</a></li> 
+                            	<li><a href="/">标题4</a></li>    
+                            </ul>	
+                        </div>
+                    </div>
+					<!--信息块1结束-->
+					
+            </div>
+			<!--块内容结束-->
         </div>
-        <div class="am-u-lg-3 am-u-md-6 am-u-sm-12 detail-mb">
-          <h3 class="detail-h3">
-            <i class="am-icon-cogs am-icon-sm"></i>
-            组件丰富，模块化
-          </h3>
-
-          <p class="detail-p">
-            Amaze UI 含近 20 个 CSS 组件、10 个 JS 组件，更有 17 款包含近 60 个主题的 Widgets，可快速构建界面出色、体验优秀的跨屏页面，大幅度提升你的开发效率。
-          </p>
+		<!--切换信息块结束-->
+			<script type="text/javascript">
+			$(".about_tab").slide({ effect: "left" });
+			</script>
         </div>
-        <div class="am-u-lg-3 am-u-md-6 am-u-sm-12 detail-mb">
-          <h3 class="detail-h3">
-            <i class="am-icon-check-square-o am-icon-sm"></i>
-            本地化支持
-          </h3>
-
-          <p class="detail-p">
-            相比国外的前端框架，Amaze UI 专注解决中文排版优化问题，根据操作系统调整字体，实现最佳中文排版效果；针对国内主流浏览器及 App 内置浏览器提供更好的兼容性支持，为你节省大量兼容性调试时间。
-          </p>
-        </div>
-        <div class="am-u-lg-3 am-u-md-6 am-u-sm-12 detail-mb">
-          <h3 class="detail-h3">
-            <i class="am-icon-send-o am-icon-sm"></i>
-            轻量级，高性能
-          </h3>
-
-          <p class="detail-p">
-            Amaze UI 非常注重性能，基于轻量的 Zepto.js 开发，并使用 CSS3 来做动画交互，平滑、高效，更适合移动设备，让你的 Web 应用可以高速载入。
-          </p>
-        </div>
-      </div>
     </div>
-  </div>
+ <!--公司介绍块开始-->
 </div>
+<!--内容区域结束-->
 
-<div class="hope">
-  <div class="am-g am-container">
-    <div class="am-u-lg-4 am-u-md-6 am-u-sm-12 hope-img">
-      <img src="__ROOT__/Public/Ui/assets/i/examples/landing.png" alt="" data-am-scrollspy="{animation:'slide-left', repeat: false}">
-      <hr class="am-article-divider am-show-sm-only hope-hr">
-    </div>
-    <div class="am-u-lg-8 am-u-md-6 am-u-sm-12">
-      <h2 class="hope-title">同我们一起打造你的前端框架</h2>
-
-      <p>
-        在知识爆炸的年代，我们不愿成为知识的过客，拥抱开源文化，发挥社区的力量，参与到Amaze Ui开源项目能获得自我提升。
-      </p>
-    </div>
-  </div>
-</div>
-
-<div class="about">
-  <div class="am-g am-container">
-    <div class="am-u-lg-12">
-      <h2 class="about-title about-color">Amaze UI 崇尚开放、自由，非常欢迎大家的参与</h2>
-
-      <div class="am-g">
-        <div class="am-u-lg-6 am-u-md-4 am-u-sm-12">
-          <form class="am-form">
-            <label for="name" class="about-color">你的姓名</label>
-            <input id="name" type="text">
-            <br/>
-            <label for="email" class="about-color">你的邮箱</label>
-            <input id="email" type="email">
-            <br/>
-            <label for="message" class="about-color">你的留言</label>
-            <textarea id="message"></textarea>
-            <br/>
-            <button type="submit" class="am-btn am-btn-primary am-btn-sm"><i class="am-icon-check"></i> 提 交</button>
-          </form>
-          <hr class="am-article-divider am-show-sm-only">
+<!--脚部开始-->
+<div class="foot_warp">
+	<div class="foot clearfix">
+    <!-- 	<p class="foot_nav">|<a href="/">网站地图</a>|<a href="/">风险提示</a>| </p> -->
+        <div class="copyright" style='font-size:1.1em'>
+		 COPYRIGHT © 2015 – 2016  ALL RIGHTS RESERVED
+		<br/>{$webinfo.webinfo}
+		<br/>Design by <a href="xxx" target="_blank">一只尼玛</a>
         </div>
-
-        <div class="am-u-lg-6 am-u-md-8 am-u-sm-12">
-          <h4 class="about-color">关于我们</h4>
-
-          <p>AllMobilize Inc (美通云动科技有限公司)
-            由前微软美国总部IE浏览器核心研发团队成员及移动互联网行业专家在美国西雅图创立，旨在解决网页在不同移动设备屏幕上的适配问题。基于国际专利技术并结合最前沿的HTML5技术，云适配解决方案可以帮助企业快速将桌面版网站适配到各种移动设备终端的屏幕上，不仅显著地提高了企业网站的用户体验以及销售转化率，而且大幅度地节省了企业开发和维护移动网站的费用。</p>
-          <h4 class="about-color">团队介绍</h4>
-
-          <p>AllMobilize Inc 获得了微软创投孵化器的支持，其领先科技已得到全球多家企业及机构的认可与信赖，客户包括全球500强企业、美国政府、国内政府机关、国内外上市公司、以及互联网标准化组织W3C。</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<footer class="footer">
-  <p>© 2014 <a href="http://www.yunshipei.com" target="_blank">AllMobilize, Inc.</a> Licensed under <a
-      href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>. by the AmazeUI Team.</p>
-</footer>
-
-<!--[if lt IE 9]>
-<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="__ROOT__/Public/Ui/assets/js/amazeui.ie8polyfill.min.js"></script>
-<![endif]-->
-
-<!--[if (gte IE 9)|!(IE)]><!-->
-<script src="__ROOT__/Public/Ui/assets/js/jquery.min.js"></script>
-<!--<![endif]-->
-<script src="__ROOT__/Public/Ui/assets/js/amazeui.min.js"></script>
+    </div>	
+</div> 
+<!--脚部结束-->
+<!--__ROOT__/Public/home-->
+<script type="text/javascript" src="__ROOT__/Public/home/js/scrolltopcontrol.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/home/js/jquery.lazyload.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/home/js/web.js"></script>
+<script type="text/javascript">
+var fy = new xpFy();
+fy.tabId = "bg";
+fy.mainTB(6, 3, "__ROOT__/Public/home/css/fy1.css");
+</script>
 </body>
 </html>

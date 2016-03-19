@@ -9,12 +9,12 @@ namespace Admin\Controller;
 use Think\Controller;
 class PublicController extends Controller {
     public function index(){
-        $this->display('login');
+        $this->display('mlogin');
     }
 
     //登录页
     public function login(){
-        $this->display();
+        $this->display('mlogin');
     }
 
     //登出

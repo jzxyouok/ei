@@ -19,8 +19,10 @@ return array (
 		'ADMIN_AUTH_KEY' => array (
 				'hunterhug' 
 		), // 超级管理员
+		//首页展示者
+		'HOMEUSER'=>'hunterhug',
 		'REGISTER' => 1,
-		
+		'SHOW_PAGE_TRACE'=>true
 	//	'DB_2' => 'mysql://root:6833066@localhost:3306/qingmu'
 		
 )

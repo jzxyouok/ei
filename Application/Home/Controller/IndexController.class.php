@@ -64,11 +64,30 @@ class IndexController extends Controller{
 		$this->assign('about',$about);
 		/*
 		 * */
-		$paper=M('paper')->where(array('cid'=>$id,'status'=>1))->field('content',true)->order('`order` desc,view desc')->select();
+		//第几页
+		$pageno=I('pageno',1);
+		//每页数目
+		$size=3;
+		//开始
+		$last=($pageno-1)*$size;
+		//总数
+		$total=M('paper')->where(array('cid'=>$id,'status'=>1))->count();
+		if($total==0){
+			$this->assign('page',1);
+			$this->assign('pageno',1);
+		}else{
+		//页数
+		$page=ceil($total/$size);
+	//	trace($page);
+		$paper=M('paper')->where(array('cid'=>$id,'status'=>1))->limit($last.','.$size)->field('content',true)->order('`order` desc,view desc')->select();
 		$this->assign('papers',$paper);
+		$this->assign('page',$page);
+		$this->assign('pageno',$pageno);
+		}
 		$cates=M('category')->where(array('id'=>$id))->find();
 // 		var_dump($paper);
 		$this->assign('cates',$cates);
+		$this->assign('id',$id);
 		$this->display();
 	}
 /* 	function _empty() {

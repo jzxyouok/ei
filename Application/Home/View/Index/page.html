@@ -134,7 +134,7 @@
 <volist name='papers' id='vo'>
     <article class="blog-main">
       <h3 class="am-article-title">
-        <a href="#">{$vo.title}</a>
+        <a href="__ROOT__/Home/Index/article?id={$vo.id}">{$vo.title}</a>
       </h3>
       <h4 class="am-article-meta blog-meta">by {$vo.author} posted on {$vo.createtime} update in {$vo.updatetime}
       </h4>
@@ -145,7 +145,7 @@
          </div>
         <div class="am-u-lg-4">
             <div  style='height:200px;width:200px;margin:20px'>
-              <img style="height:100%;width:100%" class=" am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$vo.photo}"  alt="{$vo.title}"/>
+             <a href="__ROOT__/Home/Index/article?id={$vo.id}"> <img style="height:100%;width:100%" class=" am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$vo.photo}"  alt="{$vo.title}"/></a>
            </div>
         </div>
       </div>
@@ -153,11 +153,47 @@
      <hr class="am-article-divider blog-hr">
 </volist>
 </div>
-    <hr class="am-article-divider blog-hr">
-    <ul class="am-pagination blog-pagination">
-      <li class="am-pagination-prev"><a href="">&laquo; 上一页</a></li>
-      <li class="am-pagination-next"><a href="">下一页 &raquo;</a></li>
+    <div>
+    <ul class="am-pagination blog-pagination am-pagination-centered am-pagination-default">
+    <if condition="$pageno gt 1">
+    <li class="am-pagination-prev"><a href="__ROOT__/Home/Index/page?id={$id}&pageno={$pageno-1}">&laquo; 上一页</a></li>
+    <else /> 
+    </if>
+    
+    <!-- 第一页 -->
+    	<if condition="$pageno eq 1">
+    	<else />
+       <li><a href="__ROOT__/Home/Index/page?id={$id}&pageno=1">1</a></li>
+         <li>...</li>
+       </if>
+    <!--  -->
+    
+    <if condition="$pageno gt 2 and $pageno-1 neq 1">
+    <li><a href="__ROOT__/Home/Index/page?id={$id}&pageno={$pageno-1}">{$pageno-1}</a></li>
+	<else />
+	 </if>
+	 
+
+	 <li>{$pageno}</li>
+
+	 <if condition="$pageno lt $page-1 and $pageno+1 neq $page"> 
+	  <li><a href="__ROOT__/Home/Index/page?id={$id}&pageno={$pageno+1}">{$pageno+1}</a></li>
+	 </if>
+    
+    <!-- 最后一页 -->
+    <if condition="$pageno eq $page">
+    	<else />
+    	<li>...</li>
+       <li><a href="__ROOT__/Home/Index/page?id={$id}&pageno={$page}">{$page}</a></li>
+    </if>
+    <!--  -->
+    
+    <if condition="$pageno lt $page">
+	     <li class="am-pagination-next"><a href="__ROOT__/Home/Index/page?id={$id}&pageno={$pageno+1}">&raquo; 下一页</a></li>
+	<else />
+	</if>
     </ul>
+    </div>
 </div>
  <div class="am-u-md-4 blog-sidebar">
      <div class="am-panel-group">
@@ -166,6 +202,7 @@
         <div class="am-panel-bd">
           <div>{$cates.content}</div>
           <p>创建于{$cates.createtime}</p>
+          <p>更新于{$cates.updatetime}</p>
         </div>
       </section>
       <section class="am-panel am-panel-default">

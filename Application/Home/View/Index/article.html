@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>{$content.title}</title>
+  <title>{$article.title}</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
@@ -176,7 +176,7 @@
 <header class="am-topbar am-topbar-fixed-top">
   <div class="am-container">
     <h1 class="am-topbar-brand">
-     <a href="__ROOT__">{$webinfo.title}</a>
+      <a href="__ROOT__">{$webinfo.title}</a>
     </h1>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
@@ -226,77 +226,61 @@
 
 <header class="am-g my-head">
   <div class="am-u-sm-12 am-article">
-    <h1 class="am-article-title">{$content.title}</h1>
-    <p class="am-article-meta">创建于{$content.createtime}<br/>更新于{$content.updatetime}</p>
+    <h1 class="am-article-title">{$article.title}</h1>
+         <div class="am-vertical-align" style='height:160px;width:160px;margin:0 auto;text-align:center'>
+              <img style="height: 100%" class="am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$article.photo}" />
+              </div>
+    <p class="am-article-meta">创建于{$article.createtime}
+    <br/>更新于{$article.updatetime}
+    <br/>by <span class=' am-badge  am-radius '>{$article.author}</span> views <strong class=' am-badge am-radius '>{$article.view}</strong>
+    </p>
   </div>
 </header>
 <hr class="am-article-divider"/>
-<div class="am-g am-g-fixed">
-  <div class="am-u-md-9 am-u-md-push-3">
+<div class="am-g " style='min-height:300px'>
+  <div class="am-u-md-8 am-u-md-push-3">
     <div class="am-g">
       <div class="am-u-sm-11 am-u-sm-centered">
-        <div class="am-cf am-article">
-          {$content.about}
+        <h2>简介</h2>
+        <div class="am-cf am-article am-article-lead" style='font-size:0.8em'>
+          {$article.desccontent}
         </div>
+        <h2>正文</h2>
+        <div class="am-cf am-article am-article-bd" style='min-height:200px'>
+          {$article.content}
+        </div>
+        
         <hr/>
-        <!-- <ul class="am-comments-list">
-          <li class="am-comment">
-            <a href="#link-to-user-home">
-              <img src="http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/96/h/96/q/80" alt="" class="am-comment-avatar" width="48" height="48">
-            </a>
-            <div class="am-comment-main">
-              <header class="am-comment-hd">
-                <div class="am-comment-meta">
-                  <a href="#link-to-user" class="am-comment-author">某人</a> 评论于 <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-12 15:30</time>
-                </div>
-              </header>
-              <div class="am-comment-bd">
-                <p>《永远的蝴蝶》一文，还吸收散文特长，多采用第一人称，淡化情节，体现一种思想寄托和艺术追求。</p>
-              </div>
-            </div>
-          </li>
-          <li class="am-comment">
-            <a href="#link-to-user-home">
-              <img src="http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/96/h/96/q/80" alt="" class="am-comment-avatar" width="48" height="48">
-            </a>
-            <div class="am-comment-main">
-              <header class="am-comment-hd">
-                <div class="am-comment-meta">
-                  <a href="#link-to-user" class="am-comment-author">路人甲</a> 评论于 <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-13 0:03</time>
-                </div>
-              </header>
-              <div class="am-comment-bd">
-                <p>感觉仿佛是自身的遭遇一样，催人泪下</p>
-              </div>
-            </div>
-          </li>
-        </ul> -->
+        
+            <ul class="am-pagination blog-pagination">
+      <notempty name="articlep">
+      <li class="am-pagination-prev"><a href="__ROOT__/Home/Index/article?id={$articlep.id}">&laquo; {$articlep.title}</a></li>
+      </notempty>
+       <notempty name="articlen">
+      <li class="am-pagination-next"><a href="__ROOT__/Home/Index/article?id={$articlen.id}">{$articlen.title} &raquo;</a></li>
+    </notempty>
+    </ul>
+    
       </div>
     </div>
   </div>
-  <div class="am-u-md-3 am-u-md-pull-9 my-sidebar">
+  <!--  -->
+    <div class="am-u-md-2 am-u-md-pull-7 my-sidebar">
     <div class="am-offcanvas" id="sidebar">
       <div class="am-offcanvas-bar">
         <ul class="am-nav">
-
-        <volist name='about' id='vo'>
-        <if condition='$vo[title] eq $content[title]'>
-          <li><a href="__ROOT__/Home/Index/about?id={$vo.id}" class="am-nav-header">{$vo.title}</a></li>
-        <else />
-             <li><a href="__ROOT__/Home/Index/about?id={$vo.id}">{$vo.title}</a></li>
-        </if>
-      
+		<li>热门文章</li>
+        <volist name='many' id='vo'>
+             <li><a href="__ROOT__/Home/Index/article?id={$vo.id}">{$vo.title}<br/><span style='color:black;font-size:0.7em'>{$vo.createtime} views {$vo.view}<br />by {$vo.author}</span></a></li>
             </volist>
         </ul>
       </div>
     </div>
   </div>
-  <a href="#sidebar" class="am-btn am-btn-sm am-btn-success am-icon-bars am-show-sm-only my-button" data-am-offcanvas><span class="am-sr-only">侧栏导航</span></a>
-</div>
-<div class="am-g am-container">
-    <div  class="am-u-lg-12">
+  <br/>
+      <div  class="am-u-md-8 am-u-md-push-3 ">
       <!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="www.lenggirl.com/about" data-title="首页" data-url="http://www.lenggirl.com/about"></div>
+	<div class="ds-thread" data-thread-key="www.lenggirl.com/{$id}|{article.title}" data-title="{article.title}" data-url="http://www.lenggirl.com/{$id}|{article.title}"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -311,31 +295,12 @@
 	})();
 	</script>
 	<!-- 多说公共JS代码 end -->
-    </div>
-          <div class="am-u-lg-12">
-      <h2 class="about-title about-color">我们的用户</h2>
-       <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
-  am-avg-md-3 am-avg-lg-4 am-gallery-default" data-am-gallery="{ pureview: true }" >
-      <volist name='user' id='vo'>
-      <li style='margin-bottom: 40px'>
-        <div class="am-gallery-item">
-            
-               <div  style='height:160px;width:160px'>
-              <img style="height: 100%" class=" am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$vo.logo}"  alt="{$vo.title}"/>
-              
-                <h3 class="am-gallery-title" style='text-align:center;font-size:0.9em'>
-                  <a href="__ROOT__/Ei/User/Index?username={$vo.username}" class="">{$vo.title} </a>
-                </h3>
-                 
-                </div>
-          
-        </div> 	
-        	 
-      </li>
-      </volist>
-  </ul>
-      </div>
+  </div>
+  <a href="#sidebar" class="am-btn am-btn-sm am-btn-success am-icon-bars am-show-sm-only my-button" data-am-offcanvas><span class="am-sr-only">侧栏导航</span></a>
+  <!--  -->
 </div>
+
+ 
 <footer class="footer">
 <p>COPYRIGHT © 2015 – 2016  ALL RIGHTS RESERVED
 <br/>{$webinfo.webinfo}

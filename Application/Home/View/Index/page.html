@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>{$webinfo.title}</title>
+  <title>{$cates.title}</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
@@ -80,7 +80,7 @@
 <header class="am-topbar am-topbar-fixed-top">
   <div class="am-container">
     <h1 class="am-topbar-brand">
-    {$webinfo.title}
+      <a href="__ROOT__">{$webinfo.title}</a>
     </h1>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
@@ -133,10 +133,10 @@
 <div style='min-height:200px'>
 <volist name='papers' id='vo'>
     <article class="blog-main">
-      <h3 class="am-article-title">
+      <h3 class="am-article-title" style='color:#0f9ae0'>
         <a href="__ROOT__/Home/Index/article?id={$vo.id}">{$vo.title}</a>
       </h3>
-      <h4 class="am-article-meta blog-meta">by {$vo.author} posted on {$vo.createtime} update in {$vo.updatetime}
+      <h4 class="am-article-meta blog-meta">by {$vo.author} posted on {$vo.createtime} updated in {$vo.updatetime}
       </h4>
 
       <div class="am-g blog-content">
@@ -229,7 +229,9 @@
 <!--   <p>© 2014 <a href="http://www.yunshipei.com" target="_blank">AllMobilize, Inc.</a> Licensed under <a
       href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>. by the AmazeUI Team.</p>
  --></footer>
-
+<!-- JiaThis Button BEGIN -->
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jiathis_r.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>

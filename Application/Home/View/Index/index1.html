@@ -97,7 +97,7 @@
 <header class="am-topbar am-topbar-fixed-top">
   <div class="am-container">
     <h1 class="am-topbar-brand">
-      {$webinfo.title}
+      <a href="__ROOT__">{$webinfo.title}</a>
     </h1>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
@@ -255,7 +255,50 @@
        </div>
       </div>
     </div>
+          <!--文章   -->
       <div class="am-u-lg-12">
+      <hr/>
+     <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
+      <ul class="am-tabs-nav am-cf">
+      <volist name='showpaper' id='vo'>
+          <li><a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a></li>
+      </volist>
+      </ul>
+      <div class="am-tabs-bd">
+        
+        <volist name='showpaper' id='vo'>  
+          <div __ROOT__/Home/Index/page?id={$vo.id} class="am-tab-panel">
+<!-- 条目 -->
+<div data-am-widget="list_news" class="am-list-news am-list-news-default" >
+  <!--列表标题-->
+    <div class="am-list-news-hd am-cf">
+       <!--带更多链接-->
+        <a href="__ROOT__/Home/Index/page?id={$vo.id}" class=""><h2>{$vo.title}</h2>
+        <span class="am-list-news-more am-fr">更多 &raquo;</span>
+        </a>
+    </div>
+
+  <div class="am-list-news-bd">
+  <ul class="am-list">
+	 <volist name="vo['paper']" id='vo1'>  
+      <li class="am-g am-list-item-dated">
+          <a href="__ROOT__/Home/Index/article?id={$vo1.id}" class="am-list-item-hd ">{$vo1.title}</a>
+          <span class="am-list-date">{$vo1.createtime}</span>
+      </li>
+      </volist>
+  </ul>
+  </div>
+</div>
+<!-- 条目 -->
+            </div>
+            </volist>
+      </div>
+  </div>
+      
+      </div>
+      <!-- 文章 -->
+      <div class="am-u-lg-12">
+          <hr/>
       <h2 class="about-title about-color">我们的用户</h2>
        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
   am-avg-md-3 am-avg-lg-4 am-gallery-default" data-am-gallery="{ pureview: true }" >
@@ -278,6 +321,7 @@
       </volist>
   </ul>
       </div>
+
             <div  class="am-u-lg-12">
       <!-- 多说评论框 start -->
 	<div class="ds-thread" data-thread-key="www.lenggirl.com" data-title="首页" data-url="http://www.lenggirl.com"></div>
@@ -308,6 +352,9 @@ var duoshuoQuery = {short_name:"hunterhug"};
 <!--   <p>© 2014 <a href="http://www.yunshipei.com" target="_blank">AllMobilize, Inc.</a> Licensed under <a
       href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>. by the AmazeUI Team.</p>
  --></footer>
+ <!-- JiaThis Button BEGIN -->
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jiathis_r.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>

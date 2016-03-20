@@ -11,6 +11,13 @@
   <meta http-equiv="Cache-Control" content="no-siteapp"/>
   <link rel="alternate icon" type="image/png" href="__ROOT__/Public/Ui/assets/i/favicon.png">
   <link rel="stylesheet" href="__ROOT__/Public/Ui/assets/css/amazeui.min.css"/>
+  
+<script type="text/javascript" src="__ROOT__/Public/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+<link rel="stylesheet" href="__ROOT__/Public/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>
+  
     <style>
     @media only screen and (min-width: 641px) {
       .am-offcanvas {
@@ -246,7 +253,7 @@
           {$article.desccontent}
         </div>
         <h2>正文</h2>
-        <div class="am-cf am-article am-article-bd" style='min-height:200px'>
+        <div class="am-cf am-article am-article-bd" style='min-height:200px;word-break: break-all;'>
           {$article.content}
         </div>
         

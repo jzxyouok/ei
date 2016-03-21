@@ -272,7 +272,8 @@ class UserController extends CommomController {
 		if($password1!=$password2){
 			$this->ajaxReturn('两次密码不一致');
 		}
-		if(false===M('user')->where(array('username'=>$username,'password'=>md5($password1)))->save()){
+		$data['password']=md5($password1);
+		if(false===M('user')->where(array('username'=>$username,'password'=>md5($opassword)))->save($data)){
 			$this->ajaxReturn('修改密码失败');
 		}
 		else{

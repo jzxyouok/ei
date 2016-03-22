@@ -975,8 +975,6 @@ class QingmuController extends CommomController {
 			$this->ajaxReturn($data1);
 			//var_dump($sb);
 		}
-		
-		//导出数据，哇哈哈哈哈哈
 		function forecastss(){
 			$a=I('ab',0.5);
 			$s=I('l','');
@@ -1034,42 +1032,25 @@ class QingmuController extends CommomController {
 			}
 			$rows[$size]['shopname']='预测值';
 			$rows[$size]['yearmonth']=$a;
-			for($i=0;$i<$size;$i++){
-				$day=$rows[$i]['yearmonth'];
-				$refshopid=$rows[$i]['shopid'];
-				$lastyear1=explode('-', $day);
-				$lastyear2=$lastyear1[0]-1;
-				$lastyear=$lastyear2.'-'.$lastyear1[1];
-				$qunian=M('qingmu.timer', 'oa')->where(array('shopid'=>$refshopid,'yearmonth'=>$lastyear))->find();
-				if($qunian){
-					$rows[$i]['qcgmoney']=$qunian['cgmoney'];
-					$rows[$i]['qcgrate']=$qunian['cgrate'];
-					$rows[$i]['qsumrate']=$qunian['sumrate'];
-				}else{
-					$rows[$i]['qcgmoney']='none';
-					$rows[$i]['qcgrate']='none';
-					$rows[$i]['qsumrate']='none';
-				}
-			}
 			$xlsName  = $rows[1]['shopname'];
 			$xlsCell  = array(
 					//array('refshopid','店铺名'),
 					array('yearmonth','日期'),
 					array('shopname','店铺'),
 					array('cgmoney','日成交额（常规）'),
-					array('qcgmoney','去年同期日销售额'),
-					array('qsumrate','月完成率（总体）'),
-					array('qcgrate','月完成率（常规）'),
 					array('yu','预测值'),
 					array('yi','一次指数平滑'),
 					array('er','二次指数平滑'),
 					array('err','绝对误差')
 			);
-		 	foreach ($rows as $k => $v)
+		/* 	foreach ($rows as $k => $v)
 			{
-				$rows[$k]['qsumrate']=round($v['qsumrate']*100,2). "%";
-				$rows[$k]['qcgrate']=round($v['qcgrate']*100,2). "%";
-			} 
+				$rows[$k]['dayplanrate']=round($v['dayplanrate']*100,2). "%";
+				$rows[$k]['monthplanrate']=round($v['monthplanrate']*100,2). "%";
+				$rows[$k]['monthcgplanrate']=round($v['monthcgplanrate']*100,2). "%";
+				$rows[$k]['monthhdplanrate']=round($v['monthhdplanrate']*100,2). "%";
+				$rows[$k]['monthjhsplanrate']=round($v['monthjhsplanrate']*100,2). "%";
+			} */
 			$this->exportExcel($xlsName,$xlsCell,$rows);
 			
 			//var_dump($sb);

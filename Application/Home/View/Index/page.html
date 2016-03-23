@@ -136,7 +136,7 @@
       <h3 class="am-article-title" style='color:#0f9ae0'>
         <a href="__ROOT__/Home/Index/article?id={$vo.id}">{$vo.title}</a>
       </h3>
-      <h4 class="am-article-meta blog-meta">by {$vo.author} posted on {$vo.createtime} updated in {$vo.updatetime}
+      <h4 class="am-article-meta blog-meta">by <strong class=' am-badge am-radius '>{$vo.author}</strong> posted on <strong class=' am-badge am-radius '>{$vo.createtime}</strong> views <strong class=' am-badge am-radius '>{$vo.view}</strong>
       </h4>
 
       <div class="am-g blog-content">
@@ -200,9 +200,7 @@
       <section class="am-panel am-panel-default">
         <div class="am-panel-hd">{$cates.title}</div>
         <div class="am-panel-bd">
-          <div>{$cates.content}</div>
-          <p>创建于{$cates.createtime}</p>
-          <p>更新于{$cates.updatetime}</p>
+          <div><strong class=' am-badge am-radius '>创建于{$cates.createtime}</strong><br/>{$cates.content}</div>
         </div>
       </section>
       <section class="am-panel am-panel-default">

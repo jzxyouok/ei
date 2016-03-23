@@ -18,6 +18,7 @@ class WebController extends CommomController{
 		if($title==''){
 			$this->ajaxReturn('标题不能为空');
 		}
+		$slogan=I('slogan','');
 		$desc=I('desc','');
 		$logo=I('logo','');
 		$address=I('address','');
@@ -27,6 +28,7 @@ class WebController extends CommomController{
 		
 		$data['title']=$title;
 		$data['desc']=$desc;
+		$data['slogan']=$slogan;
 		if($logo!=''){
 			$data['logo']=$logo;
 			$paths=explode('/', $logo);

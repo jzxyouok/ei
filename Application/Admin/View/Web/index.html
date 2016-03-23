@@ -21,6 +21,12 @@
 						placeholder="请输入网站标题" required="required" ng-model="datas.title">
 				</div>
 				<div id="titleTip"></div>
+			<div>
+					<label for='slogan'>漂移通知</label>
+					<input type="text" class="form-control" name="slogan" id="slogan"
+						placeholder="请输入通知" required="required" ng-model="datas.slogan">
+				</div>
+				<div id="sloganTip"></div>
 			</div>
 			<div class="form-group">
 				<div>
@@ -115,6 +121,9 @@
 		$("#title").formValidator({onShowText:"请输入网站标题"})
 		.inputValidator({min:2,max:160,onError:"标题2~160个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能为空"}});
 		
+		$("#slogan").formValidator({onShowText:"请输入通知"})
+		.inputValidator({min:2,max:160,onError:"通知2~160个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"通知两边不能为空"}});
+
 		$("#desc").formValidator({onShowText:"请输入网站描述"})
 		.inputValidator({min:0,max:300,onError:"最多300个字符"});
 		

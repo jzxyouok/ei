@@ -54,6 +54,7 @@ class IndexController extends Controller{
 			}
 		}
 		$this->assign('user',$userweb);
+		$this->assign('id',$id);
 		$this->display();
 	
 	}

@@ -140,14 +140,12 @@
       </h4>
 
       <div class="am-g blog-content">
-        <div class="am-u-lg-8">
-         {$vo.desccontent}
-         </div>
-        <div class="am-u-lg-4">
-            <div  style='height:200px;width:200px;margin:20px'>
+        <div class="am-u-lg-12">
+          <div  style='height:200px;width:200px;padding:10px; text-align:center;float:left'>
              <a href="__ROOT__/Home/Index/article?id={$vo.id}"> <img style="height:100%;width:100%" class=" am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$vo.photo}"  alt="{$vo.title}"/></a>
            </div>
-        </div>
+         {$vo.desccontent}
+         </div>
       </div>
     </article>
      <hr class="am-article-divider blog-hr">
@@ -195,6 +193,7 @@
     </ul>
     </div>
 </div>
+<br />
  <div class="am-u-md-4 blog-sidebar">
      <div class="am-panel-group">
       <section class="am-panel am-panel-default">

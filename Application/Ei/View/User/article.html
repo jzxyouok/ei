@@ -186,7 +186,7 @@
 <header class="am-topbar am-topbar-fixed-top">
   <div class="am-container">
     <h1 class="am-topbar-brand">
-      <a href="__ROOT__/Home">{$webinfo.title}</a>
+     <a href="__ROOT__/Ei/User/Index?username={$username}">{$webinfo.title}</a>
     </h1>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
@@ -195,7 +195,7 @@
 
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
       <ul class="am-nav am-nav-pills am-topbar-nav">
-        <li class="am-active"><a href="__ROOT__">首页</a></li>
+        <li class="am-active"><a href="__ROOT__/Ei/User/Index?username={$username}">首页</a></li>
         <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
            平台介绍<span class="am-icon-caret-down"></span>
@@ -203,44 +203,33 @@
           <ul class="am-dropdown-content">
  <!--            <li class="am-dropdown-header">标题</li> -->
             <volist name='about' id='vo'>
-            <li><a href="__ROOT__/Home/Index/about?id={$vo.id}">{$vo.title}</a></li>
+            <li><a href="__ROOT__/EI/User/about?username={$username}&id={$vo.id}">{$vo.title}</a></li>
             </volist>
           </ul>
         </li>
         <volist name='nav' id='vo'>
 				<li>
-                	<a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a>
+                	<a href="__ROOT__/Ei/User/page?username={$username}&id={$vo.id}">{$vo.title}</a>
                     
                 </li>
        </volist>
       </ul>
+		<div class="am-topbar-right">
+       <p style='color:black;font-size:1.0em;padding: 10px'><strong>{$webinfo.phone}</strong></p>
+       </div>
 
-      <div class="am-topbar-right">
-        <button onclick='register()' class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span>注册</button>
-      </div>
-
-      <div class="am-topbar-right">
-        <button onclick='login()' class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录</button>
-      </div>
-      <script>
-      function login(){
-    	  window.open("{:U('Admin/Public/login')}");
-      }
-      function register(){
-    	  window.open("{:U('Admin/Public/register')}");
-      }
-      </script>
     </div>
   </div>
 </header>
 
 <header class="am-g my-head">
   <div class="am-u-sm-12 am-article">
-    <h1 class="am-article-title">{$article.title}</h1>
+    <h1 class="am-article-title">{$article.title}<br/><span class='am-badge am-radius' style='color:#0e90d2;background-color:white'>Docu:<a href='__ROOT__/Ei/User/page?username={$username}&id={$article.cid}'>{$article.catname}</a></span></h1>
          <div class="am-vertical-align" style='height:160px;width:160px;margin:0 auto;text-align:center'>
-              <img style="height: 100%" class="am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$article.photo}" />
+              <a href='__ROOT__/Ei/User/page?username={$username}&id={$article.cid}'><img style="height: 100%" class="am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$article.photo}" /></a>
               </div>
-    <p class="am-article-meta">创建于{$article.createtime}
+    <p class="am-article-meta">
+   	 创建于{$article.createtime}
     <br/>更新于{$article.updatetime}
     <br/>by <span class=' am-badge  am-radius '>{$article.author}</span> views <strong class=' am-badge am-radius '>{$article.view}</strong>
     </p>
@@ -264,10 +253,10 @@
         
             <ul class="am-pagination blog-pagination">
       <notempty name="articlep">
-      <li class="am-pagination-prev"><a href="__ROOT__/Home/Index/article?id={$articlep.id}">&laquo; {$articlep.title}</a></li>
+      <li class="am-pagination-prev"><a href="__ROOT__/Ei/User/article?username={$username}&id={$articlep.id}">&laquo; {$articlep.title}</a></li>
       </notempty>
        <notempty name="articlen">
-      <li class="am-pagination-next"><a href="__ROOT__/Home/Index/article?id={$articlen.id}">{$articlen.title} &raquo;</a></li>
+      <li class="am-pagination-next"><a href="__ROOT__/Ei/User/article?username={$username}&id={$articlen.id}">{$articlen.title} &raquo;</a></li>
     </notempty>
     </ul>
     
@@ -281,7 +270,7 @@
         <ul class="am-nav">
 		<li>热门文章</li>
         <volist name='many' id='vo'>
-             <li><a href="__ROOT__/Home/Index/article?id={$vo.id}">{$vo.title}<br/><span style='color:black;font-size:0.7em'>{$vo.createtime} views {$vo.view}<br />by {$vo.author}</span></a></li>
+             <li><a href="__ROOT__/Ei/User/article?username={$username}&id={$vo.id}">{$vo.title}<br/><span style='color:black;font-size:0.7em'>{$vo.createtime} views {$vo.view}<br />by {$vo.author}</span></a></li>
             </volist>
         </ul>
       </div>
@@ -311,14 +300,12 @@
 </div>
 
  
-<footer class="footer">
-<p>COPYRIGHT © 2015 – 2016  ALL RIGHTS RESERVED
-<br/>{$webinfo.webinfo}
-<br/>Modify by <a href="http://weibo.com/hunterhug" target="_blank">一只尼玛</a>
-</p>
-<!--   <p>© 2014 <a href="http://www.yunshipei.com" target="_blank">AllMobilize, Inc.</a> Licensed under <a
-      href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>. by the AmazeUI Team.</p>
- --></footer>
+	<footer class="footer">
+		<p>
+			COPYRIGHT © 2015 – 2016 ALL RIGHTS RESERVED <br />{$webinfo.webinfo}
+			<br/>公司地址：{$webinfo.address}<br/>联系方式：{$webinfo.phone}
+		</p>
+	</footer>
     <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
     <a href="#top" title="">
         <img class="am-gotop-icon-custom" src="http://amazeui.b0.upaiyun.com/assets/i/cpts/gotop/goTop.gif" />

@@ -121,7 +121,7 @@
 	<header class="am-topbar am-topbar-fixed-top">
 		<div class="am-container">
 			<h1 class="am-topbar-brand">
-				<a href="__ROOT__/Home">{$webinfo.title}</a>
+				<a href="__ROOT__/Ei/User/Index?username={$username}">{$webinfo.title}</a>
 			</h1>
 
 			<button
@@ -132,7 +132,7 @@
 
 			<div class="am-collapse am-topbar-collapse" id="collapse-head">
 				<ul class="am-nav am-nav-pills am-topbar-nav">
-					<li class="am-active"><a href="__ROOT__">首页</a></li>
+					<li class="am-active"><a href="__ROOT__/Ei/User/Index?username={$username}">首页</a></li>
 					<li class="am-dropdown" data-am-dropdown><a
 						class="am-dropdown-toggle" data-am-dropdown-toggle
 						href="javascript:;">公司介绍<span class="am-icon-caret-down"></span>
@@ -182,6 +182,9 @@
 	<div class="hope">
   <div class="am-g am-container">
     <div class="am-u-lg-12 am-u-md-12 am-u-sm-12 hope-img">
+             <marquee style='margin-top:20px' direction=right behavior=scroll onmouseover=this.stop() onmouseout=this.start()>
+	{$webinfo.slogan}
+	</marquee>
      <div>
       <a href='__ROOT__/Uploads/{$webinfo.logo}' target='_blank'><img style='max-height:280px;max-width:280px' class=" am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$webinfo.logo}" alt="" data-am-scrollspy="{animation:'slide-left', repeat: false}">
       </a>
@@ -248,10 +251,10 @@
 			</div>
 			<div class="bd">
 				<ul class="picList">
-				<volist name='product' id='product'>
+				<volist name='product' id='vo'>
 					<li>
-						<div class="pic"><a href="__ROOT__/Ei/User/product?username={$username}&id={$product.id}" target="_blank"><img src="__ROOT__/Uploads/{$product.photo}" /></a></div>
-						<div class="title"><a href="__ROOT__/Ei/User/product?username={$username}&id={$product.id}" target="_blank">{$product.title}</a></div>
+						<div class="pic"><a href="__ROOT__/Ei/User/product?username={$username}&id={$vo.id}" target="_blank"><img src="__ROOT__/Uploads/{$vo.photo}" /></a></div>
+						<div class="title"><a href="__ROOT__/Ei/User/product?username={$username}&id={$vo.id}" target="_blank">{$vo.title}</a></div>
 					</li>
 				</volist>
 				</ul>

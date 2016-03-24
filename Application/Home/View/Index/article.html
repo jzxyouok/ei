@@ -195,7 +195,7 @@
 
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
       <ul class="am-nav am-nav-pills am-topbar-nav">
-        <li class="am-active"><a href="__ROOT__">首页</a></li>
+        <li class="am-active"><a href="__ROOT__/Home">首页</a></li>
         <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
            平台介绍<span class="am-icon-caret-down"></span>
@@ -236,9 +236,9 @@
 
 <header class="am-g my-head">
   <div class="am-u-sm-12 am-article">
-    <h1 class="am-article-title">{$article.title}</h1>
+    <h1 class="am-article-title">{$article.title}<br/><span class='am-badge am-radius' style='color:#0e90d2;background-color:white'>Docu:<a href='__ROOT__/Home/Index/page?id={$article.cid}'>{$article.catname}</a></span></h1>
          <div class="am-vertical-align" style='height:160px;width:160px;margin:0 auto;text-align:center'>
-              <img style="height: 100%" class="am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$article.photo}" />
+              <a href='__ROOT__/Home/Index/page?id={$article.cid}'><img style="height: 100%" class="am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$article.photo}" /></a>
               </div>
     <p class="am-article-meta">创建于{$article.createtime}
     <br/>更新于{$article.updatetime}

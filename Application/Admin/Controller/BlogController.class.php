@@ -262,6 +262,7 @@ class BlogController extends CommomController {
     		$cate=M('category')->where(array('username'=>$username))->field('id,title')->select();
     		$this->assign('cate',$cate);
     		$this->assign($data);
+    		$this->assign('username',$username);
     		$this->display();
     	}else{
     		$this->ajaxReturn('找不到该文章') ;

@@ -47,7 +47,10 @@ $('#dg').datagrid({
     columns:[[
         {field:'ck',checkbox:true}, 
         {field:'id',title:'单页ID',width:100,hidden:true},   
-        {field:'title',title:'标题',width:120},   
+        {field:'title',title:'标题',width:120,    
+        	formatter: function(value,row,index){
+				return "<a target='_blank' href='__ROOT__/Ei/User/article?username="+row.username+"&id="+row.id+"'>"+value+"</a>";
+			}},   //__ROOT__/Ei/User/article?username={$username}&id={$id}
         {field:'author',title:'作者',width:120},   
         {field:'cid',title:'目录',width:120},    
         {field:'createtime',title:'创建时间',width:120},

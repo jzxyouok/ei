@@ -11,6 +11,7 @@ use Think\Controller;
 class UserController extends CommomController {
 	//列出用户
 	public function listuser(){ 
+		
 		if(parent::isroot()){
 			$this->display();
 		}else{

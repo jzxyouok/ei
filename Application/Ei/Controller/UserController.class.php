@@ -4,8 +4,11 @@ use Think\Controller;
 class UserController extends Controller{
 	
 	function index(){
-		$username=I('username',C('HOMEUSER'));
-		
+		$username=I('username','');
+		if($username==''){
+			$this->error('非法途径');
+			return;
+		}
 		//判断是否审核
 		$webinfo=M('webinfo')->where(array('username'=>$username,'status'=>1))->find();
 		if($webinfo){
@@ -50,11 +53,35 @@ class UserController extends Controller{
 		//产品
 		$product=M('product')->field('content,desccontent',true)->where(array('username'=>$username,'status'=>1))->order('`order` desc,createtime')->limit(8)->select();
 		$this->assign('product',$product);
+		//var_dump($product);
 		$this->display('index1');
 	}
 	
 	function about(){
-		$username=I('username',C('HOMEUSER'));
+		$username=I('username','');
+		if($username==''){
+			$this->error('非法途径');
+			return;
+		}
+		
+		//判断是否审核
+		$webinfo=M('webinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($webinfo){
+				
+		}else{
+			$this->error('网站已经关闭');
+			return;
+		}
+		
+		//判断是否存在
+		$userinfo=M('userinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($userinfo){
+				
+		}else{
+			$this->error('网站正在审核中...');
+			return;
+		}
+		
 		$id=I('id','');
 		$content=M('webabout')->where(array('id'=>$id,'status'=>1))->find();
 		if($content){
@@ -64,7 +91,6 @@ class UserController extends Controller{
 		}
 		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
 		$nav=M('category')->where(array('username'=>$username,'status'=>1))->order('`order` desc,createtime')->select();
-		$webinfo=M('webinfo')->where(array('username'=>$username))->find();
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
 		$this->assign('about',$about);
@@ -75,13 +101,35 @@ class UserController extends Controller{
 	}
 	
 	function page(){
+		$username=I('username','');
+		if($username==''){
+			$this->error('非法途径');
+			return;
+		}
+		
+		//判断是否审核
+		$webinfo=M('webinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($webinfo){
+		
+		}else{
+			$this->error('网站已经关闭');
+			return;
+		}
+		
+		//判断是否存在
+		$userinfo=M('userinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($userinfo){
+		
+		}else{
+			$this->error('网站正在审核中...');
+			return;
+		}
 		$id=I('id','');
 		/*
 		 * 
 		 * */
-		$about=M('webabout')->where(array('username'=>C('HOMEUSER'),'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
-		$nav=M('category')->where(array('username'=>C('HOMEUSER'),'status'=>1))->order('`order` desc,createtime')->select();
-		$webinfo=M('webinfo')->where(array('username'=>C('HOMEUSER')))->find();
+		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
+		$nav=M('category')->where(array('username'=>$username,'status'=>1))->order('`order` desc,createtime')->select();
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
 		$this->assign('about',$about);
@@ -111,6 +159,7 @@ class UserController extends Controller{
 // 		var_dump($paper);
 		$this->assign('cates',$cates);
 		$this->assign('id',$id);
+		$this->assign('username',$username);
 		$this->display();
 	}
 /* 	function _empty() {
@@ -121,18 +170,45 @@ class UserController extends Controller{
 	} */
 	
 	function article(){
+		$username=I('username','');
+		if($username==''){
+			$this->error('非法途径');
+			return;
+		}
+		
+		//判断是否审核
+		$webinfo=M('webinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($webinfo){
+		
+		}else{
+			$this->error('网站已经关闭');
+			return;
+		}
+		
+		//判断是否存在
+		$userinfo=M('userinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($userinfo){
+		
+		}else{
+			$this->error('网站正在审核中...');
+			return;
+		}
 		$id=I('id','');
 		/*
 		 * */
-		$about=M('webabout')->where(array('username'=>C('HOMEUSER'),'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
-		$nav=M('category')->where(array('username'=>C('HOMEUSER'),'status'=>1))->order('`order` desc,createtime')->select();
-		$webinfo=M('webinfo')->where(array('username'=>C('HOMEUSER')))->find();
+		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
+		$nav=M('category')->where(array('username'=>$username,'status'=>1))->order('`order` desc,createtime')->select();
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
 		$this->assign('about',$about);
 		/*
 		 * */
 		$article=M('paper')->where(array('id'=>$id))->find();
+		
+		//目录名
+		$catname=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid']))->find();
+		$article['catname']=$catname['title'];
+		
 		M('paper')->where(array('id'=>$id))->setInc('view');
 		$articlen=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('gt',$id)))->find();
 		$articlep=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('lt',$id)))->find();
@@ -142,6 +218,7 @@ class UserController extends Controller{
 		$this->assign('articlen',$articlen);
 		$this->assign('many',$many);
 		$this->assign('id',$id);
+		$this->assign('username',$username);
 		$this->display();
 	}
 }

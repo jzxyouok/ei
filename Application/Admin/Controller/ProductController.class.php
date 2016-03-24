@@ -276,8 +276,8 @@ class ProductController extends CommomController {
     		$this->ajaxReturn('标题不能为空');
     	}
     	$price=I('price','');
-    	if($author==''){
-    		$this->ajaxReturn('作者不能为空');
+    	if($price==''){
+    		$this->ajaxReturn('价格不能为空');
     	}
     	$cid=I('cid','');
     	if($cid==''){

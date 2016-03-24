@@ -119,8 +119,8 @@ class IndexController extends Controller{
 		 * */
 		$article=M('paper')->where(array('id'=>$id))->find();
 		
-		//目录名
-		$catname=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid']))->find();
+	//目录名
+		$catname=M('category')->field('content,desccontent',true)->where(array('id'=>$article['cid']))->find();
 		$article['catname']=$catname['title'];
 		
 		M('paper')->where(array('id'=>$id))->setInc('view');

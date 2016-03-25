@@ -3,14 +3,21 @@ namespace Admin\Controller;
 use Think\Controller;
 class ProductController extends CommomController {
     public function listcate(){
+    	$username=$_SESSION['username'];
+    	$jinhan['username']=$username;
+    	$jinhan['pid']=0;
+    	$pcategory=M('pcategory')->where($jinhan)->field('content',true)->order('`order` desc,createtime')->select();
+    	$this->assign('pcategory',$pcategory);
     	$this->display();
     }
     public function listcates(){
-    	$username=$_SESSION['username'];
-    	$status=I('status',1);
+        $username=$_SESSION['username'];
+    	$status=I('status','');
+    	$mulu=I('mulu',0);
     	if($status!=''){
     		$jinhan['status']=$status;
     	}
+    	$jinhan['pid']=$mulu;
     	$jinhan['username']=$username;
     	$total=M('pcategory')->where($jinhan)->field('content',true)->count();
     	$pageSize =I('rows','');
@@ -22,30 +29,39 @@ class ProductController extends CommomController {
     	$this->ajaxReturn($data);
     }
     public function listproduct(){
-    	$username=$_SESSION['username'];
-    	$data=M('pcategory')->where(array('username'=>$username))->select();
+        	$username=$_SESSION['username'];
+    	$data=M('pcategory')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>0))->select();
+    	foreach ($data as &$v){
+    		$son=M('pcategory')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id']))->select();
+    	//trace($son);
+    	if($son){
+    		$v['son']=$son;
+    	}else{
+    		$v['son']=[];
+    	}
+    	}
     	$this->assign('cate',$data);
     	$this->display();
     }
     public function listproducts(){
-    	$username=$_SESSION['username'];
+        	$username=$_SESSION['username'];
     	$cid=I('cid','');
-    	$status=I('status',1);
-    	if($cid==''){
-    	$total=M('product')->where(array('username'=>$username,'status'=>$status))->count();
+    	$status=I('status','');
+    	$jinhan['username']=$username;
+    	if($cid!=''){
+    		$jinhan['cid']=$cid;
     	}
-    	else{
-    		$total=M('product')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->count();
+    	if($status!=''){
+    		$jinhan['status']=$status;
+    	}else{
+    		$jinhan['status']=array('lt',2);
     	}
+    	$total=M('product')->where($jinhan)->count();
     	$pageSize =I('rows','');
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
-    	if($cid==''){
-    	$rows =M('product')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent,price',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
-    	}else{
-    		$rows =M('product')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->field('content,desccontent,price',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
-    		 
-    	}
+    	$rows =M('product')->where($jinhan)->field('content,desccontent,price',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
+
     	foreach($rows as &$row){
     		$row['cid']=M('pcategory')->where(array('id'=>$row['cid']))->getField('title');
     	}
@@ -117,11 +133,20 @@ class ProductController extends CommomController {
     }
     
     public function addcate(){
+    	    	$username=$_SESSION['username'];
+    	$jinhan['username']=$username;
+    	$jinhan['pid']=0;
+    	$pcategory=M('pcategory')->where($jinhan)->field('content',true)->order('`order` desc,createtime')->select();
+    	$this->assign('pcategory',$pcategory);
     	$this->display();
     }
     public function addcates(){
     	$username=$_SESSION['username'];
     	$title=I('title','');
+    	$mulu=I('mulu',0);
+    	if(is_numeric($mulu)){
+    		$data['pid']=$mulu;
+    	}
     	if($title==''){
     		$this->ajaxReturn('产品分类标题不能为空');
     	}
@@ -150,6 +175,10 @@ class ProductController extends CommomController {
     	$data=M('pcategory')->where(array('id'=>$id,'username'=>$username))->find();
     	if($data){
     		$this->assign('data',$data);
+    		$jinhan['username']=$username;
+    		$jinhan['pid']=0;
+    		$pcategory=M('pcategory')->where($jinhan)->field('content',true)->order('`order` desc,createtime')->select();
+    		$this->assign('pcategory',$pcategory);
     		$this->display();
     	}else{
     		$this->ajaxReturn("找不到该类目");
@@ -164,6 +193,10 @@ class ProductController extends CommomController {
     	$title=I('title','');
     	if($title==''){
     		$this->ajaxReturn('标题不能为空');
+    	}
+    	$mulu=I('mulu',0);
+    	if(is_numeric($mulu) and $id!=$mulu){
+    		$data['pid']=$mulu;
     	}
     	$content=I('content','');
     	$order=I('order',0);
@@ -201,8 +234,17 @@ class ProductController extends CommomController {
     }
     
     public function addproduct(){
-    	$username=$_SESSION['username'];
-    	$data=M('pcategory')->where(array('username'=>$username))->select();
+    $username=$_SESSION['username'];
+    	$data=M('pcategory')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>0))->select();
+    	foreach ($data as &$v){
+    		$son=M('pcategory')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id']))->select();
+    	//trace($son);
+    	if($son){
+    		$v['son']=$son;
+    	}else{
+    		$v['son']=[];
+    	}
+    	}
     	$this->assign('cate',$data);
     	$this->display();
     }
@@ -259,8 +301,17 @@ class ProductController extends CommomController {
     		$this->ajaxReturn('找不到该产品') ;   	}
     	$data=M('product')->where(array('id'=>$id,'username'=>$username))->find();
     	if($data){
-    		$cate=M('pcategory')->where(array('username'=>$username))->field('id,title')->select();
-    		$this->assign('cate',$cate);
+    		$data1=M('pcategory')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>0))->select();
+	    	foreach ($data1 as &$v){
+	    		$son=M('pcategory')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id']))->select();
+	    	//trace($son);
+	    	if($son){
+	    		$v['son']=$son;
+	    	}else{
+	    		$v['son']=[];
+	    	}
+	    	}
+	    	$this->assign('cate',$data1);
     		$this->assign($data);
     		$this->display();
     	}else{

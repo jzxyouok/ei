@@ -3,14 +3,21 @@ namespace Admin\Controller;
 use Think\Controller;
 class BlogController extends CommomController {
     public function listcate(){
+    	$username=$_SESSION['username'];
+    	$jinhan['username']=$username;
+    	$jinhan['pid']=0;
+    	$category=M('category')->where($jinhan)->field('content',true)->order('`order` desc,createtime')->select();
+    	$this->assign('category',$category);
     	$this->display();
     }
     public function listcates(){
     	$username=$_SESSION['username'];
-    	$status=I('status',1);
+    	$status=I('status','');
+    	$mulu=I('mulu',0);
     	if($status!=''){
     		$jinhan['status']=$status;
     	}
+    	$jinhan['pid']=$mulu;
     	$jinhan['username']=$username;
     	$total=M('category')->where($jinhan)->field('content',true)->count();
     	$pageSize =I('rows','');
@@ -23,29 +30,38 @@ class BlogController extends CommomController {
     }
     public function listpaper(){
     	$username=$_SESSION['username'];
-    	$data=M('category')->where(array('username'=>$username))->select();
+    	$data=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>0))->select();
+    	foreach ($data as &$v){
+    		$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id']))->select();
+    	//trace($son);
+    	if($son){
+    		$v['son']=$son;
+    	}else{
+    		$v['son']=[];
+    	}
+    	}
+    	//var_dump($data);
     	$this->assign('cate',$data);
     	$this->display();
     }
     public function listpapers(){
     	$username=$_SESSION['username'];
     	$cid=I('cid','');
-    	$status=I('status',1);
-    	if($cid==''){
-    	$total=M('paper')->where(array('username'=>$username,'status'=>$status))->count();
+    	$status=I('status','');
+    	$jinhan['username']=$username;
+    	if($cid!=''){
+    		$jinhan['cid']=$cid;
     	}
-    	else{
-    		$total=M('paper')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->count();
+    	if($status!=''){
+    		$jinhan['status']=$status;
+    	}else{
+    		$jinhan['status']=array('lt',2);
     	}
+    	$total=M('paper')->where($jinhan)->count();
     	$pageSize =I('rows','');
     	$page = I('page','');
     	$pageStart = ($page - 1) * $pageSize;
-    	if($cid==''){
-    	$rows =M('paper')->where(array('username'=>$username,'status'=>$status))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
-    	}else{
-    		$rows =M('paper')->where(array('username'=>$username,'status'=>$status,'cid'=>$cid))->field('content,desccontent',true)->order('`order` desc')->limit($pageStart.','.$pageSize)->select();
-    		 
-    	}
+ 		$rows =M('paper')->where($jinhan)->field('content,desccontent',true)->order('`order` desc,createtime')->limit($pageStart.','.$pageSize)->select();
     	foreach($rows as &$row){
     		$row['cid']=M('category')->where(array('id'=>$row['cid']))->getField('title');
     	}
@@ -117,11 +133,20 @@ class BlogController extends CommomController {
     }
     
     public function addcate(){
+    	$username=$_SESSION['username'];
+    	$jinhan['username']=$username;
+    	$jinhan['pid']=0;
+    	$category=M('category')->where($jinhan)->field('content',true)->order('`order` desc,createtime')->select();
+    	$this->assign('category',$category);
     	$this->display();
     }
     public function addcates(){
     	$username=$_SESSION['username'];
     	$title=I('title','');
+    	$mulu=I('mulu',0);
+    	if(is_numeric($mulu)){
+    		$data['pid']=$mulu;
+    	}
     	if($title==''){
     		$this->ajaxReturn('标题不能为空');
     	}
@@ -150,6 +175,11 @@ class BlogController extends CommomController {
     	$data=M('category')->where(array('id'=>$id,'username'=>$username))->find();
     	if($data){
     		$this->assign('data',$data);
+    		$jinhan['username']=$username;
+    		$jinhan['pid']=0;
+    		$category=M('category')->where($jinhan)->field('content',true)->order('`order` desc,createtime')->select();
+    		$this->assign('category',$category);
+    	//	var_dump($category);
     		$this->display();
     	}else{
     		$this->ajaxReturn("找不到该目录");
@@ -164,6 +194,10 @@ class BlogController extends CommomController {
     	$title=I('title','');
     	if($title==''){
     		$this->ajaxReturn('标题不能为空');
+    	}
+    	$mulu=I('mulu',0);
+       	if(is_numeric($mulu) and $id!=$mulu){
+    		$data['pid']=$mulu;
     	}
     	$content=I('content','');
     	$order=I('order',0);
@@ -201,8 +235,17 @@ class BlogController extends CommomController {
     }
     
     public function addpaper(){
-    	$username=$_SESSION['username'];
-    	$data=M('category')->where(array('username'=>$username))->select();
+    $username=$_SESSION['username'];
+    	$data=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>0))->select();
+    	foreach ($data as &$v){
+    		$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id']))->select();
+    	//trace($son);
+    	if($son){
+    		$v['son']=$son;
+    	}else{
+    		$v['son']=[];
+    	}
+    	}
     	$this->assign('cate',$data);
     	$this->display();
     }
@@ -259,9 +302,18 @@ class BlogController extends CommomController {
     		$this->ajaxReturn('找不到该文章') ;   	}
     	$data=M('paper')->where(array('id'=>$id,'username'=>$username))->find();
     	if($data){
-    		$cate=M('category')->where(array('username'=>$username))->field('id,title')->select();
-    		$this->assign('cate',$cate);
-    		$this->assign($data);
+	    	$data1=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>0))->select();
+	    	foreach ($data1 as &$v){
+	    		$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id']))->select();
+	    	//trace($son);
+	    	if($son){
+	    		$v['son']=$son;
+	    	}else{
+	    		$v['son']=[];
+	    	}
+	    	}
+	    	$this->assign('cate',$data1);
+    		$this->assign('tcate',$data);
     		$this->assign('username',$username);
     		$this->display();
     	}else{

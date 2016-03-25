@@ -25,10 +25,13 @@
 		<textarea id="editor2" class="form-control" rows="5"  name="price" placeholder="价格"></textarea>
 		</div>
 			<div>
-				<label>产品类目</label>
-				<select name='cid' class="form-control">
+				<label>产品目录：</label>
+		<select name='cid' id='cid' class="form-control">
 				<volist name='cate' id='vo'>
 				<option value="{$vo.id}">{$vo.title}</option>
+			<volist name="vo.son" id='vo1'>
+					<option value="{$vo1.id}">--------{$vo1.title}</option>
+					</volist>
 				</volist>
 				</select>
 			</div>

@@ -26,17 +26,26 @@
 		</textarea>
 		</div>
 			<div id="authorTip"></div>
-			<div>
-				<label>产品类目</label>
-				<select name='cid' class="form-control">
-<volist  name='cate' id='vo'>
-<if condition="$vo.id eq $cid "><option value="{$vo.id}" selected="selected">{$vo.title}</option>
-<else /><option value="{$vo.id}" >{$vo.title}</option>
-</if>
-</volist>
+		</div>
+				<div>
+				<label>产品类目：</label>
+		<select name='cid' id='cid' class="form-control">
+				<volist name='cate' id='vo'>
+				<if condition="($cid eq $vo['id'])">
+				<option value="{$vo.id}" selected="selected">{$vo.title}</option>
+				<else />
+				<option value="{$vo.id}">{$vo.title}</option>
+				</if>
+			<volist name="vo.son" id='vo1'>
+			<if condition="($cid eq $vo1['id'])">
+					<option value="{$vo1.id}" selected="selected">--------{$vo1.title}</option>
+			<else />
+			<option value="{$vo1.id}">--------{$vo1.title}</option>
+			</if>
+					</volist>
+				</volist>
 				</select>
 			</div>
-		</div>
 		<div class="form-group">
 		<label>产品简介</label>
 		<textarea id="editor1" class="form-control" rows="5"  name="desccontent" placeholder="简介">{$desccontent}

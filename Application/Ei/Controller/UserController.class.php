@@ -28,8 +28,17 @@ class UserController extends Controller{
 		}
 		
 		//导航
-		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1))->order('`order` desc,createtime')->select();
-		
+		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+				
+		}
 		//企业介绍
 		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
 		
@@ -90,7 +99,17 @@ class UserController extends Controller{
 			$this->assign('content','没有内容');
 		}
 		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
-		$nav=M('category')->where(array('username'=>$username,'status'=>1))->order('`order` desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+		
+		}
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
 		$this->assign('about',$about);
@@ -129,7 +148,24 @@ class UserController extends Controller{
 		 * 
 		 * */
 		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
-		$nav=M('category')->where(array('username'=>$username,'status'=>1))->order('`order` desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+		
+		}
+		//面包屑
+		$temp=M('category')->field('content',true)->where(array('username'=>$username,'id'=>$id,'status'=>1))->find();
+		$temp1=M('category')->field('content',true)->where(array('username'=>$username,'id'=>$temp['pid'],'status'=>1))->find();
+		$this->assign('mc',$temp1);
+		//兄弟菜单
+		$temp2=M('category')->field('content',true)->where(array('username'=>$username,'pid'=>$temp['pid'],'status'=>1))->select();
+		$this->assign('sd',$temp2);
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
 		$this->assign('about',$about);
@@ -197,7 +233,17 @@ class UserController extends Controller{
 		/*
 		 * */
 		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
-		$nav=M('category')->where(array('username'=>$username,'status'=>1))->order('`order` desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+		
+		}
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
 		$this->assign('about',$about);

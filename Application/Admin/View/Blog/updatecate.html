@@ -22,6 +22,23 @@
 			<div id="titleTip"></div>
 		</div>
 		<div class="form-group">
+		<label>父目录</label>
+		<select id='mulu' class="form-control" name='mulu'> 
+					<if condition="$data['pid'] eq 0">
+				      <option value=0 selected="selected">---顶级目录---</option> 
+				      <else />
+				        <option value=0>---顶级目录---</option> 
+				      </if>
+				      <volist name='category' id='vo'>
+				      <if condition="$data['pid'] eq $vo['id']">
+				       <option value={$vo.id} selected="selected">{$vo.title}</option> 
+				      <else />
+				      <option value={$vo.id}>{$vo.title}</option> 
+				      </if>
+				      </volist>
+		</select>
+		</div>
+		<div class="form-group">
 		<label>目录简介</label>
 		<textarea id="editor" rows="8" class="form-control" name="content" placeholder="目录简介">{$data.content}</textarea>
 		</div>

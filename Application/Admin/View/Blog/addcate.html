@@ -21,6 +21,15 @@
 			<div id="titleTip"></div>
 		</div>
 		<div class="form-group">
+		<label>父目录</label>
+				 <select id='mulu' class="form-control" name='mulu'> 
+				      <option value=0>---顶级目录---</option> 
+				      <volist name='category' id='vo'>
+				      <option value={$vo.id}>{$vo.title}</option> 
+				      </volist>
+		</select>
+		</div>
+		<div class="form-group">
 		<label>目录简介</label>
 		<textarea class="form-control" rows="8" id="editor" name="content" placeholder="目录简介"></textarea>
 		</div>

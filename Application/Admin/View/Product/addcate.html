@@ -20,6 +20,15 @@
 			</div>
 			<div id="titleTip"></div>
 		</div>
+			<div class="form-group">
+		<label>父类目</label>
+				 <select id='mulu' class="form-control" name='mulu'> 
+				      <option value=0>---顶级类目---</option> 
+				      <volist name='pcategory' id='vo'>
+				      <option value={$vo.id}>{$vo.title}</option> 
+				      </volist>
+		</select>
+		</div>
 		<div class="form-group">
 		<label>类目介绍</label>
 		<textarea id="editor" name="content" placeholder="类目介绍"></textarea>

@@ -88,27 +88,38 @@
         class="am-icon-bars"></span></button>
 
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
-      <ul class="am-nav am-nav-pills am-topbar-nav">
-        <li class="am-active"><a href="__ROOT__">首页</a></li>
+            <ul class="am-nav am-nav-pills am-topbar-nav">
+        <li class="am-active"><a href="__ROOT__/Home">首页</a></li>
         <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
            平台介绍<span class="am-icon-caret-down"></span>
           </a>
           <ul class="am-dropdown-content">
- <!--            <li class="am-dropdown-header">标题</li> -->
+         	<!-- <li class="am-dropdown-header">标题</li> -->
             <volist name='about' id='vo'>
             <li><a href="__ROOT__/Home/Index/about?id={$vo.id}">{$vo.title}</a></li>
             </volist>
           </ul>
         </li>
         <volist name='nav' id='vo'>
-				<li>
-                	<a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a>
-                    
-                </li>
+        <if condition='$vo.son eq []'>
+            <li><a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a></li>
+        <else />
+                <li class="am-dropdown" data-am-dropdown>
+          <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+           {$vo.title}<span class="am-icon-caret-down"></span>
+          </a>
+          <ul class="am-dropdown-content">
+         	<!-- <li class="am-dropdown-header">标题</li> -->
+         	<li  class="am-dropdown-header"><a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a></li>
+            <volist name='vo.son' id='vo1'>
+            <li><a href="__ROOT__/Home/Index/page?id={$vo1.id}">{$vo1.title}</a></li>
+            </volist>
+          </ul>
+        	</li>
+        </if>
        </volist>
       </ul>
-
       <div class="am-topbar-right">
         <button onclick='register()' class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span>注册</button>
       </div>
@@ -131,6 +142,13 @@
 <div class="am-g am-g-fixed blog-g-fixed" >
 <div class="am-u-md-8">
 <div style='min-height:200px'>
+<ol class="am-breadcrumb am-text-lg" style='margin-bottom: 0'>
+  <li><a href="__ROOT__/Home" class="am-icon-home">首页</a></li>
+  <notempty name='mc'>
+  <li><a href="__ROOT__/Home/Index/page?id={$mc.id}">{$mc.title}</a></li>
+  </notempty>
+  <li class="am-active">{$cates.title}</li>
+</ol>
 <volist name='papers' id='vo'>
     <article class="blog-main">
       <h3 class="am-article-title" style='color:#0f9ae0'>
@@ -203,9 +221,9 @@
         </div>
       </section>
       <section class="am-panel am-panel-default">
-        <div class="am-panel-hd">文章分类</div>
+        <div class="am-panel-hd">兄弟菜单</div>
         <ul class="am-list blog-list">
-        <volist name='nav' id='vo'>
+        <volist name='sd' id='vo'>
 				<li>
                 	<a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a>
                     

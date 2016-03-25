@@ -26,10 +26,13 @@
 			</div>
 			<div id="authorTip"></div>
 			<div>
-				<label>目录</label>
-				<select name='cid' class="form-control">
+				<label>目录：</label>
+		<select name='cid' id='cid' class="form-control">
 				<volist name='cate' id='vo'>
 				<option value="{$vo.id}">{$vo.title}</option>
+			<volist name="vo.son" id='vo1'>
+					<option value="{$vo1.id}">--------{$vo1.title}</option>
+					</volist>
 				</volist>
 				</select>
 			</div>

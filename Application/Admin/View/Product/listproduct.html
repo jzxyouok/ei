@@ -19,16 +19,20 @@
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除产品</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加产品</a>
 		 
-		<label>状态：</label>
-				    <select id='status' class="form-control" name='status' style='width:120px;margin: 0 20px'> 
+<label>状态：</label>
+				    <select id='status' class="form-control" name='status' style='width:120px;margin: 0 5px'> 
+				       <option value=''></option> 
 				      <option value=1>已开启</option> 
 				      <option value=0>已关闭</option> 
 		</select>
-		<label>类目：</label>
+		<label>目录：</label>
 		<select name='cid' id='cid' class="form-control" style='width:120px;margin: 0'>
-				<option value=""></option>
+		<option value=""></option>
 				<volist name='cate' id='vo'>
 				<option value="{$vo.id}">{$vo.title}</option>
+			<volist name="vo.son" id='vo1'>
+					<option value="{$vo1.id}">--------{$vo1.title}</option>
+					</volist>
 				</volist>
 				</select>
 	<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a>

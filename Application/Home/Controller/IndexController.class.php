@@ -5,7 +5,18 @@ class IndexController extends Controller{
 	
 	function index(){
 		$webinfo=M('webinfo')->where(array('username'=>C('HOMEUSER')))->find();
-		$nav=M('category')->field('content',true)->where(array('username'=>C('HOMEUSER'),'status'=>1))->order('`order` desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>C('HOMEUSER'),'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+			
+		}
+	//	trace($nav);
 		$about=M('webabout')->where(array('username'=>C('HOMEUSER'),'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
 		$photo=M('photo')->where(array('username'=>C('HOMEUSER'),'status'=>1))->order('sort desc,createtime')->select();
 		$this->assign('webinfo',$webinfo);
@@ -40,7 +51,17 @@ class IndexController extends Controller{
 			$this->assign('content','没有内容');
 		}
 		$about=M('webabout')->where(array('username'=>C('HOMEUSER'),'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
-		$nav=M('category')->where(array('username'=>C('HOMEUSER'),'status'=>1))->order('`order` desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>C('HOMEUSER'),'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+			
+		}
 		$webinfo=M('webinfo')->where(array('username'=>C('HOMEUSER')))->find();
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
@@ -65,7 +86,25 @@ class IndexController extends Controller{
 		 * 
 		 * */
 		$about=M('webabout')->where(array('username'=>C('HOMEUSER'),'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
-		$nav=M('category')->where(array('username'=>C('HOMEUSER'),'status'=>1))->order('`order` desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>C('HOMEUSER'),'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+				
+		}
+		//面包屑
+		$temp=M('category')->field('content',true)->where(array('username'=>C('HOMEUSER'),'id'=>$id,'status'=>1))->find();
+		$temp1=M('category')->field('content',true)->where(array('username'=>C('HOMEUSER'),'id'=>$temp['pid'],'status'=>1))->find();
+		$this->assign('mc',$temp1);
+		//兄弟菜单
+		$temp2=M('category')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$temp['pid'],'status'=>1))->select();
+		$this->assign('sd',$temp2);
+		
 		$webinfo=M('webinfo')->where(array('username'=>C('HOMEUSER')))->find();
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
@@ -110,7 +149,17 @@ class IndexController extends Controller{
 		/*
 		 * */
 		$about=M('webabout')->where(array('username'=>C('HOMEUSER'),'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
-		$nav=M('category')->where(array('username'=>C('HOMEUSER'),'status'=>1))->order('`order` desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>C('HOMEUSER'),'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+				
+		}
 		$webinfo=M('webinfo')->where(array('username'=>C('HOMEUSER')))->find();
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);

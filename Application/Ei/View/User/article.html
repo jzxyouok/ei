@@ -194,28 +194,42 @@
         class="am-icon-bars"></span></button>
 
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
-      <ul class="am-nav am-nav-pills am-topbar-nav">
+     			<!--  -->
+				      <ul class="am-nav am-nav-pills am-topbar-nav">
         <li class="am-active"><a href="__ROOT__/Ei/User/Index?username={$username}">首页</a></li>
         <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
            平台介绍<span class="am-icon-caret-down"></span>
           </a>
           <ul class="am-dropdown-content">
- <!--            <li class="am-dropdown-header">标题</li> -->
+         	<!-- <li class="am-dropdown-header">标题</li> -->
             <volist name='about' id='vo'>
-            <li><a href="__ROOT__/EI/User/about?username={$username}&id={$vo.id}">{$vo.title}</a></li>
+            <li><a href="__ROOT__/Ei/User/about?username={$username}&id={$vo.id}">{$vo.title}</a></li>
             </volist>
           </ul>
         </li>
         <volist name='nav' id='vo'>
-				<li>
-                	<a href="__ROOT__/Ei/User/page?username={$username}&id={$vo.id}">{$vo.title}</a>
-                    
-                </li>
+        <if condition='$vo.son eq []'>
+            <li><a href="__ROOT__/Ei/User/page?username={$username}&id={$vo.id}">{$vo.title}</a></li>
+        <else />
+                <li class="am-dropdown" data-am-dropdown>
+          <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+           {$vo.title}<span class="am-icon-caret-down"></span>
+          </a>
+          <ul class="am-dropdown-content">
+         	<!-- <li class="am-dropdown-header">标题</li> -->
+         	<li  class="am-dropdown-header"><a href="__ROOT__/Ei/User/page?username={$username}&id={$vo.id}">{$vo.title}</a></li>
+            <volist name='vo.son' id='vo1'>
+            <li><a href="__ROOT__/Ei/User/page?username={$username}&id={$vo1.id}">{$vo1.title}</a></li>
+            </volist>
+          </ul>
+        	</li>
+        </if>
        </volist>
       </ul>
+      <!--  -->
 		<div class="am-topbar-right">
-       <p style='color:black;font-size:1.0em;padding: 10px'><strong>{$webinfo.phone}</strong></p>
+       <p class='am-icon-phone' style='color:black;font-size:1.0em;'><strong>{$webinfo.phone}</strong></p>
        </div>
 
     </div>

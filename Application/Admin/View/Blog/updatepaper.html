@@ -14,49 +14,58 @@
 	   			<p>编辑文章</p>
 			</div>
 			<div>
-			<input type='text' name='id' value='{$id}' hidden="hidden"/>
+			<input type='text' name='id' value='{$tcate.id}' hidden="hidden"/>
 				<label>标题</label>
 				<input type="text" class="form-control" name="title" id="title"
-					placeholder="请输入标题" value={$title} required="required">
+					placeholder="请输入标题" value={$tcate.title} required="required">
 			</div>
 			<div id="titleTip"></div>
 			<div>
 				<label>作者</label>
 				<input type="text" class="form-control" name="author" id="author"
-					placeholder="请输入作者" value='{$author}' required="required">
+					placeholder="请输入作者" value='{$tcate.author}' required="required">
 			</div>
 			<div id="authorTip"></div>
-			<div>
-				<label>目录</label>
-				<select name='cid' class="form-control">
-<volist  name='cate' id='vo'>
-<if condition="$vo.id eq $cid "><option value="{$vo.id}" selected="selected">{$vo.title}</option>
-<else /><option value="{$vo.id}" >{$vo.title}</option>
-</if>
-</volist>
+	<div>
+				<label>目录：</label>
+		<select name='cid' id='cid' class="form-control">
+				<volist name='cate' id='vo'>
+				<if condition="($tcate.cid eq $vo['id'])">
+				<option value="{$vo.id}" selected="selected">{$vo.title}</option>
+				<else />
+				<option value="{$vo.id}">{$vo.title}</option>
+				</if>
+			<volist name="vo.son" id='vo1'>
+			<if condition="($tcate.cid eq $vo1['id'])">
+					<option value="{$vo1.id}" selected="selected">--------{$vo1.title}</option>
+			<else />
+			<option value="{$vo1.id}">--------{$vo1.title}</option>
+			</if>
+					</volist>
+				</volist>
 				</select>
 			</div>
 		</div>
 		<div class="form-group">
 		<label>简介</label>
-		<textarea id="editor1" class="form-control" rows="5"  name="desccontent" placeholder="简介">{$desccontent}</textarea>
+		<textarea id="editor1" class="form-control" rows="5"  name="desccontent" placeholder="简介">{$tcate.desccontent}</textarea>
 		</div>
 		<div class="form-group">
 		<label>正文</label>
-		<textarea id="editor" name="content" placeholder="正文">{$content}</textarea>
+		<textarea id="editor" name="content" placeholder="正文">{$tcate.content}</textarea>
 		</div>
 		<div class="form-group">
 			<label>文章排序</label>
-			<input type="number" class="form-control" name="order" value='{$order}' min="0"/>
+			<input type="number" class="form-control" name="order" value='{$tcate.order}' min="0"/>
 		</div>
 		
 		<div class="form-group">
 			<label>浏览量</label>
-			<input type="number" class="form-control"  name="view" value='{$view}' min="0"/>
+			<input type="number" class="form-control"  name="view" value='{$tcate.view}' min="0"/>
 		</div>
 	   	<div class="form-group">
 	   		<label>文章状态</label>
-	   		<if condition="($status eq 1)">
+	   		<if condition="($tcate.status eq 1)">
 			<div class="radio">
 			   <label>
 			      <input type="radio" name="status" value="0">禁用文章
@@ -86,7 +95,7 @@
 	<div class="form-group">
 	    <div>
          	<button type="submit" class="btn btn-default">修改文章</button>
-         	<span class="btn btn-default"><a href='__ROOT__/Ei/User/article?username={$username}&id={$id}' target="__blank">文章预览</a></span>
+         	<span class="btn btn-default"><a href='__ROOT__/Ei/User/article?username={$username}&id={$tcate.id}' target="__blank">文章预览</a></span>
       	</div>
    	</div>
    
@@ -95,12 +104,12 @@
 	<div class='col-md-3 col-md-offset-1' >
 	  			<div  align="center">
 	  			<h1>封面</h1>
-      			<img  src="__ROOT__/Uploads/{$photo}" id='logoimg' class="am-img-responsive" alt="图片" style="border:1px red solid;height: 260px; width: 260px;" />
+      			<img  src="__ROOT__/Uploads/{$tcate.photo}" id='logoimg' class="am-img-responsive" alt="图片" style="border:1px red solid;height: 260px; width: 260px;" />
       			<p>请上传格式为.png .jpg .jpeg的图片。</p>
 		   		<p>上传完毕后需要点击左边曾加按钮才能生效。</p>
 		   		<div id='uploadphotoconfirm' style='color:red'></div>
 		   		<div><button type="submit" class="btn btn-default" id='upload_button'>上传图片</button></div>
-   						<div class="btn btn-success" ><a id='lookphoto' href="__ROOT__/Uploads/{$photo}" target="_blank">查看照片</a></div>
+   						<div class="btn btn-success" ><a id='lookphoto' href="__ROOT__/Uploads/{$tcate.photo}" target="_blank">查看照片</a></div>
    			</div>
 	</div>
 	</div>

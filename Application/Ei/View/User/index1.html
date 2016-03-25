@@ -232,16 +232,16 @@
 			  	<volist name="vo['paper']" id='vo1'>
 			     <!--缩略图在标题右边-->
 			      <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-right">
-			        <div class=" am-u-sm-8 am-list-main"  style='height:100px'>
+			        <div class=" am-u-sm-8 am-list-main"  style='height:90px'>
 			            <h3 class="am-list-item-hd"><a href="__ROOT__/Ei/User/article?username={$username}&id={$vo1.id}" class="">{$vo1.title}</a></h3>
 			
 			
 			            <div class="am-list-item-text">{$vo1.createtime} By {$vo1.author}</div>
 			
 			        </div>
- 	          <div class="am-u-sm-4 am-list-thumb" style='height:100px'>
+ 	          <div class="am-u-sm-4 am-list-thumb">
 			            <a href="__ROOT__/Ei/User/article?username={$username}&id={$vo1.id}" class="">
-			              <img src="__ROOT__/Uploads/{$vo1.photo}" alt="{$vo1.title}"/>
+			              <img src="__ROOT__/Uploads/{$vo1.photo}"  style='height:90px' alt="{$vo1.title}"/>
 			            </a>
 			          </div>
 			      </li>

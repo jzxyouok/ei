@@ -23,6 +23,7 @@ return array (
 		'HOMEUSER'=>'hunterhug',
 		'REGISTER' => 1,
 		'SHOW_PAGE_TRACE'=>true
+
 	//	'DB_2' => 'mysql://root:6833066@localhost:3306/qingmu'
 		
 )

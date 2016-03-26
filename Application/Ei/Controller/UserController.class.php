@@ -30,7 +30,7 @@ class UserController extends Controller{
 		//导航
 		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
 		foreach ($nav as &$v){
-			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id'],'status'=>1))->select();
 			//trace($son);
 			if($son){
 				$v['son']=$son;
@@ -101,7 +101,7 @@ class UserController extends Controller{
 		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
 		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
 		foreach ($nav as &$v){
-			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id'],'status'=>1))->select();
 			//trace($son);
 			if($son){
 				$v['son']=$son;
@@ -150,7 +150,7 @@ class UserController extends Controller{
 		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
 		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
 		foreach ($nav as &$v){
-			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id'],'status'=>1))->select();
 			//trace($son);
 			if($son){
 				$v['son']=$son;
@@ -191,7 +191,7 @@ class UserController extends Controller{
 		$this->assign('page',$page);
 		$this->assign('pageno',$pageno);
 		}
-		$cates=M('category')->where(array('id'=>$id))->find();
+		$cates=M('category')->where(array('id'=>$id,'status'=>1))->find();
 // 		var_dump($paper);
 		$this->assign('cates',$cates);
 		$this->assign('id',$id);
@@ -252,13 +252,13 @@ class UserController extends Controller{
 		$article=M('paper')->where(array('id'=>$id))->find();
 		
 		//目录名
-		$catname=M('category')->field('content,desccontent',true)->where(array('id'=>$article['cid']))->find();
+		$catname=M('category')->field('content,desccontent',true)->where(array('id'=>$article['cid'],'status'=>1))->find();
 		$article['catname']=$catname['title'];
 		
 		M('paper')->where(array('id'=>$id))->setInc('view');
-		$articlen=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('gt',$id)))->find();
-		$articlep=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('lt',$id)))->find();
-		$many=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('neq',$id)))->order('view desc')->limit(5)->select();
+		$articlen=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('gt',$id),'status'=>1))->find();
+		$articlep=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('lt',$id),'status'=>1))->find();
+		$many=M('paper')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('neq',$id),'status'=>1))->order('view desc')->limit(5)->select();
 		$this->assign('article',$article);
 		$this->assign('articlep',$articlep);
 		$this->assign('articlen',$articlen);
@@ -406,16 +406,16 @@ class UserController extends Controller{
 		$this->assign('about',$about);
 		/*
 		 * */
-		$article=M('product')->where(array('id'=>$id))->find();
+		$article=M('product')->where(array('id'=>$id,'status'=>1))->find();
 	
 		//目录名
-		$catname=M('pcategory')->field('content,desccontent',true)->where(array('id'=>$article['cid']))->find();
+		$catname=M('pcategory')->field('content,desccontent',true)->where(array('id'=>$article['cid'],'status'=>1))->find();
 		$article['catname']=$catname['title'];
 	
 		M('paper')->where(array('id'=>$id))->setInc('view');
-		$articlen=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('gt',$id)))->find();
-		$articlep=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('lt',$id)))->find();
-		$many=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('neq',$id)))->order('view desc')->limit(5)->select();
+		$articlen=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('gt',$id),'status'=>1))->find();
+		$articlep=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('lt',$id),'status'=>1))->find();
+		$many=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('neq',$id),'status'=>1))->order('view desc')->limit(5)->select();
 		$this->assign('article',$article);
 		$this->assign('articlep',$articlep);
 		$this->assign('articlen',$articlen);

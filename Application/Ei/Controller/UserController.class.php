@@ -323,7 +323,7 @@ class UserController extends Controller{
 		
 		$this->assign('webinfo',$webinfo);
 		$this->assign('nav',$nav);
-		trace($pnav);
+		//trace($pnav);
 		$this->assign('pnav',$pnav);
 		$this->assign('about',$about);
 		/*

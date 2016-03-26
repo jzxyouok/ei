@@ -336,7 +336,7 @@ class UserController extends Controller{
 		$last=($pageno-1)*$size;
 		//总数
 		if($id!=''){
-			$jinhan['id']=$id;
+			$jinhan['cid']=$id;
 			//面包屑
 			$temp=M('pcategory')->field('content',true)->where(array('username'=>$username,'id'=>$id,'status'=>1))->find();
 			$temp1=M('pcategory')->field('content',true)->where(array('username'=>$username,'id'=>$temp['pid'],'status'=>1))->find();

@@ -235,7 +235,7 @@ class UserController extends Controller{
 		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
 		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
 		foreach ($nav as &$v){
-			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>C('HOMEUSER'),'pid'=>$v['id'],'status'=>1))->select();
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id'],'status'=>1))->select();
 			//trace($son);
 			if($son){
 				$v['son']=$son;
@@ -266,6 +266,100 @@ class UserController extends Controller{
 		$this->assign('id',$id);
 		$this->assign('username',$username);
 		$this->display();
+	}
+	
+	function product(){
+		$id=I('id','');
+		$username=I('username','');
+		if($username==''){
+			$this->error('非法途径');
+			return;
+		}
+	
+		//判断是否审核
+		$webinfo=M('webinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($webinfo){
+	
+		}else{
+			$this->error('网站已经关闭');
+			return;
+		}
+	
+		//判断是否存在
+		$userinfo=M('userinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($userinfo){
+	
+		}else{
+			$this->error('网站正在审核中...');
+			return;
+		}
+		/*
+		 *
+		 * */
+		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+	
+		}
+		
+		$pnav=M('pcategory')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($pnav as &$k){
+			$kson=M('pcategory')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$k['id'],'status'=>1))->select();
+			//trace($son);
+			if($kson){
+				$k['son']=$kson;
+			}else{
+				$k['son']=[];
+			}
+		
+		}
+		
+		$this->assign('webinfo',$webinfo);
+		$this->assign('nav',$nav);
+		trace($pnav);
+		$this->assign('pnav',$pnav);
+		$this->assign('about',$about);
+		/*
+		 * */
+		//第几页
+		$pageno=I('pageno',1);
+		//每页数目
+		$size=8;
+		//开始
+		$last=($pageno-1)*$size;
+		//总数
+		if($id!=''){
+			$jinhan['id']=$id;
+			//面包屑
+			$temp=M('pcategory')->field('content',true)->where(array('username'=>$username,'id'=>$id,'status'=>1))->find();
+			$temp1=M('pcategory')->field('content',true)->where(array('username'=>$username,'id'=>$temp['pid'],'status'=>1))->find();
+			$this->assign('mc',$temp);
+			$this->assign('mcf',$temp1);
+		}
+		$jinhan['username']=$username;
+		$jinhan['status']=1;
+		$total=M('product')->where($jinhan)->count();
+		if($total==0){
+			$this->assign('page',1);
+			$this->assign('pageno',1);
+		}else{
+			//页数
+			$page=ceil($total/$size);
+			//	trace($page);
+			$paper=M('product')->where($jinhan)->limit($last.','.$size)->field('content',true)->order('`order` desc,view desc,createtime')->select();
+			$this->assign('papers',$paper);
+			$this->assign('page',$page);
+			$this->assign('pageno',$pageno);
+		}
+		$this->assign('username',$username);
+		$this->display('product1');
 	}
 }
 

@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>{$content.title}</title>
+  <title>产品分类</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport"
         content="width=device-width, initial-scale=1">
@@ -235,60 +235,98 @@
 
 <header class="am-g my-head">
   <div class="am-u-sm-12 am-article">
-    <h1 class="am-article-title">{$content.title}</h1>
-    <p class="am-article-meta">创建于{$content.createtime}<br/>更新于{$content.updatetime}</p>
+  <p style='font-size:1.2em' >
+  <empty name='mc'>
+    产品介绍
+  </empty>
+    <notempty name='mc'>
+    <a href="__ROOT__/Ei/User/product?username={$username}" class="am-icon-home ">产品介绍</a>
+    <notempty name='mcf'><a href="__ROOT__/Ei/User/product?username={$username}&id={$mcf.id}" class="am-icon-mail-forward" style='margin-left:20px'>{$mcf.title}</a></notempty><span class="am-icon-mail-forward" style='margin-left:20px'>{$mc.title}</span>
+  </notempty>
+            <marquee direction=right behavior=scroll onmouseover=this.stop() onmouseout=this.start()>
+	温馨提示：点击产品下方进入详情页
+	</marquee>
+  </p>
   </div>
 </header>
 <hr class="am-article-divider"/>
-<div class="am-g am-g-fixed">
-  <div class="am-u-md-9 am-u-md-push-3">
-    <div class="am-g">
-      <div class="am-u-sm-11 am-u-sm-centered">
-        <div class="am-cf am-article" style='word-break: break-all;'>
-          {$content.about}
-        </div>
-        <hr/>
-      </div>
-    </div>
-  </div>
-  <div class="am-u-md-3 am-u-md-pull-9 my-sidebar">
-    <div class="am-offcanvas" id="sidebar">
-      <div class="am-offcanvas-bar">
+<div class="am-g" >
+  <div class="am-u-md-2 my-sidebar">
+      <div class="am-offcanvas" id="sidebar">
+  <div class="am-offcanvas-bar">
         <ul class="am-nav">
-
-        <volist name='about' id='vo'>
-        <if condition='$vo[title] eq $content[title]'>
-          <li><a href="__ROOT__/Ei/User/about?username={$username}&id={$vo.id}" class="am-nav-header">{$vo.title}</a></li>
-        <else />
-             <li><a href="__ROOT__/Ei/User/about?username={$username}&id={$vo.id}">{$vo.title}</a></li>
-        </if>
-      
+         <volist name='pnav' id='vo'>
+            <li style='text-align:center'><a style='color:black'>{$vo.title}</a></li>
+             <li style='text-align:center'><a href="__ROOT__/Ei/User/product?username={$username}&id={$vo.id}">----(顶){$vo.title}----</a></li>
+            <volist name='vo.son' id='vo1'>
+             <li  style='text-align:center'><a href="__ROOT__/Ei/User/product?username={$username}&id={$vo1.id}">----{$vo1.title}----</a></li>
             </volist>
+        </volist>
         </ul>
-      </div>
-    </div>
+        </div>
+        </div>
   </div>
-  <a href="#sidebar" class="am-btn am-btn-sm am-btn-success am-icon-bars am-show-sm-only my-button" data-am-offcanvas><span class="am-sr-only">侧栏导航</span></a>
-</div>
-<div class="am-g am-container">
-    <div  class="am-u-lg-12">
-      <!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="www.lenggirl.com/about?id={$id}" data-title="首页" data-url="http://www.lenggirl.com/about?id={$id}"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"hunterhug"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-    </div>
+<a href="#sidebar" class="am-btn am-btn-sm am-btn-success am-icon-bars am-show-sm-only my-button" data-am-offcanvas><span class="am-sr-only">侧栏导航</span></a>
+
+<div class="am-u-md-10">
+<!--  -->  
+  <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
+  am-avg-md-3 am-avg-lg-4 am-gallery-imgbordered" data-am-gallery="{ pureview: true }"  >
+      <volist name='papers' id='vo'>
+      <li>
+        <div class="am-gallery-item">
+            <a href="__ROOT__/Ei/User/pc?username={$username}&id={$vo.id}" target='_blank' class="">
+              <div>
+              <img    style='min-height:250px' src="__ROOT__/Uploads/{$vo.photo}"  alt="简介：{$vo.desccontent}"/>
+               </div>
+                <h3 class="am-gallery-title">产品：{$vo.title}</h3>
+                <div class="am-gallery-desc">上架时间：{$vo.createtime}<br />价格：{$vo.price}</div>
+            </a>
+        </div>
+      </li>
+      </volist>
+  </ul>
+  <ul class="am-pagination blog-pagination am-pagination-centered am-pagination-default">
+    <if condition="$pageno gt 1">
+    <li class="am-pagination-prev"><a href="__ROOT__/Ei/User/product?username={$username}&id={$id}&pageno={$pageno-1}">&laquo; 上一页</a></li>
+    <else /> 
+    </if>
+    
+    <!-- 第一页 -->
+    	<if condition="$pageno eq 1">
+    	<else />
+       <li><a href="__ROOT__/Ei/User/product?username={$username}&id={$id}&pageno=1">1</a></li>
+         <li>...</li>
+       </if>
+    <!--  -->
+    
+    <if condition="$pageno gt 2 and $pageno-1 neq 1">
+    <li><a href="__ROOT__/Ei/User/product?username={$username}&id={$id}&pageno={$pageno-1}">{$pageno-1}</a></li>
+	<else />
+	 </if>
+	 
+
+	 <li>{$pageno}</li>
+
+	 <if condition="$pageno lt $page-1 and $pageno+1 neq $page"> 
+	  <li><a href="__ROOT__/Ei/User/product?username={$username}&id={$id}&pageno={$pageno+1}">{$pageno+1}</a></li>
+	 </if>
+    
+    <!-- 最后一页 -->
+    <if condition="$pageno eq $page">
+    	<else />
+    	<li>...</li>
+       <li><a href="__ROOT__/Ei/User/product?username={$username}&id={$id}&pageno={$page}">{$page}</a></li>
+    </if>
+    <!--  -->
+    
+    <if condition="$pageno lt $page">
+	     <li class="am-pagination-next"><a href="__ROOT__/Ei/User/product?username={$username}&id={$id}&pageno={$pageno+1}">&raquo; 下一页</a></li>
+	<else />
+	</if>
+    </ul> 
+<!--  -->
+  </div>
 </div>
 	<footer class="footer">
 		<p>

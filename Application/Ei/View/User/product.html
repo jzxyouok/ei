@@ -133,38 +133,155 @@
 		</div>
 	</header>
 <!-- 正文 -->
-<div class="am-g am-g-fixed blog-g-fixed" >
-<div class="am-u-md-8">
-<div style='min-height:200px'>
-<ol class="am-breadcrumb am-text-lg" style='margin-bottom: 0'>
-  <li><a href="__ROOT__/Ei/User/index?username={$username}" class="am-icon-home">首页</a></li>
-  <notempty name='mc'>
-  <li><a href="__ROOT__/Ei/User/page?username={$username}&id={$mc.id}">{$mc.title}</a></li>
-  </notempty>
-  <li class="am-active">{$cates.title}</li>
-</ol>
-<volist name='papers' id='vo'>
-    <article class="blog-main">
-      <h3 class="am-article-title" style='color:#0f9ae0'>
-        <a href="__ROOT__/Ei/User/article?username={$username}&id={$vo.id}">{$vo.title}</a>
-      </h3>
-      <h4 class="am-article-meta blog-meta">by <strong class=' am-badge am-radius '>{$vo.author}</strong> posted on <strong class=' am-badge am-radius '>{$vo.createtime}</strong> views <strong class=' am-badge am-radius '>{$vo.view}</strong>
-      </h4>
+<div class="am-g am-g-fixed blog-g-fixed" style='margin-top: 20px'>
+	<nav data-am-widget="menu" class="am-menu  am-menu-stack"> 
+    <a href="javascript: void(0)" class="am-menu-toggle">
+          <i class="am-menu-toggle-icon am-icon-bars"></i>
+    </a>
+      <ul class="am-menu-nav" style='text-align:center'>
+          <li class="am-parent">
+            <a href="##" >公司</a>
+              <ul class="am-menu-sub am-collapse  am-avg-sm-2 ">
+                  <li class="">
+                    <a href="##" class="" >公司</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >人物</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >趋势</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >投融资</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >创业公司</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >创业人物</a>
+                  </li>
+                  <li class="am-menu-nav-channel"><a href="##" class="" title="公司">进入栏目 &raquo;</a></li>
+              </ul>
+          </li>
+          <li class="am-parent">
+            <a href="##" class="" >人物</a>
+              <ul class="am-menu-sub am-collapse  am-avg-sm-3 ">
+                  <li class="">
+                    <a href="##" class="" >公司</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >人物</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >趋势</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >投融资</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >创业公司</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >创业人物</a>
+                  </li>
+              </ul>
+          </li>
+          <li class="am-parent">
+            <a href="#c3" class="" >趋势</a>
+              <ul class="am-menu-sub am-collapse  am-avg-sm-4 ">
+                  <li class="">
+                    <a href="##" class="" >公司</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >人物</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >趋势</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >投融资</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >创业公司</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >创业人物</a>
+                  </li>
+                  <li class="am-menu-nav-channel"><a href="#c3" class="" title="趋势">泥煤 &raquo;</a></li>
+              </ul>
+          </li>
+          <li class="am-parent">
+            <a href="##" class="" >投融资</a>
+              <ul class="am-menu-sub am-collapse  am-avg-sm-3 ">
+                  <li class="">
+                    <a href="##" class="" >公司</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >人物</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >趋势</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >投融资</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >创业公司</a>
+                  </li>
+                  <li class="">
+                    <a href="##" class="" >创业人物</a>
+                  </li>
+              </ul>
+          </li>
+          <li class="">
+            <a href="##" class="" >创业公司</a>
+          </li>
+          <li class="">
+            <a href="##" class="" >创业人物</a>
+          </li>
+      </ul>
 
-      <div class="am-g blog-content">
-        <div class="am-u-lg-12">
-          <div  style='height:200px;width:200px;padding:10px; text-align:center;float:left'>
-             <a href="__ROOT__/Ei/User/article?username={$username}&id={$vo.id}"> <img style="height:100%;width:100%" class=" am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$vo.photo}"  alt="{$vo.title}"/></a>
-           </div>
-         {$vo.desccontent}
-         </div>
-      </div>
-    </article>
-     <hr class="am-article-divider blog-hr">
-</volist>
-</div>
-    <div>
-    <ul class="am-pagination blog-pagination am-pagination-centered am-pagination-default">
+  </nav>
+  <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
+  am-avg-md-3 am-avg-lg-4 am-gallery-imgbordered" data-am-gallery="{  }" >
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://s.amazeui.org/media/i/demos/bing-1.jpg" class="">
+              <img src="http://s.amazeui.org/media/i/demos/bing-1.jpg"  alt="远方 有一个地方 那里种有我们的梦想"/>
+                <h3 class="am-gallery-title">远方 有一个地方 那里种有我们的梦想</h3>
+                <div class="am-gallery-desc">2375-09-26</div>
+            </a>
+        </div>
+      </li>
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://s.amazeui.org/media/i/demos/bing-2.jpg" class="">
+              <img src="http://s.amazeui.org/media/i/demos/bing-2.jpg"  alt="某天 也许会相遇 相遇在这个好地方"/>
+                <h3 class="am-gallery-title">某天 也许会相遇 相遇在这个好地方</h3>
+                <div class="am-gallery-desc">2375-09-26</div>
+            </a>
+        </div>
+      </li>
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://s.amazeui.org/media/i/demos/bing-3.jpg" class="">
+              <img src="http://s.amazeui.org/media/i/demos/bing-3.jpg"  alt="不要太担心 只因为我相信"/>
+                <h3 class="am-gallery-title">不要太担心 只因为我相信</h3>
+                <div class="am-gallery-desc">2375-09-26</div>
+            </a>
+        </div>
+      </li>
+      <li>
+        <div class="am-gallery-item">
+            <a href="http://s.amazeui.org/media/i/demos/bing-4.jpg" class="">
+              <img src="http://s.amazeui.org/media/i/demos/bing-4.jpg"  alt="终会走过这条遥远的道路"/>
+                <h3 class="am-gallery-title">终会走过这条遥远的道路</h3>
+                <div class="am-gallery-desc">2375-09-26</div>
+            </a>
+        </div>
+      </li>
+  </ul>
+  <ul class="am-pagination blog-pagination am-pagination-centered am-pagination-default">
     <if condition="$pageno gt 1">
     <li class="am-pagination-prev"><a href="__ROOT__/Ei/User/page?username={$username}&id={$id}&pageno={$pageno-1}">&laquo; 上一页</a></li>
     <else /> 
@@ -203,31 +320,6 @@
 	<else />
 	</if>
     </ul>
-    </div>
-</div>
-<br />
- <div class="am-u-md-4 blog-sidebar">
-     <div class="am-panel-group">
-      <section class="am-panel am-panel-default">
-        <div class="am-panel-hd">{$cates.title}</div>
-        <div class="am-panel-bd">
-          <div><strong class=' am-badge am-radius '>创建于{$cates.createtime}</strong><br/>{$cates.content}</div>
-        </div>
-      </section>
-      <section class="am-panel am-panel-default">
-        <div class="am-panel-hd">兄弟菜单</div>
-        <ul class="am-list blog-list">
-        <volist name='sd' id='vo'>
-				<li>
-                	<a href="__ROOT__/Ei/User/page?username={$username}&id={$vo.id}">{$vo.title}</a>
-                    
-                </li>
-       </volist>
-        </ul>
-      </section>
-      </div>
- 
- </div>
 </div>
 <!--  -->
 	<footer class="footer">

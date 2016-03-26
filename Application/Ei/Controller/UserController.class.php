@@ -361,6 +361,69 @@ class UserController extends Controller{
 		$this->assign('username',$username);
 		$this->display('product1');
 	}
+	
+	function pc(){
+		$username=I('username','');
+		if($username==''){
+			$this->error('非法途径');
+			return;
+		}
+	
+		//判断是否审核
+		$webinfo=M('webinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($webinfo){
+	
+		}else{
+			$this->error('网站已经关闭');
+			return;
+		}
+	
+		//判断是否存在
+		$userinfo=M('userinfo')->where(array('username'=>$username,'status'=>1))->find();
+		if($userinfo){
+	
+		}else{
+			$this->error('网站正在审核中...');
+			return;
+		}
+		$id=I('id','');
+		/*
+		 * */
+		$about=M('webabout')->where(array('username'=>$username,'status'=>1))->field('about',true)->order('sort desc,createtime')->select();
+		$nav=M('category')->field('content',true)->where(array('username'=>$username,'status'=>1,'pid'=>0))->order('`order` desc,createtime')->select();
+		foreach ($nav as &$v){
+			$son=M('category')->order('`order` desc')->field('content',true)->where(array('username'=>$username,'pid'=>$v['id'],'status'=>1))->select();
+			//trace($son);
+			if($son){
+				$v['son']=$son;
+			}else{
+				$v['son']=[];
+			}
+	
+		}
+		$this->assign('webinfo',$webinfo);
+		$this->assign('nav',$nav);
+		$this->assign('about',$about);
+		/*
+		 * */
+		$article=M('product')->where(array('id'=>$id))->find();
+	
+		//目录名
+		$catname=M('pcategory')->field('content,desccontent',true)->where(array('id'=>$article['cid']))->find();
+		$article['catname']=$catname['title'];
+	
+		M('paper')->where(array('id'=>$id))->setInc('view');
+		$articlen=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('gt',$id)))->find();
+		$articlep=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('lt',$id)))->find();
+		$many=M('product')->field('content,desccontent',true)->where(array('cid'=>$article['cid'],'id'=>array('neq',$id)))->order('view desc')->limit(5)->select();
+		$this->assign('article',$article);
+		$this->assign('articlep',$articlep);
+		$this->assign('articlen',$articlen);
+		$this->assign('many',$many);
+		$this->assign('id',$id);
+		$this->assign('username',$username);
+		$this->display();
+	}
 }
 
 ?>

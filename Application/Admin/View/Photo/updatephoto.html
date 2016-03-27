@@ -36,7 +36,7 @@
     	 <div class="am-form-group">
      	 <label for="url">跳转Url</label>
       	<input type="url" id="url" name="url" value="{$data.url}" placeholder="跳转Url">
-      	<div id='urlTip'></div>
+      	<!-- <div id='urlTip'></div> -->
     	</div>
     	 <div class="am-form-group">
      	 <label for="sort">排序</label>
@@ -101,9 +101,9 @@
 		
 		$("#desc").formValidator({onShowText:"请输入图片描述"})
 		.inputValidator({min:0,max:200,onError:"最多200个字符"});
-		
+/* 		
 		$("#url").formValidator({onFocus:"Url",onCorrect:"谢谢你的合作"})
-		.regexValidator({regExp:["url"],dataType:"enum",onError:"你输入的url不正确"});
+		.regexValidator({regExp:["url"],dataType:"enum",onError:"你输入的url不正确"}); */
 		
 
 	});

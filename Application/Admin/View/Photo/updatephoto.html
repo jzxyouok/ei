@@ -97,7 +97,7 @@
 
 		
 		$("#title").formValidator({onShowText:"请输入图片标题"})
-		.inputValidator({min:2,max:30,onError:"标题2~30个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能为空"}});
+		.inputValidator({min:2,max:180,onError:"标题2~180个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能为空"}});
 		
 		$("#desc").formValidator({onShowText:"请输入图片描述"})
 		.inputValidator({min:0,max:200,onError:"最多200个字符"});

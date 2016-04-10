@@ -121,7 +121,7 @@
 	<header class="am-topbar am-topbar-fixed-top">
 		<div class="am-container">
 			<h1 class="am-topbar-brand">
-				<a href="__ROOT__/Ei/User/Index?username={$username}">{$webinfo.title}</a>
+				<a href="__ROOT__/u/{$username}">{$webinfo.title}</a>
 			</h1>
 
 			<button
@@ -133,22 +133,22 @@
 			<div class="am-collapse am-topbar-collapse" id="collapse-head">
 			<!--  -->
 				      <ul class="am-nav am-nav-pills am-topbar-nav">
-        <li class="am-active"><a href="__ROOT__/Ei/User/Index?username={$username}">首页</a></li>
+        <li class="am-active"><a href="__ROOT__/u/{$username}">首页</a></li>
         <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-           公司介绍<span class="am-icon-caret-down"></span>
+           组织介绍<span class="am-icon-caret-down"></span>
           </a>
           <ul class="am-dropdown-content">
          	<!-- <li class="am-dropdown-header">标题</li> -->
             <volist name='about' id='vo'>
-            <li><a href="__ROOT__/Ei/User/about?username={$username}&id={$vo.id}">{$vo.title}</a></li>
+            <li><a href="__ROOT__/u/{$username}/about/{$vo.id}">{$vo.title}</a></li>
             </volist>
           </ul>
         </li>
-        <li><a href='__ROOT__/Ei/User/product?username={$username}'>产品介绍</a></li>
+        <li><a href='__ROOT__/u/{$username}/product'>产品介绍</a></li>
         <volist name='nav' id='vo'>
         <if condition='$vo.son eq []'>
-            <li><a href="__ROOT__/Ei/User/page?username={$username}&id={$vo.id}">{$vo.title}</a></li>
+            <li><a href="__ROOT__/u/{$username}/page/{$vo.id}">{$vo.title}</a></li>
         <else />
                 <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -156,9 +156,9 @@
           </a>
           <ul class="am-dropdown-content">
          	<!-- <li class="am-dropdown-header">标题</li> -->
-         	<li  class="am-dropdown-header"><a href="__ROOT__/Ei/User/page?username={$username}&id={$vo.id}">{$vo.title}</a></li>
+         	<li  class="am-dropdown-header"><a href="__ROOT__/u/{$username}/page/{$vo.id}">{$vo.title}</a></li>
             <volist name='vo.son' id='vo1'>
-            <li><a href="__ROOT__/Ei/User/page?username={$username}&id={$vo1.id}">{$vo1.title}</a></li>
+            <li><a href="__ROOT__/u/{$username}/page/{$vo1.id}">{$vo1.title}</a></li>
             </volist>
           </ul>
         	</li>
@@ -223,7 +223,7 @@
 			  <!--列表标题-->
 			    <div class="am-list-news-hd am-cf">
 			       <!--带更多链接-->
-			        <a href="__ROOT__/Ei/User/page?username={$username}&id={$vo.id}" class="">
+			        <a href="__ROOT__/u/{$username}/page/{$vo.id}" class="">
 			          <h2 style='color:black'>{$vo.title}</h2>
 			            <span class="am-list-news-more am-fr">更多 &raquo;</span>
 			        </a>
@@ -234,14 +234,14 @@
 			     <!--缩略图在标题右边-->
 			      <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-right">
 			        <div class=" am-u-sm-8 am-list-main"  style='height:90px'>
-			            <h3 class="am-list-item-hd"><a href="__ROOT__/Ei/User/article?username={$username}&id={$vo1.id}" class="">{$vo1.title}</a></h3>
+			            <h3 class="am-list-item-hd"><a href="__ROOT__/u/{$username}/article/{$vo1.id}" class="">{$vo1.title}</a></h3>
 			
 			
 			            <div class="am-list-item-text">{$vo1.createtime} By {$vo1.author}</div>
 			
 			        </div>
  	          <div class="am-u-sm-4 am-list-thumb">
-			            <a href="__ROOT__/Ei/User/article?username={$username}&id={$vo1.id}" class="">
+			            <a href="__ROOT__/u/{$username}/article/{$vo1.id}" class="">
 			              <img src="__ROOT__/Uploads/{$vo1.photo}"  style='height:90px' alt="{$vo1.title}"/>
 			            </a>
 			          </div>
@@ -258,7 +258,7 @@
 	<div class="hope">
   <div class="am-g" style='width:85%'>
     <div class="am-u-lg-12 am-u-md-12 am-u-sm-12">
-     			        <a href="__ROOT__/Ei/User/product?username={$username}" class="">
+     			        <a href="__ROOT__/u/{$username}/product" class="">
 			          <h2>产品展示<span class="am-list-news-more am-fr">更多 &raquo;</span></h2>
 			        </a>
     <div class="picMarquee-left">
@@ -270,8 +270,8 @@
 				<ul class="picList">
 				<volist name='product' id='vo'>
 					<li>
-						<div class="pic"><a href="__ROOT__/Ei/User/pc?username={$username}&id={$vo.id}" target="_blank"><img src="__ROOT__/Uploads/{$vo.photo}" /></a></div>
-						<div class="title"><a href="__ROOT__/Ei/User/pc?username={$username}&id={$vo.id}" target="_blank">{$vo.title}</a></div>
+						<div class="pic"><a href="__ROOT__/u/{$username}/i/{$vo.id}" target="_blank"><img src="__ROOT__/Uploads/{$vo.photo}" /></a></div>
+						<div class="title"><a href="__ROOT__/u/{$username}/i/{$vo.id}" target="_blank">{$vo.title}</a></div>
 					</li>
 				</volist>
 				</ul>

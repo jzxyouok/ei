@@ -269,7 +269,7 @@ class UserController extends Controller{
 	}
 	
 	function product(){
-		$id=I('id','');
+		$id=I('id',0);
 		$username=I('username','');
 		if($username==''){
 			$this->error('非法途径');
@@ -335,7 +335,7 @@ class UserController extends Controller{
 		//开始
 		$last=($pageno-1)*$size;
 		//总数
-		if($id!=''){
+		if($id!=0){
 			$jinhan['cid']=$id;
 			//面包屑
 			$temp=M('pcategory')->field('content',true)->where(array('username'=>$username,'id'=>$id,'status'=>1))->find();
@@ -359,6 +359,7 @@ class UserController extends Controller{
 			$this->assign('pageno',$pageno);
 		}
 		$this->assign('username',$username);
+		$this->assign('id',$id);
 		$this->display('product1');
 	}
 	

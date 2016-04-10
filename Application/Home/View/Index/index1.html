@@ -115,13 +115,13 @@
           <ul class="am-dropdown-content">
          	<!-- <li class="am-dropdown-header">标题</li> -->
             <volist name='about' id='vo'>
-            <li><a href="__ROOT__/Home/Index/about?id={$vo.id}">{$vo.title}</a></li>
+            <li><a href="__ROOT__/about/{$vo.id}">{$vo.title}</a></li>
             </volist>
           </ul>
         </li>
         <volist name='nav' id='vo'>
         <if condition='$vo.son eq []'>
-            <li><a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a></li>
+            <li><a href="__ROOT__/page/{$vo.id}">{$vo.title}</a></li>
         <else />
                 <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -129,9 +129,9 @@
           </a>
           <ul class="am-dropdown-content">
          	<!-- <li class="am-dropdown-header">标题</li> -->
-         	<li  class="am-dropdown-header"><a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a></li>
+         	<li  class="am-dropdown-header"><a href="__ROOT__/page/{$vo.id}">{$vo.title}</a></li>
             <volist name='vo.son' id='vo1'>
-            <li><a href="__ROOT__/Home/Index/page?id={$vo1.id}">{$vo1.title}</a></li>
+            <li><a href="__ROOT__/page/{$vo1.id}">{$vo1.title}</a></li>
             </volist>
           </ul>
         	</li>
@@ -353,19 +353,19 @@ oh
      <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
       <ul class="am-tabs-nav am-cf">
       <volist name='showpaper' id='vo'>
-          <li><a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a></li>
+          <li><a href="__ROOT__/page/{$vo.id}">{$vo.title}</a></li>
       </volist>
       </ul>
       <div class="am-tabs-bd">
         
         <volist name='showpaper' id='vo'>  
-          <div __ROOT__/Home/Index/page?id={$vo.id} class="am-tab-panel">
+          <div class="am-tab-panel">
 <!-- 条目 -->
 <div data-am-widget="list_news" class="am-list-news am-list-news-default" >
   <!--列表标题-->
     <div class="am-list-news-hd am-cf">
        <!--带更多链接-->
-        <a href="__ROOT__/Home/Index/page?id={$vo.id}" class=""><h2>{$vo.title}</h2>
+        <a href="__ROOT__/page/{$vo.id}" class=""><h2>{$vo.title}</h2>
         <span class="am-list-news-more am-fr">更多 &raquo;</span>
         </a>
     </div>
@@ -374,7 +374,7 @@ oh
   <ul class="am-list">
 	 <volist name="vo['paper']" id='vo1'>  
       <li class="am-g am-list-item-dated">
-          <a href="__ROOT__/Home/Index/article?id={$vo1.id}" class="am-list-item-hd ">{$vo1.title}</a>
+          <a href="__ROOT__/article/{$vo1.id}" class="am-list-item-hd ">{$vo1.title}</a>
           <span class="am-list-date">{$vo1.createtime}</span>
       </li>
       </volist>
@@ -402,7 +402,7 @@ oh
               <img style="height: 100%" class=" am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$vo.logo}"  alt="{$vo.title}"/>
               
                 <h3 class="am-gallery-title" style='text-align:center;font-size:0.9em'>
-                  <a href="__ROOT__/Ei/User/Index?username={$vo.username}" target="__blank" class="">{$vo.title} </a>
+                  <a href="__ROOT__/u/{$vo.username}" target="__blank" class="">{$vo.title} </a>
                 </h3>
                  
                 </div>

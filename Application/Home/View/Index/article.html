@@ -194,7 +194,7 @@
         class="am-icon-bars"></span></button>
 
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
-           <ul class="am-nav am-nav-pills am-topbar-nav">
+      <ul class="am-nav am-nav-pills am-topbar-nav">
         <li class="am-active"><a href="__ROOT__/Home">首页</a></li>
         <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -203,13 +203,13 @@
           <ul class="am-dropdown-content">
          	<!-- <li class="am-dropdown-header">标题</li> -->
             <volist name='about' id='vo'>
-            <li><a href="__ROOT__/Home/Index/about?id={$vo.id}">{$vo.title}</a></li>
+            <li><a href="__ROOT__/about/{$vo.id}">{$vo.title}</a></li>
             </volist>
           </ul>
         </li>
         <volist name='nav' id='vo'>
         <if condition='$vo.son eq []'>
-            <li><a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a></li>
+            <li><a href="__ROOT__/page/{$vo.id}">{$vo.title}</a></li>
         <else />
                 <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
@@ -217,9 +217,9 @@
           </a>
           <ul class="am-dropdown-content">
          	<!-- <li class="am-dropdown-header">标题</li> -->
-         	<li  class="am-dropdown-header"><a href="__ROOT__/Home/Index/page?id={$vo.id}">{$vo.title}</a></li>
+         	<li  class="am-dropdown-header"><a href="__ROOT__/page/{$vo.id}">{$vo.title}</a></li>
             <volist name='vo.son' id='vo1'>
-            <li><a href="__ROOT__/Home/Index/page?id={$vo1.id}">{$vo1.title}</a></li>
+            <li><a href="__ROOT__/page/{$vo1.id}">{$vo1.title}</a></li>
             </volist>
           </ul>
         	</li>

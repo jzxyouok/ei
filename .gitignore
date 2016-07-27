@@ -1,4 +1,4 @@
-Runtime/
-Idcard/
-Temp/
-Uploads/
+Runtime/*
+Idcard/*
+Temp/*
+Uploads/*

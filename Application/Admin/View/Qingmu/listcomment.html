@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>查看评论</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+  	<table id="dg" title="查看评论"  style="width:550px;height:250px">
+	</table>
+	
+<div id="toolbar">
+<!-- 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加单页</a>
+ -->		  <span>
+				    <select id='shop_name' class="form-control" name='status' style='width:100px;margin: 0 20px'> 
+				      <volist name="shopname" id="vo">
+				      <option value={$vo.shop_name }>{$vo.shop_name}</option> 
+				  		</volist>
+		</select>
+		<input type='text' id='url' placeholder="查询商品url"  style="width:300px"  />
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a>
+	</span> 
+</div>
+
+<script type="text/javascript">
+$('#dg').datagrid({    
+    url:'__CONTROLLER__/listcomments',  
+    collapsible:true,
+    toolbar: '#toolbar',
+    rownumbers:true,
+    pagination:true,
+    pageSize:30,
+	fit:true, 	
+    columns:[[
+        {field:'ck',checkbox:true}, 
+        {field:'id',title:'ID',hidden:true},   
+        {field:'content',title:'评论内容',
+            //	
+            formatter: function(value,row,index){
+            	var content="<div style='white-space:normal; width:400px;'>"+value+"</div>";
+            	return content;
+            }	
+        },    
+        {field:'shop_name',title:'店铺名字',width:100,sortable:true},
+        {field:'item_url',title:'商品url',width:300,sortable:true,
+        //	
+        formatter: function(value,row,index){return "<div class='comment' style='background-color:red'><a target='_blank' href='"+value+"'>"+value+"</a></div>"}
+        //
+        },
+        {field:'vip_level',title:'用户等级',width:100,sortable:true},
+        {field:'createtime',title:'评论时间',width:200,sortable:true}
+    ]]    
+});
+
+
+		
+
+function getabout(){
+	var shop_name=$('#shop_name').val();
+	var url=$('#url').val().trim();
+	$('#dg').datagrid('load', {    
+		shop_name: shop_name,
+		url:url
+	});
+}
+
+</script>
+</body>
+</html>

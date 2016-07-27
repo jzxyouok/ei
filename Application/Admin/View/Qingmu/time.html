@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>OA销售数据</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+  	<table id="dg" title="OA数据"  style="width:550px;height:250px">
+	</table>
+	
+<div id="toolbar">
+<!-- <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="forecast()">预测</a> -->
+<!-- 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加单页</a>
+ -->		  <span>
+				    <select id='refshopid' class="form-control" name='refshopid' style='width:300px;margin: 0 20px'> 
+				      <volist name="data" id="vo">
+				      <option value={$vo.id}>{$vo.sname}</option> 
+				  		</volist>
+					</select>
+					起始时间（格式：2015-02-02）：<input id="bt" type="text" name='bt' class="easyui-datebox">
+					结束时间：<input id="et" type="text" name='et' class="easyui-datebox">
+					<a href="#" class="easyui-linkbutton" onclick="getabout()">查询</a>
+	</span> 
+</div>
+<script type="text/javascript">
+function forecast(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows!=''){
+				var s='0';
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					var id=row.id
+					s=s+','+id;
+				}
+				alert(s);
+	}else{
+	alert("请勾选按钮")}
+}
+</script>
+<script type="text/javascript">
+
+$.fn.datebox.defaults.formatter = function(date) {
+	var y = date.getFullYear();
+	var m = date.getMonth() + 1;
+	var d = date.getDate();
+	return y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d);
+	};
+	//
+	$.fn.datebox.defaults.parser = function(s) {
+	if (s) {
+	var a = s.split('-');
+	var d = new Date(parseInt(a[0]), parseInt(a[1]) - 1, parseInt(a[2]));
+	return d;
+	} else {
+	return new Date();
+	}
+
+	};
+
+
+$('#dg').datagrid({    
+    url:'__CONTROLLER__/listtime',  
+    collapsible:true,
+    toolbar: '#toolbar',
+    rownumbers:true,
+    pagination:true,
+    pageSize:30,
+   // singleSelect:true,
+	//pageList:[5,10,50],
+	fit:true, 	
+    columns:[[
+        {field:'ck',checkbox:true}, 
+        {field:'id',title:'ID',hidden:true},   
+        {field:'refshopid',width:120,title:'店铺名'},    
+        {field:'statday',title:'时间',width:80},
+        {field:'sumday',title:'日累计（总体）',width:130
+      /*  	,
+        	formatter: function(value,row,index){
+        		return value.toFixed(2);
+        	}	 
+         */
+        },
+        {field:'dayplan',title:'日目标（总体）',width:130,
+        	formatter: function(value,row,index){
+        		return "<span>"+CurrencyFormatted(value)+"</span>";
+        	}},
+        {field:'dayplanrate',title:'日完成率（总体）',width:130,
+        	formatter: function(value,row,index){
+        		return "<span style='color:red'>"+CurrencyFormatted(value*100)+"%</span>";
+        	}},
+            {field:'summonth',title:'月累计（总体）',width:130},
+            {field:'plan',title:'月目标（总体） ',width:130
+                /*        	,
+               	formatter: function(value,row,index){
+               		return value.toFixed(2);
+               	}	 */ 
+               },
+               {field:'monthplanrate',title:'月完成率（总体）！！',width:130,
+               	formatter: function(value,row,index){
+               		return "<span style='color:red'>"+CurrencyFormatted(value*100)+"%</span>";
+               	}
+               },  //常规月累计成交量   
+            {field:'sumcgmonthmoney',title:'月累计（常规）',width:130},
+            {field:'lzcgplan',title:'月目标（常规） ',width:130
+                /*        	,
+               	formatter: function(value,row,index){
+               		return value.toFixed(2);lzcgplan
+               	}	 */ 
+               },
+                {field:'monthcgplanrate',title:'月完成率(常规)！！',width:130
+            	,
+            	formatter: function(value,row,index){
+            		return "<span style='color:red'>"+CurrencyFormatted(value*100)+"%</span>";
+            	}
+                },  //活动月累计成交量   
+                {field:'sumhdmonthmoney',title:'月累计（活动）',width:130},
+                {field:'lzhdplan',title:'月目标（活动） ',width:130
+                    /*        	,
+                   	formatter: function(value,row,index){
+                   		return value.toFixed(2);lzcgplan
+                   	}	 */ 
+                   },
+                    {field:'monthhdplanrate',title:'月完成率(活动)！！',width:130
+                	,
+                	formatter: function(value,row,index){
+                		return "<span style='color:red'>"+CurrencyFormatted(value*100)+"%</span>";
+                	}
+                    },  //聚划算月累计成交量   
+                    {field:'sumjhsmonthmoney',title:'月累计（聚划算）',width:130},
+                    {field:'lzjhsplan',title:'月目标（聚划算） ',width:130
+                        /*        	,
+                       	formatter: function(value,row,index){
+                       		return value.toFixed(2);lzcgplan
+                       	}	 */ 
+                       },
+                        {field:'monthjhsplanrate',title:'月完成率(聚划算)！！',width:130
+                    	,
+                    	formatter: function(value,row,index){
+                    		return "<span style='color:red'>"+CurrencyFormatted(value*100)+"%</span>";
+                    	}
+                        },
+            {field:'sumcgmoney',title:'日成交额（常规） ',width:130,
+                   	formatter: function(value,row,index){
+                   		return "<span style='color:blue'>"+value+"</span>";
+                   	}},
+            {field:'sumhdmoney',title:'日成交额（活动）',width:130,
+                       	formatter: function(value,row,index){
+                       		return "<span style='color:blue'>"+value+"</span>";
+                       	}},
+            {field:'sumjhsmoney',title:'日成交额（聚划算）',width:130,
+                           	formatter: function(value,row,index){
+                           		return "<span style='color:blue'>"+value+"</span>";
+                           	}}
+    ]]    
+});
+
+function CurrencyFormatted(amount) {
+    var i = parseFloat(amount);
+    if(isNaN(i)) { i = 0.00; }
+    var minus = '';
+    if(i < 0) { minus = '-'; }
+    i = Math.abs(i);
+    i = parseInt((i + .005) * 100);
+    i = i / 100;
+    s = new String(i);
+    if(s.indexOf('.') < 0) { s += '.00'; }
+    if(s.indexOf('.') == (s.length - 2)) { s += '0'; }
+    s = minus + s;
+    return s;
+}
+
+function updatescore(id,score){
+	if(confirm('确定打为'+score+"分")){
+		//alert(score);
+		var uri='__CONTROLLER__/updatescore'
+		$.post(uri,{'id':id,'score':score},function(result){
+			$.messager.show({	// show error message
+				title: '消息',
+				msg: result
+			});
+			$('#dg').datagrid('reload');	// reload the user da
+	});
+	}
+}
+
+function getabout(){
+	var refshopid=$('#refshopid').val();
+	var bt=$('input[name=bt]').val();
+	var et=$('input[name=et]').val();
+/* 	if(bt=='' || et==''){
+		alert('日期不能为空');
+		return
+	} */
+	$('#dg').datagrid('load', {    
+		refshopid:refshopid,
+		bt:bt,
+		et:et
+	});
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" href="__ROOT__/Public/Ui/assets/i/favicon.png">
+<title>修改用户密码第一步</title>
+<script src="__ROOT__/Public/Js/angular.js"></script>
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+</head>
+<body>
+	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+	<div class="row">
+		<div class='col-md-6 col-md-offset-1' >
+	   		<form id="user_form" action="{:U('Admin/Public/forgetpasswd2')}" role="form">
+				<div class="form-group">
+					<label for='username'>用户名</label>
+					<input type="text" class="form-control" name="username" id="username"
+						placeholder="请输入用户名" required="required">
+				</div>
+				<div id="usernameTip"></div>
+				   <input type="text" name="verify" class="form-control" required="required" placeholder="验证码">
+		<img src="__CONTROLLER__/verify" alt="看不清请点击刷新" style="cursor : pointer;" onClick="show(this)" />
+		<div class="form-group">
+		    <div>
+	         	<button type="submit" class="btn btn-default">修改用户密码</button>
+	      	</div>
+	   	</div>
+	   	</form>
+		</div>	   	
+	</div>
+	</div>
+	<script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+	<script>
+	function show(obj){
+	obj.src="__CONTROLLER__/verify/random/"+Math.random();}
+	</script>
+</body>
+</html>

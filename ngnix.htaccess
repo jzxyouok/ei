@@ -1,0 +1,23 @@
+if (!-d $request_filename){
+	set $rule_0 1$rule_0;
+}
+if (!-f $request_filename){
+	set $rule_0 2$rule_0;
+}
+if ($rule_0 = "21"){
+	rewrite ^/u/(.+)/page/(.+)/pageno/(.+)$ /index.php/Ei/User/page?username=$1&id=$2&pageno=$3 last;
+}
+	rewrite ^/u/(.+)/page/(.+)$ /index.php/Ei/User/page?username=$1&id=$2 last;
+	rewrite ^/u/(.+)/article/(.+)$ /index.php/Ei/User/article?username=$1&id=$2 last;
+	rewrite ^/u/(.+)/product$ /index.php/Ei/User/product?username=$1 last;
+	rewrite ^/u/(.+)/product/(.*)/pageno/(.+) /index.php/Ei/User/product?username=$1&id=$2&pageno=$3 last;
+	rewrite ^/u/(.+)/product/(.+)$ /index.php/Ei/User/product?username=$1&id=$2 last;
+	rewrite ^/u/(.+)/i/(.+)$ /index.php/Ei/User/pc?username=$1&id=$2 last;
+	rewrite ^/u/(.+)/about/(.+)$ /index.php/Ei/User/about?username=$1&id=$2 last;
+	rewrite ^/u/(.+)$ /index.php/Ei/User/index?username=$1 last;
+	rewrite ^/page/(.+)/pageno/(.+)$ /index.php/Home/Index/page?id=$1&pageno=$2 last;
+	rewrite ^/page/(.+)$ /index.php/Home/Index/page?id=$1 last;
+	rewrite ^/article/(.+)$ /index.php/Home/Index/article?id=$1 last;
+	rewrite ^/about/(.+)$ /index.php/Home/Index/about?id=$1 last;
+	rewrite ^/(Home|Admin|Ei)/?(.*)$ /index.php/$1/$2 last;
+

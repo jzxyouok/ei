@@ -1,0 +1,132 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" href="__ROOT__/Public/Ui/assets/i/favicon.png">
+<title>修改密码第二步</title>
+<script src="__ROOT__/Public/Js/angular.js"></script>
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+</head>
+<body ng-app="myApp" ng-controller="customersCtrl">
+	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+	<div class="row">
+		<div class='col-md-6 col-md-offset-1' >
+			<form id="user_form" action="{:U('Admin/Public/updatepasswd')}" role="form">
+			<input name='username' value={$user} hidden="hidden">
+			<div class="form-group">
+				<div class="alert alert-warning" id='warning-block'>
+		   			<p></p>
+				</div>
+				<div class="form-group">
+					<label for='question1'>密保1</label>
+				    <select class="form-control" name='question1'> 
+				      <option>{$q1}</option> 
+				      </select>
+				<div>
+					<input type="text" class="form-control" name="q1" id="q1"
+						placeholder="请输入答案" required="required">
+				</div>
+				<div id="q1Tip"></div>
+				</div>
+			</div>
+						<div class="form-group">
+					<label for='question1'>密保2</label>
+				    <select class="form-control" name='question2'> 
+				      <option>{$q2}</option> 
+				      </select>
+				<div>
+					<input type="text" class="form-control" name="q2" id="q2"
+						placeholder="请输入答案" required="required">
+				</div>
+				<div id="q2Tip"></div>
+				</div>
+								<div class="form-group">
+					<label for='question3'>密保3</label>
+				    <select class="form-control" name='question3'> 
+				      <option>{$q3}</option> 
+				      </select>
+				<div>
+					<input type="text" class="form-control" name="q3" id="q3"
+						placeholder="请输入答案" required="required">
+				</div>
+				<div id="q3Tip"></div>
+				</div>
+					
+		<div class="form-group">
+			<label>新密码</label>
+			<div>
+				<input type="password" class="form-control" name="password1" id="password1"
+					placeholder="请输入密码" required="required">
+			</div>
+			<div id="password1Tip"></div>
+		</div>
+		
+		<div class="form-group">
+			<div>
+				<input type="password" class="form-control" name="password2" id="password2"
+					placeholder="请再一次输入密码" required="required">
+			</div>
+			<div id="password2Tip"></div>
+		</div>
+		  <input type="text" name="verify" class="form-control" required="required" placeholder="验证码">
+		<img src="__CONTROLLER__/verify" alt="看不清请点击刷新"  style="cursor : pointer;" onClick="show(this)" />
+		<div class="form-group">
+		    <div>
+	         	<button type="submit" class="btn btn-default">修改</button>
+	      	</div>
+	   	</div>
+	   	</form>
+		</div>	   	
+	</div>
+	</div>
+	<script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+	<script src="__ROOT__/Public/tool/ajaxupload.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({formID:"user_form",submitOnce:true,
+			onSuccess:function(){
+				var registerForm=$("#user_form");
+				$.post(registerForm.attr("action"),registerForm.serialize(),function(data){
+					alert(data);
+					if(data=='修改成功'){
+						window.location.href="{:U('Admin/Public/forgetpasswd')}";
+					}
+					$('#warning-block p').html('<strong>警告！</strong>'+data);
+					return;
+				});
+			}
+		});
+
+		
+		
+		$("#q1").formValidator({onShowText:"请输入答案"})
+		.inputValidator({min:0,max:100,onError:"最多25个字符"});
+		
+		$("#q2").formValidator({onShowText:"请输入答案"})
+		.inputValidator({min:0,max:100,onError:"最多25个字符"});
+		
+		$("#q3").formValidator({onShowText:"请输入答案"})
+		.inputValidator({min:0,max:100,onError:"最多25个字符"});
+		
+		$("#password1").formValidator({onFocus:"密码6位到16位",onCorrect:"密码合法"})
+		.inputValidator({min:6,max:16,empty:{leftEmpty:false,rightEmpty:false,emptyError:"密码两边不能有空符号"},onError:"密码6位到16位"});
+		$("#password2").formValidator({onFocus:"",onCorrect:"密码一致"})
+		.compareValidator({desID:"password1",operateor:"=",onError:"2次密码不一致,请确认"});
+	});
+	
+</script>
+<script>
+	function show(obj){
+	obj.src="__CONTROLLER__/verify/random/"+Math.random();}
+</script>
+</body>
+</html>

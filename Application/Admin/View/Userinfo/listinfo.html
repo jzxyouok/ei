@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>用户管理</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+</head>
+<script type="text/javascript">
+function passuser(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows){
+		$.messager.confirm('Confirm','你确定通过这些审核?',function(r){
+			if (r){
+				var uri="__CONTROLLER__/passuser";
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					$.post(uri,{'id':row.id},function(result){
+						$.messager.show({	// show error message
+							title: '消息',
+							msg: result
+						});
+						$('#dg').datagrid('reload');	// reload the user da
+				});
+				}
+			}
+		});
+	}else{
+	alert("请勾选按钮")}
+}
+
+function agreeuser(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows){
+		$.messager.confirm('Confirm','你确定同意修改?',function(r){
+			if (r){
+				var uri="__CONTROLLER__/agreeuser";
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					$.post(uri,{'id':row.id},function(result){
+						$.messager.show({	// show error message
+							title: '消息',
+							msg: result
+						});
+						$('#dg').datagrid('reload');	// reload the user da
+				});
+				}
+			}
+		});
+	}else{
+	alert("请勾选按钮")}
+}		
+</script>
+</head>
+<body>
+  	<table id="dg" title="学生管理" class="easyui-datagrid" style="width:550px;height:250px"
+		url="{:U('Admin/Userinfo/listinfos')}" 
+		toolbar="#toolbar" rownumbers="true" fitColumns="true" singleSelect="false"  pagination="true"
+		    pageList="[5,10,30]" fit="true">
+	<thead>
+		<tr>
+			<th field='ck' checkbox="true"></th>
+			<th field='id' title='用户ID'>用户ID</th>
+			<th field='username' title='用户名' width="100">用户名</th>
+		    <th field='realname' title='真名' width="100">真名</th>
+			<th field='personid' title='身份证' width="100">身份证</th>
+			<th field='phone' width="100">电话</th>
+			<th field='address' width="100">地址</th>
+			<th field='picture1'>身份证正面</th>
+			<th field='picture2'>身份证反面</th>
+			<th field='status'  align='right'>状态</th>
+		</tr>
+	</thead>
+</table>
+<div id="toolbar">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="passuser()">审核通过</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="agreeuser()">同意修改</a>
+		  <span>
+				    <select id='status' class="form-control" name='status' style='width:100px;margin: 0 20px'> 
+				       <option value=''>全部</option>
+				       <option value=0>待审核</option>
+				      <option value=1>已审核</option> 
+				      <option value=2>请求修改</option>
+				       <option value=3>修改中</option> 
+		</select>
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">状态查询</a>
+	</span>
+</div>
+
+<div id="dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
+</div>
+<script>
+function getabout(){
+	var status=$('#status').val();
+	$('#dg').datagrid('load', {
+	    status: status 
+	});
+}
+</script>
+</body>
+</html>

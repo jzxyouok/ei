@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>{$article.title}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" href="__ROOT__/Public/Ui/assets/i/favicon.png">
+  <link rel="stylesheet" href="__ROOT__/Public/Ui/assets/css/amazeui.min.css"/>
+  
+<script type="text/javascript" src="__ROOT__/Public/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+<link rel="stylesheet" href="__ROOT__/Public/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>
+  
+    <style>
+    .am-article-bd img {
+    display: inline;
+    }
+    @media only screen and (min-width: 641px) {
+      .am-offcanvas {
+        display: block;
+        position: static;
+        background: none;
+      }
+
+      .am-offcanvas-bar {
+        position: static;
+        width: auto;
+        background: none;
+        -webkit-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+      }
+      .am-offcanvas-bar:after {
+        content: none;
+      }
+
+    }
+
+    @media only screen and (max-width: 640px) {
+      .am-offcanvas-bar .am-nav>li>a {
+        color:#ccc;
+        border-radius: 0;
+        border-top: 1px solid rgba(0,0,0,.3);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.05)
+      }
+
+      .am-offcanvas-bar .am-nav>li>a:hover {
+        background: #404040;
+        color: #fff
+      }
+
+      .am-offcanvas-bar .am-nav>li.am-nav-header {
+        color: #777;
+        background: #404040;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+        text-shadow: 0 1px 0 rgba(0,0,0,.5);
+        border-top: 1px solid rgba(0,0,0,.3);
+        font-weight: 400;
+        font-size: 75%
+      }
+
+      .am-offcanvas-bar .am-nav>li.am-active>a {
+        background: #1a1a1a;
+        color: #fff;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,.3)
+      }
+
+      .am-offcanvas-bar .am-nav>li+li {
+        margin-top: 0;
+      }
+    }
+
+    .my-head {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .my-button {
+      position: fixed;
+      top: 20%;
+      right: 5%;
+      border-radius: 0;
+    }
+    .my-sidebar {
+      padding-right: 0;
+      border-right: 1px solid #eeeeee;
+    }
+
+    .my-footer {
+      border-top: 1px solid #eeeeee;
+      padding: 10px 0;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+  <style>
+    .get {
+      background: #1E5B94;
+      color: #fff;
+      text-align: center;
+    }
+
+    .get-title {
+      font-size: 200%;
+      border: 2px solid #fff;
+      padding: 20px;
+      display: inline-block;
+    }
+
+    .get-btn {
+      background: #fff;
+    }
+
+    .detail {
+      background: #fff;
+    }
+
+    .detail-h2 {
+      text-align: center;
+      font-size: 150%;
+      margin: 40px 0;
+    }
+
+    .detail-h3 {
+      color: #1f8dd6;
+    }
+
+    .detail-p {
+      color: #7f8c8d;
+    }
+
+    .detail-mb {
+      margin-bottom: 30px;
+    }
+
+    .hope {
+      background: #3bb4f2;
+      padding: 50px 0;
+    }
+
+    .hope-img {
+      text-align: center;
+    }
+
+    .hope-hr {
+      border-color: #149C88;
+    }
+
+    .hope-title {
+      font-size: 140%;
+    }
+
+    .about {
+      background: #fff;
+      padding: 40px 0;
+      color: #7f8c8d;
+    }
+
+    .about-color {
+      color: #34495e;
+    }
+
+    .about-title {
+      font-size: 180%;
+      padding: 30px 0 50px 0;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+  </style>
+</head>
+<body>
+<header class="am-topbar am-topbar-fixed-top">
+  <div class="am-container">
+    <h1 class="am-topbar-brand">
+      <a href="__ROOT__/Home">{$webinfo.title}</a>
+    </h1>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
+            data-am-collapse="{target: '#collapse-head'}"><span class="am-sr-only">导航切换</span> <span
+        class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="collapse-head">
+      <ul class="am-nav am-nav-pills am-topbar-nav">
+        <li class="am-active"><a href="__ROOT__/Home">首页</a></li>
+        <li class="am-dropdown" data-am-dropdown>
+          <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+           平台介绍<span class="am-icon-caret-down"></span>
+          </a>
+          <ul class="am-dropdown-content">
+         	<!-- <li class="am-dropdown-header">标题</li> -->
+            <volist name='about' id='vo'>
+            <li><a href="__ROOT__/about/{$vo.id}">{$vo.title}</a></li>
+            </volist>
+          </ul>
+        </li>
+        <volist name='nav' id='vo'>
+        <if condition='$vo.son eq []'>
+            <li><a href="__ROOT__/page/{$vo.id}">{$vo.title}</a></li>
+        <else />
+                <li class="am-dropdown" data-am-dropdown>
+          <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+           {$vo.title}<span class="am-icon-caret-down"></span>
+          </a>
+          <ul class="am-dropdown-content">
+         	<!-- <li class="am-dropdown-header">标题</li> -->
+         	<li  class="am-dropdown-header"><a href="__ROOT__/page/{$vo.id}">{$vo.title}</a></li>
+            <volist name='vo.son' id='vo1'>
+            <li><a href="__ROOT__/page/{$vo1.id}">{$vo1.title}</a></li>
+            </volist>
+          </ul>
+        	</li>
+        </if>
+       </volist>
+      </ul>
+
+      <div class="am-topbar-right">
+        <button onclick='register()' class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span>注册</button>
+      </div>
+
+      <div class="am-topbar-right">
+        <button onclick='login()' class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录</button>
+      </div>
+      <script>
+      function login(){
+    	  window.open("{:U('Admin/Public/login')}");
+      }
+      function register(){
+    	  window.open("{:U('Admin/Public/register')}");
+      }
+      </script>
+    </div>
+  </div>
+</header>
+
+<header class="am-g my-head">
+  <div class="am-u-sm-12 am-article">
+    <h1 class="am-article-title">{$article.title}<br/><span class='am-badge am-radius' style='color:#0e90d2;background-color:white'>Docu:<a href='__ROOT__/Home/Index/page?id={$article.cid}'>{$article.catname}</a></span></h1>
+         <div class="am-vertical-align" style='height:160px;width:160px;margin:0 auto;text-align:center'>
+              <a href='__ROOT__/Home/Index/page?id={$article.cid}'><img style="height: 100%" class="am-circle am-img-thumbnail" src="__ROOT__/Uploads/{$article.photo}" /></a>
+              </div>
+    <p class="am-article-meta">创建于{$article.createtime}
+    <br/>更新于{$article.updatetime}
+    <br/>by <span class=' am-badge  am-radius '>{$article.author}</span> views <strong class=' am-badge am-radius '>{$article.view}</strong>
+    </p>
+  </div>
+</header>
+<hr class="am-article-divider"/>
+<div class="am-g " style='min-height:300px'>
+  <div class="am-u-md-8 am-u-md-push-3">
+    <div class="am-g">
+      <div class="am-u-sm-11 am-u-sm-centered">
+        <h2>简介</h2>
+        <div class="am-cf am-article am-article-lead" style='font-size:0.8em'>
+          {$article.desccontent}
+        </div>
+        <h2>正文</h2>
+        <div class="am-cf am-article am-article-bd" style='min-height:200px;word-break: break-all;'>
+          {$article.content}
+        </div>
+        
+        <hr/>
+        
+            <ul class="am-pagination blog-pagination">
+      <notempty name="articlep">
+      <li class="am-pagination-prev"><a href="__ROOT__/Home/Index/article?id={$articlep.id}">&laquo; {$articlep.title}</a></li>
+      </notempty>
+       <notempty name="articlen">
+      <li class="am-pagination-next"><a href="__ROOT__/Home/Index/article?id={$articlen.id}">{$articlen.title} &raquo;</a></li>
+    </notempty>
+    </ul>
+    
+      </div>
+    </div>
+  </div>
+  <!--  -->
+    <div class="am-u-md-2 am-u-md-pull-7 my-sidebar">
+    <div class="am-offcanvas" id="sidebar">
+      <div class="am-offcanvas-bar">
+        <ul class="am-nav">
+		<li>热门文章</li>
+        <volist name='many' id='vo'>
+             <li><a href="__ROOT__/Home/Index/article?id={$vo.id}">{$vo.title}<br/><span style='color:black;font-size:0.7em'>{$vo.createtime} views {$vo.view}<br />by {$vo.author}</span></a></li>
+            </volist>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <br/>
+      <div  class="am-u-md-8 am-u-md-push-3 ">
+      <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="www.lenggirl.com/{$id}|{$article.title}" data-title="{$article.title}" data-url="http://www.lenggirl.com/{$id}|{$article.title}"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"hunterhug"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+  </div>
+  <a href="#sidebar" class="am-btn am-btn-sm am-btn-success am-icon-bars am-show-sm-only my-button" data-am-offcanvas><span class="am-sr-only">侧栏导航</span></a>
+  <!--  -->
+</div>
+
+ 
+<footer class="footer">
+<p>COPYRIGHT © 2015 – 2016  ALL RIGHTS RESERVED
+<br/>{$webinfo.webinfo}
+<br/>Modify by <a href="http://weibo.com/hunterhug" target="_blank">一只尼玛</a>
+</p>
+<!--   <p>© 2014 <a href="http://www.yunshipei.com" target="_blank">AllMobilize, Inc.</a> Licensed under <a
+      href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>. by the AmazeUI Team.</p>
+ --></footer>
+    <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
+    <a href="#top" title="">
+        <img class="am-gotop-icon-custom" src="http://amazeui.b0.upaiyun.com/assets/i/cpts/gotop/goTop.gif" />
+    </a>
+  </div>
+<!-- JiaThis Button BEGIN -->
+<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jiathis_r.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="__ROOT__/Public/Ui/assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__ROOT__/Public/Ui/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="__ROOT__/Public/Ui/assets/js/amazeui.min.js"></script>
+</body>
+</html>

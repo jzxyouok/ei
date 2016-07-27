@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="description" content=""/>
+<meta name="keywords" content=""/> 
+<title>{$webinfo.title}</title> 
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/home/css/shared.css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/Public/home/css/style.css" />
+<script type="text/javascript" src="__ROOT__/Public/home/js/jquery-1.11.2.min.js"></script>
+<!--图片滚动-->
+<script type="text/javascript" src="__ROOT__/Public/home/js/superslide.2.1.js"></script>
+</head>
+<!--主体开始-->
+<body>
+<!--头部开始-->
+<div class="head_warp">
+	<div class="head clearfix">
+    	<h1 class="logo"><a href="/"><img src="__ROOT__/Uploads/{$webinfo.logo}" title="logo" style='height:80px'/></a></h1>	
+        <div class="head_r">
+        	<div class="web_info">
+            	<span class="tel">联系方式：{$webinfo.phone}</span>
+            	
+            </div>
+            <!--标题开始，最多5个-->
+            <ul class="nav clearfix" id="nav">
+            	<li><a href="__ROOT__" >首页</a></li>
+			<!--标题1-->			
+            	<li>
+                	<a href="/abouts.html">介绍单页</a>
+                    <div class="nav_box clearfix">
+                    	<div class="nav_list">
+                    	<volist name='about' id='vo'>
+                        	<p><a href="__ROOT__/Home/Index/about?id="+{$vo.id}>{$vo.title}</a></p>
+						</volist>	
+                        </div>
+                    </div>
+                </li>
+                <volist name='nav' id='vo'>
+				<li>
+                	<a href="__ROOT__/Home/Index/page?id="+{$vo.id}>{$vo.title}</a>
+                    
+                </li>
+                </volist>
+				<li><a href="{:U('Admin/Public/login')}" target='__blank' style='color:#8a1f24'>登录</a></li>
+				<li><a href="{:U('Admin/Public/register')}" target='__blank' style='color:#8a1f24'>注册</a></li>
+			<!--标题1结束-->		
+            </ul>
+            <!--标题结束-->	
+        </div>
+    </div>	
+</div>
+<!--头部结束-->
+<!--内容区域开始-->
+<div class="main_warp">
+     
+	
+	<div class="focus_warp">
+        <div class="focusBox">
+          <ul class="pic">   
+          <volist name='photo' id='vo'>  
+            <li><a href="{$vo.url}" target="_blank"><img src="__ROOT__/Uploads/{$vo.storeplace}" alt="{$vo.title}"/></a></li> 
+           </volist>
+           </ul>
+          <a class="prev" href="javascript:void(0)"></a> <a class="next" href="javascript:void(0)"></a>
+          <ul class="hd">
+<!--             <li class="on"></li> -->
+             <volist name='photo' id='vo'>  
+            <li></li>
+           </volist>
+          </ul>
+        </div>
+    </div>
+	<script type="text/javascript">
+	$(".focusBox").slide({ mainCell: "ul.pic", effect: "fold", autoPlay: true,delayTime:300});
+	</script>
+   
+<!-- 
+	<div  id="banner">
+		<img src="__ROOT__/Public/home/banner_image1.jpg">
+	</div> -->
+
+	
+    <!--公司介绍块开始-->
+    <div class="about_warp">
+    	<div class="about clearfix">
+        	<div class="about_l">
+            	<h3 class="about_tit"><a href="#">关于星石</a></h3>
+                <div class="about_des">
+				星石投资成立于2007年，是国内第一批阳光私募公司，也是国内规模最大的阳光私募公司之一。
+				星石投资在发展过程中主动寻求规范，积极配合监管，参照基金公司组织架构完善公司治理，
+				公司的管理团队大都来自国内大型基金管理公司，具有多年的行业经验。
+				2013年星石投资成为证券业协会会员、基金业协会首批特别会员。
+				</div>	
+                <a href="/" class="more_02">查看详情</a>
+            </div>
+			
+			<!--切换信息块，最多三个-->
+            <div class="about_tab">
+                <div class="hd">
+                    <ul>
+                        <li>公告</li>
+                        <li>新闻</li>
+                        <li>观点</li>
+                    </ul>
+                </div>
+				<!--块内容开始-->
+                <div class="bd">
+					<!--信息块1-->
+                    <div class="about_info">
+                    	<div class="info_pic">
+						<!--图片-->
+						<img src="prev" data-original="__ROOT__/Public/home/banner_image1.jpg" />
+                        </div>
+						<!--标题-->
+                        <div class="info_r"> 
+                        	<div class="info_rec">
+                            	<h3><a href="/">标题1</a></h3>
+                                <div class="info_des">
+								这是标题1的内容
+								</div>
+                                <a href="/" class="more_01">更多</a>
+                            </div>	
+                            <ul class="info_list">  
+                            	<li><a href="/">标题2</a></li>
+                            	<li><a href="/">标题3</a></li> 
+                            	<li><a href="/">标题4</a></li>    
+                            </ul>	
+                        </div>
+                    </div>
+					<!--信息块1结束-->
+					<!--信息块1-->
+                    <div class="about_info">
+                    	<div class="info_pic">
+						<!--图片-->
+						<img src="prev" data-original="__ROOT__/Public/home/banner_image1.jpg" />
+                        </div>
+						<!--标题-->
+                        <div class="info_r"> 
+                        	<div class="info_rec">
+                            	<h3><a href="/">标题1</a></h3>
+                                <div class="info_des">
+								这是标题1的内容
+								</div>
+                                <a href="/" class="more_01">更多</a>
+                            </div>	
+                            <ul class="info_list">  
+                            	<li><a href="/">标题2</a></li>
+                            	<li><a href="/">标题3</a></li> 
+                            	<li><a href="/">标题4</a></li>    
+                            </ul>	
+                        </div>
+                    </div>
+					<!--信息块1结束-->
+					<!--信息块1-->
+                    <div class="about_info">
+                    	<div class="info_pic">
+						<!--图片-->
+						<img src="prev" data-original="__ROOT__/Public/home/banner_image1.jpg" />
+                        </div>
+						<!--标题-->
+                        <div class="info_r"> 
+                        	<div class="info_rec">
+                            	<h3><a href="/">标题1</a></h3>
+                                <div class="info_des">
+								这是标题1的内容
+								</div>
+                                <a href="/" class="more_01">更多</a>
+                            </div>	
+                            <ul class="info_list">  
+                            	<li><a href="/">标题2</a></li>
+                            	<li><a href="/">标题3</a></li> 
+                            	<li><a href="/">标题4</a></li>    
+                            </ul>	
+                        </div>
+                    </div>
+					<!--信息块1结束-->
+					
+            </div>
+			<!--块内容结束-->
+        </div>
+		<!--切换信息块结束-->
+			<script type="text/javascript">
+			$(".about_tab").slide({ effect: "left" });
+			</script>
+        </div>
+    </div>
+ <!--公司介绍块开始-->
+</div>
+<!--内容区域结束-->
+
+<!--脚部开始-->
+<div class="foot_warp">
+	<div class="foot clearfix">
+    <!-- 	<p class="foot_nav">|<a href="/">网站地图</a>|<a href="/">风险提示</a>| </p> -->
+        <div class="copyright" style='font-size:1.1em'>
+		 COPYRIGHT © 2015 – 2016  ALL RIGHTS RESERVED
+		<br/>{$webinfo.webinfo}
+		<br/>Design by <a href="xxx" target="_blank">一只尼玛</a>
+        </div>
+    </div>	
+</div> 
+<!--脚部结束-->
+<!--__ROOT__/Public/home-->
+<script type="text/javascript" src="__ROOT__/Public/home/js/scrolltopcontrol.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/home/js/jquery.lazyload.js"></script>
+<script type="text/javascript" src="__ROOT__/Public/home/js/web.js"></script>
+<script type="text/javascript">
+var fy = new xpFy();
+fy.tabId = "bg";
+fy.mainTB(6, 3, "__ROOT__/Public/home/css/fy1.css");
+</script>
+</body>
+</html>

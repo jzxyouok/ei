@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>雷达图</title>
+	<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Others/icon.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Css/demo.css" />
+	<script  src="__ROOT__/Public/Js/jquery-1.11.2.min.js"></script>
+	<script  src="__ROOT__/Public/Js/jquery.easyui.min.js"></script>
+	<script  src="__ROOT__/Public/tool/Chart.js"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+function render(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows!=''){
+				for(var i=0;i<rows.length;i++){
+					var row=rows[i];
+					window.open ('__CONTROLLER__/render1?row='+row.item_url);
+			}
+	}else{
+	alert("请勾选按钮，显示雷达")}
+}
+
+function getrender2(){
+	var url1=$('#url1').val();
+	var url2=$('#url2').val();
+	if(url1=='' || url2==''){
+		alert('请填写两条商品');
+		return;
+	}
+	window.open('__CONTROLLER__/render2?row1='+url1+'&row2='+url2);
+}
+</script>
+  	<table id="dg" title="雷达图"  style="">
+	</table>
+<div id="toolbar">
+<!-- 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="updateuser()">编辑单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除单页</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="adduser()">增加单页</a>
+ -->		<!--   <span>
+				    <select id='shopname' name='shopname' style='width:100px;margin: 0 20px'> 
+				      <volist name="shopname" id="vo">
+				      <option value={$vo.shop_name}>{$vo.shop_name}</option> 
+				  		</volist>
+		</select>
+	<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a>
+	</span>  -->
+<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="render()">勾选查询雷达</a>
+<input type='text' style="width:300px" id='url' placeholder="查询商品url" />
+<a href="#" class="easyui-linkbutton"  onclick="getabout()">查询</a> 
+<span>右边点击看两件商品的雷达对比</span>
+<input type='text' style="width:300px" id='url1' placeholder="商品url" />
+<input type='text' style="width:300px" id='url2' placeholder="商品url" />
+<a href="#" class="easyui-linkbutton"  onclick="getrender2()">查询对比雷达图</a> 
+</div>
+<!-- <div>
+<div class='container'  style="margin-top: 20px">
+			<h2>商品评论情感分析雷达图(有 Bug,已经尽力了)雷达图出错请重新刷新</h2>
+			<h2>注意：以下为效果图，Demo不可作为生产环境，字典过少可能导致评分奇怪。</h2>
+			<h2>店铺两个，评论86940条，商品580个，字典15540条，处理用时818s</h2>
+			<p id='render' style="font-size:1.2em">请点击下方所示的评论，方便展示雷达图</p>
+	</div>
+</div> -->
+
+<script type="text/javascript">
+function getabout(){
+	var url=$('#url').val().trim();
+	//alert(url);
+	$('#dg').datagrid('load', {    
+		url:url
+	});
+}
+
+$('#dg').datagrid({    
+    url:'__CONTROLLER__/listrender',  
+    collapsible:true,
+    toolbar: '#toolbar',
+    rownumbers:true,
+    pagination:true,
+    pageSize:30,
+	striped:true,
+    columns:[[
+        {field:'ck',checkbox:true}, 
+        {field:'id',title:'ID',hidden:true},
+        {field:'item_url',title:'商品url',width:300,
+            //	
+            formatter: function(value,row,index){ 
+            	return "<div class='comment' style='background-color:red'><a target='_blank' href='"+value+"'>"+value+"</a></div>"}
+            //
+        },
+        {field:'updatetime',title:'更新时间'},
+        {field:'d1',precision:'2',title:'质量平均分'},
+        {field:'t1',title:'质量匹配次数'},
+        {field:'d2',title:'舒适度平均分'},
+        {field:'t2',title:'舒适度匹配次数'},
+        {field:'d3',title:'物流平均分'},
+        {field:'t3',title:'物流匹配次数'},
+        {field:'d4',title:'款式平均分'},
+        {field:'t4',title:'款式匹配次数'},
+        {field:'d5',title:'价格平均分'},
+        {field:'t5',title:'价格匹配次数'},
+        {field:'d6',title:'服务平均分'},
+        {field:'t6',title:'服务匹配次数'},
+        {field:'d7',title:'整体感受平均分'},
+        {field:'t7',title:'整体感受匹配次数'},
+        
+    ]]
+});
+</script>
+</body>
+</html>

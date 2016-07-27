@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>用户登录|Login</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+   	<script type="text/javascript" src="__ROOT__/Public/adminjs/jquery.js"></script>
+  <link rel="stylesheet" href="__ROOT__/Public/Ui/assets/css/amazeui.min.css"/>
+  <style>
+    .header {
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 200%;
+      color: #333;
+      margin-top: 30px;
+    }
+    .header p {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="am-g">
+    <h1><a href='__ROOT__/Home'>中小企业智能展示平台</a></h1>
+    <p>enterprises intelligent display platform<br/>快捷、方便、快速生成企业官网</p>
+  </div>
+          <div class="alert alert-success" id='warning-block' style="text-align:center">
+   			<p>密码忘记（忘记密保或者未设置密保）请联系管理员QQ：569929309</p>
+		</div>
+  <hr />
+</div>
+<div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <h3>登录</h3>
+    <hr>
+<!--     <div class="am-btn-group">
+      <a href="#" class="am-btn am-btn-secondary am-btn-sm"><i class="am-icon-github am-icon-sm"></i> Github</a>
+      <a href="#" class="am-btn am-btn-success am-btn-sm"><i class="am-icon-google-plus-square am-icon-sm"></i> Google+</a>
+      <a href="#" class="am-btn am-btn-primary am-btn-sm"><i class="am-icon-stack-overflow am-icon-sm"></i> stackOverflow</a>
+    </div> -->
+
+
+    <form class="am-form" id='loginform'>
+      <label for="username">用户名:</label>
+      <input type="text" id='username' name="username" required="required">
+      <br>
+      <label for="password">密码:</label>
+      <input type="password" name="password" id="password" required="required">
+      <br>
+      <label for="verify">验证码:</label>
+        <input id="hashcode" required="required" name='verify' type="text">
+        <br/>
+        <img src="__CONTROLLER__/verify" alt="验证码" id="code" onclick="code_onclick(this)" style="cursor : pointer;width:200px;height:80px;vertical-align:top;border-radius:4px;">
+            
+  <!--     <label for="remember-me">
+        <input id="remember-me" type="checkbox">
+        记住密码
+      </label>-->
+      <br /> 
+      <br />
+      <div class="am-cf">
+        <input type="submit"  value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
+        <span class="am-btn am-btn-default am-btn-sm am-fr"><a href="{:U('Admin/Public/forgetpasswd')}">忘记密码？</a></span>
+      <span class="am-btn am-btn-success am-btn-sm am-fr"><a href="{:U('Admin/Public/register')}">注册</a></span>
+        
+      </div>
+    </form>
+    <hr>
+    <p>Modify by <a href="http://weibo.com/hunterhug" target="_blank">一只尼玛</a></p>
+    <p>2015-2016@中小企业智能展示平台</p>
+  </div>
+</div>
+<script type="text/javascript">
+$("#loginform").submit(function(){
+	 // alert($('#loginform').serialize());
+ 	  $.post("__CONTROLLER__/checkLogin",$('#loginform').serialize(),function(result){
+		  alert(result);
+		  if(result=='登陆成功'){
+			 document.location="{:U('Admin/Index/index')}";
+	    	return;
+	    }
+		$('#warning-block p').html('<strong>警告！</strong>'+result);
+	    //$("#warning-block").show();
+	  }).error(function(result){alert(result);});
+	   
+	  return false;
+	});
+
+function code_onclick(obj){
+	obj.src="__CONTROLLER__/verify/random/"+Math.random();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<title>修改类目</title>
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+</head>
+<body>
+	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+	<div class='col-md-9 col-md-offset-1' >
+	<form id="user_form" action="{:U('Admin/Product/updatecates')}" role="form">
+		<div class="form-group">
+			<div class="alert alert-warning" id='warning-block'>
+	   			<p>修改类目</p>
+			</div>
+			<input type='text' name='id' value="{$data.id}" hidden="hidden">
+			<div>
+				<label>类目标题</label>
+				<input type="text" class="form-control" name="title" id="title"
+					placeholder="请输入类目标题" required="required" value="{$data.title}">
+			</div>
+			<div id="titleTip"></div>
+		</div>
+		<div class="form-group">
+		<label>父目录</label>
+		<select id='mulu' class="form-control" name='mulu'> 
+					<if condition="$data['pid'] eq 0">
+				      <option value=0 selected="selected">---顶级目录---</option> 
+				      <else />
+				        <option value=0>---顶级目录---</option> 
+				      </if>
+				      <volist name='pcategory' id='vo'>
+				      <if condition="$data['pid'] eq $vo['id']">
+				       <option value={$vo.id} selected="selected">{$vo.title}</option> 
+				      <else />
+				      <option value={$vo.id}>{$vo.title}</option> 
+				      </if>
+				      </volist>
+		</select>
+		</div>
+		<div class="form-group">
+		<label>类目介绍</label>
+		<textarea id="editor" name="content" placeholder="类目介绍">{$data.content}</textarea>
+		</div>
+		<div class="form-group">
+			<label>类目排序</label>
+			<input type="number" class="form-control"   name="order" value='{$data.order}' min="0"  />
+		</div>
+	   	<div class="form-group">
+	   		<label>类目状态</label>
+	   		<if condition="$data.status eq 0">
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="0" checked>禁用类目
+			   </label>
+			</div>
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="1" >启用类目
+			   </label>
+			</div>
+			<else />
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="0">禁用类目
+			   </label>
+			</div>
+			<div class="radio">
+			   <label>
+			      <input type="radio" name="status" value="1"  checked>启用类目
+			   </label>
+			</div>
+			</if>
+		</div>
+   	
+		
+	<div class="form-group">
+	    <div>
+         	<button type="submit" class="btn btn-default">修改类目</button>
+      	</div>
+   	</div>
+   
+	</form>
+	</div>
+	</div>
+	<script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+		    <!-- 配置文件 -->
+    <script src="__ROOT__/Public/ueditor/ueditor.config.js"></script>
+    <script src="__ROOT__/Public/ueditor/ueditor.all.min.js"></script>
+    <script>
+    $(function(){
+        var ue = UE.getEditor('editor');
+    })
+    </script>
+	<script type="text/javascript">
+	$(function(){
+		$.formValidator.initConfig({formID:"user_form",submitOnce:true,
+			onSuccess:function(){
+				var registerForm=$("#user_form");
+				$.post(registerForm.attr("action"),registerForm.serialize(),function(data){
+					alert(data);
+					$('#warning-block p').html('<strong>警告！</strong>'+data);
+					return;
+				});
+			}
+		});
+
+		$("#title").formValidator({onShowText:"请输入类目标题"})
+		.inputValidator({min:1,max:100,onError:"标题最多100个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能为空"}})
+	});
+	
+</script>
+</body>
+</html>

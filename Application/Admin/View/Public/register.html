@@ -1,0 +1,121 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" href="__ROOT__/Public/Ui/assets/i/favicon.png">
+<title>注册</title>
+<link rel="stylesheet" href="__ROOT__/Public/Css/bootstrap.min.css">
+</head>
+<body>
+	<div class='container'  style="margin-bottom: 50px;margin-top: 20px">
+	<div class='col-md-9 col-md-offset-1' >
+	<form id="user_form" action="{:U('Admin/Public/registers')}" role="form">
+		<div class="form-group">
+			<div class="alert alert-warning" id='warning-block'>
+	   			<p>注册</p>
+			</div>
+			<div>
+				<input type="text" class="form-control" name="username" id="username"
+					placeholder="请输入用户名" required="required">
+			</div>
+			<div id="usernameTip"></div>
+		</div>
+		<div class="form-group">
+			<div>
+				<input type="text" class="form-control" name="nickname" id="nickname"
+					placeholder="请输入昵称" required="required">
+			</div>
+			<div id="nicknameTip"></div>
+		</div>
+		<div class="form-group">
+			<div>
+				<input type="email" class="form-control" name="email" id="email"
+					placeholder="请输入邮箱" required="required">
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<div>
+				<input type="password" class="form-control" name="password1" id="password1"
+					placeholder="请输入密码" required="required">
+			</div>
+			<div id="password1Tip"></div>
+		</div>
+		
+		<div class="form-group">
+			<div>
+				<input type="password" class="form-control" name="password2" id="password2"
+					placeholder="请再一次输入密码" required="required">
+			</div>
+			<div id="password2Tip"></div>
+		</div>
+		
+	<div class="form-group">
+		<div>
+		<input type="text" name="verify" class="input-medium" placeholder="验证码" required="required">
+		<img src="{:U('Admin/Public/verify')}" alt="看不清请点击刷新" style="cursor : pointer;" onClick="show(this)" />
+		</div>
+	    <div>
+         	<button type="submit" class="btn btn-default">注册</button>
+      	</div>
+   	</div>
+   
+	</form>
+	</div>
+	</div>
+	<script type="text/javascript" src="__ROOT__/Public/Js/jquery-1.7.2.min.js"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidator-4.1.3.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/formvalidator4.1.3/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="__ROOT__/Public/Js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	function show(obj){
+		obj.src="{:U('Admin/Public/verify')}?random="+Math.random();}
+	$(function(){
+		$.formValidator.initConfig({formID:"user_form",submitOnce:true,
+			onSuccess:function(){
+				var registerForm=$("#user_form");
+				$.get(registerForm.attr("action"),registerForm.serialize(),function(data){
+					if(data=='注册成功'){
+						alert('注册成功，等待管理员审核');
+						window.location.href="{:U('Admin/Public/login')}";
+						return;
+					}
+					$('#warning-block p').html('<strong>提示！</strong>'+data);
+					return;
+				});
+			}
+		});
+
+		$("#username").formValidator({onShowText:"请输入用户名",onFocus:"用户名5~12个字符",onCorrect:"该用户名可以注册"})
+		.inputValidator({min:5,max:12,onError:"用户名5~12个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"用户名两边不能为空"}})
+		.ajaxValidator({
+			dataType : "json",
+			async : true,
+			url : "{:U('Admin/Public/validuser')}",
+			success : function(data){
+	            if( data == "用户不存在" ) return true;
+			},
+			onError : "该账号已被注册",
+			buttons: $("#userName"),
+			onWait : "正在对用户名进行合法性校验，请稍候..."
+		})
+		
+		$("#nickname").formValidator({onShowText:"请输入昵称",onFocus:"建议使用实名",onCorrect:"该昵称可以使用"})
+		.inputValidator({min:2,max:18,onError:"昵称5~12个字符",empty:{leftEmpty:false,rightEmpty:false,emptyError:"昵称两边不能为空"}});
+		
+		$("#password1").formValidator({onFocus:"密码6位到16位",onCorrect:"密码合法"})
+		.inputValidator({min:6,max:16,empty:{leftEmpty:false,rightEmpty:false,emptyError:"密码两边不能有空符号"},onError:"密码6位到16位"});
+		$("#password2").formValidator({onFocus:"",onCorrect:"密码一致"})
+		.compareValidator({desID:"password1",operateor:"=",onError:"2次密码不一致,请确认"});
+		
+	});
+	
+</script>
+</body>
+</html>

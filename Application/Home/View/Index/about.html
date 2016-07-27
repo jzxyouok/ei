@@ -182,7 +182,7 @@
 <header class="am-topbar am-topbar-fixed-top">
   <div class="am-container">
     <h1 class="am-topbar-brand">
-      <a href="__ROOT__/Home">{$webinfo.title}</a>
+      <a href="__ROOT__/">{$webinfo.title}</a>
     </h1>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
@@ -191,7 +191,7 @@
 
     <div class="am-collapse am-topbar-collapse" id="collapse-head">
       <ul class="am-nav am-nav-pills am-topbar-nav">
-        <li class="am-active"><a href="__ROOT__/Home">首页</a></li>
+        <li class="am-active"><a href="__ROOT__/">首页</a></li>
         <li class="am-dropdown" data-am-dropdown>
           <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
            平台介绍<span class="am-icon-caret-down"></span>
@@ -314,11 +314,11 @@
 <div class="am-g am-container">
     <div  class="am-u-lg-12">
       <!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="www.lenggirl.com/about?id={$id}" data-title="首页" data-url="http://www.lenggirl.com/about?id={$id}"></div>
+	<div class="ds-thread" data-thread-key="http://ei.lenggirl.com/about/{$id}" data-title="{$content.title}|{$id}" data-url="http://ei.lenggirl.com/about/{$id}"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"hunterhug"};
+	var duoshuoQuery = {short_name:"eilenggirl"};
 	(function() {
 		var ds = document.createElement('script');
 		ds.type = 'text/javascript';ds.async = true;

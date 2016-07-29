@@ -6,5 +6,8 @@
 </p>
 <p>通过设计和建造统一的互联网展示平台，使得中小企业只需注册用户，然后进行简单的相关配置，就能通过网络进行自身展示，避免了自主建设网站产生的各种不必要麻烦。
 </p>
-
+<img src='https://raw.githubusercontent.com/hunterhug/ei/master/seem1.jpg' />
+<img src='https://raw.githubusercontent.com/hunterhug/ei/master/seem2.jpg' />
+<img src='https://raw.githubusercontent.com/hunterhug/ei/master/seem3.jpg' />
+<img src='https://raw.githubusercontent.com/hunterhug/ei/master/seem4.jpg' />
 #[http://www.lenggirl.com](http://www.lenggirl.com "中小企业智能展示平台")

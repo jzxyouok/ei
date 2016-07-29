@@ -1,5 +1,5 @@
 Runtime/*
 Idcard/*
 Temp/*
-Uploads/*
-*.jpg
+#Uploads/*
+#*.jpg
